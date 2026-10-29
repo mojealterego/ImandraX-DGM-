@@ -1,3 +1,5 @@
+> **ARCHIWALNA SPECYFIKACJA v0.1.** Aktualna implementacja i wspólny kontrakt v0.4: [UNIFIED_ENGINE_v0.4.md](UNIFIED_ENGINE_v0.4.md). Wcześniejsze stany „NOT IMPLEMENTED” mogą być nieaktualne.
+
 # IMANDRAX × DGM–RSI Ω — Unified Mathematical Discovery & Verified Evolution Engine
 
 **Document ID:** IMDGM-SYS-001  

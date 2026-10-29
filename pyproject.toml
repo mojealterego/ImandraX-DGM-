@@ -3,8 +3,8 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "imandrax-dgm-unified"
-version = "0.3.0"
-description = "Bounded self-proposal and isolated evaluation for owner-approved RSI"
+version = "0.4.0"
+description = "Unified ImandraX mathematical knowledge, DGM research evolution and owner-approved RSI"
 requires-python = ">=3.11"
 dependencies = ["cryptography>=41"]
 [project.optional-dependencies]

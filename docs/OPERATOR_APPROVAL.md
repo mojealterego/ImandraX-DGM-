@@ -51,3 +51,7 @@ Pakiet recenzenta: `python -m imandrax_dgm.rsi_cli --db local-rsi-review.sqlite3
 Rejestracja: `python -m imandrax_dgm.rsi_cli --db local-rsi-review.sqlite3 --trust /secure/trust.json decide --file signed-decision.json`.
 
 **Ważne:** podpisane zatwierdzenie nie zapisuje ani jednego bajtu w repozytorium i nie uruchamia kodu. Przed rzeczywistą zmianą należy zweryfikować rzeczywisty patch, niezależny checker, policy, GitHub PR i ruleset. Brak któregokolwiek elementu = brak wdrożenia.
+
+## Aktualizacja v0.4 — tryb `main` bez dodatkowych gałęzi
+
+Właściciel wybrał bezpośrednie prace inżynieryjne na `main`. **RSI nadal nie może samodzielnie zastosować zmian**. Słowo „PR” w historycznych krokach powyżej oznacza opcjonalny kanał ręcznej recenzji, nie obowiązek tworzenia gałęzi przy bezpośrednim poleceniu właściciela. Wymagania kryptograficzne, testowe i niezależne sprawdzenie patcha pozostają bez zmian.

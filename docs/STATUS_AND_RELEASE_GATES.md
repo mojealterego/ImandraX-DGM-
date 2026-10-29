@@ -1,3 +1,5 @@
+> **ARCHIWALNY AUDYT v0.1.** Repozytorium docelowe zostało później wskazane przez właściciela; bieżący stan: [ROADMAP](ROADMAP.md) i [UNIFIED_ENGINE_v0.4](UNIFIED_ENGINE_v0.4.md).
+
 # Acceptance gates, execution status and next engineering actions
 
 ## Verified here

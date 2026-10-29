@@ -4,7 +4,7 @@ from pathlib import Path
 import re
 import sqlite3
 
-ALLOWED_SOURCES=frozenset({'MSC2020-ENC','MSC2020-OFFICIAL','MSC2010','MATH-307'})
+ALLOWED_SOURCES=frozenset({'MSC2020-ENC','MSC2020-OFFICIAL','MSC2010','MATH-307','MSC2020-CLASS-ROUTING'})
 
 class KnowledgeIndex:
     def __init__(self,path):

@@ -34,3 +34,20 @@ def test_cycle_generates_multiple_candidates_executes_and_writes_review_artifact
     assert (output/'SHA256SUMS.json').exists()
     assert (tmp_path/'research/solver.py').read_text()=='def solve(task):\n    return None\n'
     assert 'approved' not in json.dumps(result).lower()
+
+
+def test_math_context_reaches_proposer_but_hidden_test_scores_do_not(tmp_path):
+    (tmp_path/'research').mkdir()
+    (tmp_path/'research/solver.py').write_text('def solve(task):\n    return None\n')
+    class RecordingLLM(FakeLLM):
+        def __init__(self):
+            super().__init__()
+            self.prompts=[]
+        def complete_json(self,system,user):
+            self.prompts.append(json.loads(user))
+            return super().complete_json(system,user)
+    llm=RecordingLLM()
+    ResearchCycle(FakeResearch(),llm,FakeSandbox(),max_candidates=2).run(
+        tmp_path,'f'*40,tmp_path/'out',mathematical_context=[{'provider':'IMANDRAX_INDEX','code':'00A05','title':'Algebra'}])
+    assert any(x.get('code')=='00A05' for x in llm.prompts[0]['scholarly_metadata_untrusted'])
+    assert all('heldout' not in json.dumps(x['prior_evaluation_feedback']) for x in llm.prompts)

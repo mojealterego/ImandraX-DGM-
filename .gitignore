@@ -22,3 +22,5 @@ inbox/
 data/IMANDRAX_MATH_KNOWLEDGE_FTS.sqlite3
 data/repositories_704.tsv
 data/REPOSITORY_TRIAGE_704.csv
+
+.imandrax-state/

@@ -36,3 +36,21 @@
 | 0.25 | MuJoCo CPU smoke real runtime | WORKFLOW PREPARED, CI PENDING |
 | 0.26 | GitHub main Ruleset i wymagany CODEOWNERS review | OWNER ACTION REQUIRED, NOT SET |
 | 0.27 | Firecracker microVM, WORM, external attestation, hosted 24/7 | NOT IMPLEMENTED |
+
+## Zunifikowana realizacja v0.4 — 2026-10-29, bezpośrednio w `main`
+
+| Etap | Element | Stan |
+|---|---|---|
+| 0.28 | Zachowanie pełnych blueprintów ImandraX v1.3 i DGM–RSI v1.0 w jednym repozytorium | DONE: `docs/blueprints/` |
+| 0.29 | Jeden kontrakt `IntegratedEngine` dla wiedzy, matematyki, DGM i RSI | LOCAL_TEST_PASS |
+| 0.30 | Weryfikacja SHA artefaktów i source drift przed `PROPOSED` | LOCAL_TEST_PASS |
+| 0.31 | Automatyczne przekazanie źródeł matematycznych do proposera | LOCAL_TEST_PASS |
+| 0.32 | Ukrycie wyników heldout przed kolejnymi promptami LLM | LOCAL_TEST_PASS |
+| 0.33 | CLI `imandrax-dgm math/evolve` i 63-klasowy bootstrap MSC2020 | LOCAL_TEST_PASS |
+| 0.34 | Publiczny research-watch OpenAlex co 6 godzin | WORKFLOW CONFIGURED; LIVE RUN TO VERIFY |
+| 0.35 | RSI propozycje kodu co 6 godzin | CONFIGURATION REQUIRED: API key, vars, enable |
+| 0.36 | Pełne biblioteki mathlib4/Batteries/Iris/MIL, checkery i wszystkie 6006 dziedzin | NOT IMPLEMENTED |
+| 0.37 | Produkcyjne microVM, signer, multi-host, full 704 source audit | NOT IMPLEMENTED |
+| 0.38 | Egzekwowany Ruleset main i zewnętrzny podpisujący serwer | NOT CONFIGURED |
+
+Poprzednie wpisy roadmap zachowano jako historię v0.2/v0.3. Wymagania odrębnego PR dotyczą **propozycji generowanych przez autonomiczny RSI**, a nie bezpośrednich zmian kodu zleconych i autoryzowanych przez właściciela w `main`.

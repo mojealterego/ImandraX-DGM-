@@ -21,14 +21,14 @@ class ResearchCycle:
         self.sandbox = sandbox
         self.max_candidates = max_candidates
 
-    def run(self, root: Path, base_commit: str, output: Path) -> dict:
+    def run(self, root: Path, base_commit: str, output: Path, *, mathematical_context: list[dict] | None = None) -> dict:
         root, output = Path(root), Path(output)
         if output.resolve().is_relative_to(root.resolve()):
             # Only generated review files may be written under root; never alter source.
             if output.resolve() == root.resolve() / 'research':
                 raise ValueError('Output may not overwrite research source')
         output.mkdir(parents=True, exist_ok=True)
-        papers, errors = [], []
+        papers, errors = list((mathematical_context or [])[:8]), []
         for query in ('Lean 4 automated theorem proving proof search',
                       'Darwinian Godel machine recursive self improvement empirical evaluation'):
             try:
@@ -67,7 +67,7 @@ class ResearchCycle:
                 evaluated.append(record)
                 proposals[ident] = proposal
                 feedback.append({'status':'EVALUATED_UNATTESTED','regression':regression_score,
-                                 'heldout':heldout_score,'novelty':round(novelty,5)})
+                                 'novelty':round(novelty,5)})
             except (ProposalError, SandboxError, ValueError) as exc:
                 evaluated.append({'status':'REJECTED','reason':type(exc).__name__,'detail':str(exc)[:200]})
                 feedback.append({'status':'REJECTED','reason':type(exc).__name__})

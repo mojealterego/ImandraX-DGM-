@@ -4,7 +4,7 @@
 
 Każda zmiana artefaktu wykonywalnego, kodu, promptów, polityki, kluczy, zależności, benchmarków, modelu, konfiguracji lub wdrożenia wymaga osobnej, świadomej zgody właściciela. Proposer DGM/RSI **nie posiada klucza zatwierdzającego**, uprawnień do `main`, sekretów CI, runnera ani zaufanego checkera. Zatwierdzenie wymaga podpisu Ed25519 na kanonicznym JSON zawierającym: identyfikator propozycji, SHA-256 manifestu, SHA-256 patcha, SHA-256 źródła bazowego, hash polityki, tożsamość recenzenta, decyzję i termin ważności.
 
-### Implementowane w v0.2
+### Implementowane w v0.2–v0.4
 
 - Brak API `apply`, `deploy`, `merge` lub automatycznej promocji; tylko propozycje, podpisy, archiwum metadanych.
 - Fail closed przy braku publicznych kluczy użytkownika i runnera.
@@ -18,9 +18,9 @@ Każda zmiana artefaktu wykonywalnego, kodu, promptów, polityki, kluczy, zależ
 
 SQLite w tym samym procesie nie jest odporną na przejęcie granicą uprawnień. Proposer musi działać w **innym procesie i innym kontekście bezpieczeństwa**, a w produkcji również na niezależnym hoście/VM. `RSIInbox` ma ograniczenia plików i symlinków, lecz nie gwarantuje ochrony przed wyścigami filesystemu ani przed atakiem lokalnego właściciela katalogu. Nie uruchamiać niezaufanego patcha na hoście. `APPROVED` jest zapisem podpisanej decyzji, **nie** wdrożeniem. Przed zastosowaniem patcha wymagany jest osobny trusted applier sprawdzający rzeczywiste SHA-256 plików, baseline i podpisy, z rollbackiem.
 
-### GitHub
+### GitHub — obowiązująca decyzja właściciela v0.4
 
-Dla `main` włącz w Settings → Rules → Rulesets: PR required, minimum 1 review przez właściciela, CODEOWNERS, status CI, zakaz force push, brak bypass dla botów, restricted direct pushes. Sam plik `CODEOWNERS` nie wymusza zatwierdzenia, jeśli nie ma reguły GitHub. Agentom nie wolno używać tokenów z prawem merge ani admin. Początkowy kod powinien być oceniony w PR przed połączeniem.
+Zmiany bezpośrednio zlecone przez właściciela są rozwijane w `main`, bez nowych gałęzi. **Autonomiczny RSI nie posiada uprawnień do zapisu `main`** i nie może automatycznie zastosować patcha nawet po zaliczeniu testów. Właściciel zatwierdza dokładny manifest, a dopiero niezależny operator stosuje patch po weryfikacji SHA. GitHub Ruleset należy skonfigurować zgodnie z `docs/MAIN_RULESET_REQUIRED.md`; `CODEOWNERS` sam nie wymusza zatwierdzenia. 
 
 ### Nie uruchamiać
 

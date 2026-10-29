@@ -1,15 +1,17 @@
-# Wymagana ochrona `main` — ręczna konfiguracja właściciela
+# Ochrona `main` w modelu pracy wybranym przez właściciela
 
-**Stan na 2026-10-29:** GitHub API zwraca `rulesets: []`, a `branches/main` raportuje `protected: false`. Dostęp GitHub App nie pozwala odczytać/zmienić ochrony branchy (HTTP 403). **Żadna polityka nie została ustawiona automatycznie.**
+**Decyzja właściciela 2026-10-29:** rozwój kodu zlecany bezpośrednio odbywa się **na `main`**, bez obowiązkowego tworzenia dodatkowych gałęzi i PR. Dotychczasowe instrukcje „PR dla każdej zmiany” są w tym zakresie nieaktualne.
 
-Otwórz `https://github.com/mojealterego/ImandraX-DGM-/settings/rules`, utwórz **New branch ruleset**:
+**Ważne rozróżnienie:** autonomiczny RSI **nigdy nie dostaje tokenu zapisu do repozytorium**. Proponuje i testuje kod w izolacji, a użytkownik podpisuje osobną decyzję. Nie ma API automatycznego zastosowania zmian. Właściciel może następnie osobiście wdrożyć zatwierdzony patch do `main`, po niezależnym sprawdzeniu bazowego SHA i pełnych testach.
 
-1. Name: `imandrax-main-human-review`; enforcement: **Active**; target branches: `main` (dokładny wzorzec).
-2. Require a pull request before merging: **ON**; minimum approvals **1**; **require review from Code Owners**; **dismiss stale approvals**; **require approval of the most recent reviewable push**.
-3. Require status checks: **ON**, wymagane `unit-and-negative`, `isolated-docker-e2e`, `mujoco-physics-e2e`, `lean-proof-kernel` po ich pierwszym wykonaniu. Preferuj wymagane źródło GitHub Actions dla każdego checka.
-4. Block force pushes and branch deletions. Require conversation resolution. Nie przyznawaj botom ani aplikacjom uprawnień bypass. Nie wyłączaj reguły dla administratorów, jeśli nie jest to konieczne do odzyskiwania dostępu.
-5. Zweryfikuj na niechronionej gałęzi testowej, że PR bez zatwierdzenia i PR z niezaliczonym CI nie mogą być scalone.
-6. Oddzielnie utrzymuj **podpisaną decyzję Ed25519** w zewnętrznym RSI Approval Authority. GitHub review nie zastępuje kryptograficznego podpisu, a podpis nie zastępuje GitHub review.
-7. Dopiero po aktywacji ochrony, konfiguracji sekretów i zaakceptowaniu kodu w PR ustaw zmienną repozytorium `RSI_CYCLE_ENABLED=true`. Harmonogram zacznie działać dopiero z workflow w domyślnej gałęzi.
+## Rekomendowana konfiguracja w Settings → Rules → Rulesets
 
-**Uwaga:** w repozytorium należącym do indywidualnego konta część opcji rulesets może zależeć od planu i widoczności. Jeśli GitHub nie udostępnia wymaganej ochrony, traktuj automatyczną promocję zmian jako zabronioną; przejdź na ręczną procedurę PR.
+1. Target: `main`; **block force pushes and deletions**.
+2. Wymagaj podpisanych commitów, jeśli obsługiwane, oraz włącz skanowanie sekretów i Dependabot.
+3. Nie przyznawaj botom RSI, LLM ani wykonawcom Docker tokenów `contents:write`, `workflows:write` lub `administration:write`.
+4. Dla bezpośrednich zmian właściciela ustal świadomą, ograniczoną regułę dostępu/bypass zgodną z dostępnym planem GitHub. Bez tego reguła „PR required” może blokować żądany tryb pracy bezpośrednio na `main`.
+5. Testy GitHub Actions (`unit-and-negative`, `isolated-docker-e2e`, `mujoco-physics-e2e`, `lean-proof-kernel`) muszą przejść po zmianie. W trybie direct-push status checks nie zastępują niezależnej akceptacji RSI.
+6. Utrzymuj podpis użytkownika Ed25519 **poza GitHub Actions i repozytorium**. Sprawdzaj manifest, policy digest, patch SHA, bazowy SHA, 4 podpisane suites i termin ważności.
+7. **Nigdy nie włączaj automatycznego apply/merge/deploy**, nawet po przejściu testów.
+
+**Stan weryfikowany przed zmianą:** `main` raportował `protected: false`, Rulesets były puste. GitHub App nie miał uprawnień administracyjnych do konfiguracji ochrony. Nie twierdzimy, że reguły zostały włączone.
