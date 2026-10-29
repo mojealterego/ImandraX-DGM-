@@ -1,0 +1,32 @@
+name: imandrax-dgm-rsi-reference
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unit-and-negative:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test]'
+      - name: Unit, negative and research integration tests
+        run: python -m pytest -q
+      - name: Syntax
+        run: python -m compileall -q src
+      - name: Public inventory (no private names)
+        run: python -m imandrax_dgm.cli inventory
+      - name: Assert no automatic deployment or mutation entrypoint
+        run: |
+          python - <<'PY'
+          from imandrax_dgm.rsi import RSIReviewStore, RSIInbox
+          assert not hasattr(RSIReviewStore, 'apply_patch')
+          assert not hasattr(RSIReviewStore, 'deploy')
+          assert not hasattr(RSIInbox, 'apply_patch')
+          PY
