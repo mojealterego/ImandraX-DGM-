@@ -56,6 +56,6 @@
 
 ## 5. CI evidence and release gates
 
-Local test suite must be run in full. GitHub Actions includes Python unit/adversarial, Docker no-network E2E, real MuJoCo CPU simulation and Lean kernel compilation. The four pinned upstream Lean repositories have an independent matrix triggered on proof changes and weekly; its **results must be checked** before claiming compatibility.
+Local test suite must be run in full. GitHub Actions includes Python unit/adversarial, Docker no-network E2E, real MuJoCo CPU simulation and Lean kernel compilation. The four pinned upstream Lean repositories have an independent matrix triggered on proof changes and weekly; its results were independently checked in GitHub Actions: 4/4 PASS (mathlib4 builds only a pinned module and its dependencies).
 
 Still required: comprehensive formal mathematical proof corpus; independent proof-checker service for arbitrary inputs; full mathlib/Batteries/Iris/MIL builds; Firecracker/attestation; production signer/WORM/KMS/HSM; audited multi-host authority; GitHub Ruleset and trusted release applier; full code/license/SBOM/build audit for 704 repos; real 24/7 infrastructure; external unseen benchmark proving RSI transfer. No claim of general emergent capabilities without reproducible evidence.

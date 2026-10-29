@@ -23,6 +23,6 @@
 | OPS-01 | Pętla ciągła / microVM | `daemon.py`, `deploy/daemon/`; Docker bez sieci | Testy pętli i izolacji | DAEMON CODE READY; NOT DEPLOYED; MICROVM NOT IMPLEMENTED |
 | OPS-02 | Main GitHub Ruleset | Konfiguracja właściciela | Odczyt API | NOT CONFIGURED |
 | OPS-03 | Niezależna authority TLS | `deploy/authority/`, token-file loader | TLS1.3 handshake test + Ed25519 | REFERENCE DEPLOYMENT READY; NOT HOSTED |
-| OPS-04 | 4 repozytoria Lean | `lean-upstream-manual.yml` (push + tygodniowy harmonogram) | Wyniki GitHub Actions po push | PINNED MATRIX; FULL BUILDS NOT YET VERIFIED |
+| OPS-04 | 4 repozytoria Lean | `lean-upstream-manual.yml` (push + tygodniowy harmonogram) | Wyniki GitHub Actions po push | 4/4 CI PASS; MATHLIB TARGETED MODULE, NOT FULL REPO |
 
 Szczegółowe oryginalne wymagania ImandraX v1.3, DGM–RSI v1.0 i 14 stron PDF pozostają w `docs/blueprints/`. Nie wolno utożsamiać macierzy mapowania z ukończeniem wszystkich modułów.

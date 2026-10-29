@@ -107,3 +107,8 @@ Zapis `PROPOSED` **nie jest** zgodą na modyfikację `main`. Nawet podpis użytk
 ## Status i granice
 
 Brak wdrożenia niezależnego proof checker dla wszystkich dziedzin MSC, produkcyjnej atestowanej wielopokoleniowej ewolucji, pełnej kompilacji wszystkich forków Lean, atestowanej mikroVM, niezależnego serwera na hostingu, automatycznego bezpiecznego release i pełnego audytu kodu 704 repozytoriów. Warianty RSI pozostają wyłącznie propozycjami do osobistej akceptacji. Projekt nie deklaruje osiągnięcia AGI ani gwarantowanego rozwoju „umiejętności wyłaniających się”.
+
+## Zweryfikowane CI dla v0.5 — 2026-10-29
+
+- [Główne CI](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920434911): **4/4 PASS** (Python, Docker no-net, MuJoCo CPU, własne moduły Lean).
+- [Cztery przypięte forki Lean](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920435010): **4/4 PASS** — `Batteries` (396 jobs), `Iris` (321), `MIL` (3598), `Mathlib.Algebra.Group.Basic` i zależności (627). **Nie jest to pełna kompilacja całego mathlib4 ani dowód wszystkich twierdzeń.**

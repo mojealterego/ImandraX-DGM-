@@ -64,8 +64,8 @@ Poprzednie wpisy roadmap zachowano jako historię v0.2/v0.3. Wymagania odrębneg
 | 0.41 | DGM: rodzic z poprzedniej generacji w kolejnym promptowaniu RSI | `generator.py`, `cycle.py`; testy wielopokoleniowe; UNATTESTED |
 | 0.42 | Trwały stan pomiędzy okresowymi GitHub Actions | `actions/cache` research-only; zależy od retencji i aktywacji RSI |
 | 0.43 | Ciągły proces RSI na dedykowanym hoście | `imandrax-daemon` + systemd template; LOCAL_TEST_PASS, NOT DEPLOYED |
-| 0.44 | Lean: nowe kernel-checkable twierdzenia o arytmetyce | `proofs/ImandraX/Arithmetic.lean`; GitHub CI PENDING |
-| 0.45 | Cztery forki Lean — automatyczna macierz zgodności | workflow push/weekly; UPSTREAM CI PENDING |
+| 0.44 | Lean: nowe kernel-checkable twierdzenia o arytmetyce | CI PASS [https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920434911](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920434911) |
+| 0.45 | Cztery forki Lean — automatyczna macierz zgodności | 4/4 CI PASS [https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920435010](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920435010); mathlib4 target `Mathlib.Algebra.Group.Basic`, nie cały mathlib |
 | 0.46 | Serwer zatwierdzania na osobnym hoście | Compose + TLS 1.3 + secret files; LOCAL_TEST_PASS, HOST NOT DEPLOYED |
 | 0.47 | Rzeczywisty pełny checker dowolnych twierdzeń, 6006 formalizacji | NOT IMPLEMENTED |
 | 0.48 | Firecracker/microVM z atestacją, zewnętrzny WORM/KMS/HSM | NOT IMPLEMENTED |
