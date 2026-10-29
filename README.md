@@ -112,3 +112,12 @@ Brak wdrożenia niezależnego proof checker dla wszystkich dziedzin MSC, produkc
 
 - [Główne CI](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920434911): **4/4 PASS** (Python, Docker no-net, MuJoCo CPU, własne moduły Lean).
 - [Cztery przypięte forki Lean](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40920435010): **4/4 PASS** — `Batteries` (396 jobs), `Iris` (321), `MIL` (3598), `Mathlib.Algebra.Group.Basic` i zależności (627). **Nie jest to pełna kompilacja całego mathlib4 ani dowód wszystkich twierdzeń.**
+
+## Formalizacja i niezależne jądra — v0.6
+
+- `proofs_mathlib/`: osobna, przypięta wersją Lean 4.36.0-rc2 przestrzeń Lake z rzeczywistymi twierdzeniami importującymi Mathlib; osobne przestrzenie są niezbędne, ponieważ `iris-lean` i `mathematics_in_lean` wymagają innych toolchains. **Jedno repozytorium i jeden silnik nie oznaczają jednego niekompatybilnego toolchain.**
+- `.github/workflows/lean-full-formal-verification.yml`: **próba pełnej kompilacji `lake build Mathlib`** (zamiast jednego podmodułu), `leanchecker` oraz `lake check --paranoid` dla własnych dowodów. Dopóki konkretne runy CI nie przejdą, status tych nowych bramek to **NOT VERIFIED**.
+- `src/imandrax_dgm/formal_verification.py`: rejestr dowodów z domyślną odmową; wymagany hash źródła, przypięty commit i **podpis Ed25519 zewnętrznego, zaufanego runnera**. Sam wynik LLM ani wynik `pytest` nie mogą nadać statusu dowodu.
+- `scripts/proof_coverage_report.py`: ścisła macierz 6006 tematów MSC i **9 kandydatów na dowody** przypisanych do 7 kodów. Dopóki nie ma niezależnego potwierdzenia, liczba dowodów w rejestrze to **0**, a nie 6006.
+
+Pełna formalizacja **całej matematyki** nie jest zamkniętym zadaniem możliwym do oznaczenia jako wykonane; możliwe jest stopniowe formalizowanie konkretnych twierdzeń i dowodów. Nowy checker nie jest systemem odkrywania dowodów, lecz ich niezależnej weryfikacji.

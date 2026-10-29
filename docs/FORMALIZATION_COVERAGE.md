@@ -26,3 +26,12 @@ GitHub Actions: [pinned upstream compatibility](https://github.com/mojealterego/
 | `mathematics_in_lean` | PASS — 3598 jobs | Cel `MIL` |
 
 Zaliczenie kompilacji upstream nie oznacza importu tych bibliotek do jednego proof checker ImandraX ani formalizacji 6006 klas/kodów.
+
+## Nowa infrastruktura dowodowa v0.6 (status przed uruchomieniem CI)
+
+1. `proofs_mathlib` — oddzielny workspace dla pełnego Mathlib, przypięty do `mojealterego/mathlib4@d0207795ac79006da92d98544e1ce915ae386160` i Lean 4.36.0-rc2. Własne twierdzenia znajdują się w `ImandraXMathlib/Foundations.lean`. **9 twierdzeń to kandydaci źródłowi, nie 6006 formalizacji.**
+2. `lean-full-formal-verification.yml` — trzy zadania: `lake check --paranoid` na własnych bazowych dowodach; pełne `lake build Mathlib` z `leanchecker Mathlib`; oraz kompilacja i `lake check --paranoid` nowych twierdzeń z importem Mathlib. Zaliczenie `lake build Mathlib` nie jest równoważne niezależnemu ponownemu sprawdzeniu wszystkich zależności przez każde jądro.
+3. `formal_verification.py` — typowany rejestr z hashem SHA-256 i podpisem Ed25519 zewnętrznego runnera. Odmawia oznaczenia dowodu jako zweryfikowanego bez podpisu i zgodności commitów. Ten rejestr nie zastępuje samego uruchomienia checkera ani zaufanego serwera podpisów.
+4. `proof_coverage_report.py` — walidacja 6006 kodów MSC2020 i powiązań z nazwanymi deklaracjami. Kategorie MSC są tematami, a nie twierdzeniami. Nie wolno uznać całego MSC za udowodniony po sprawdzeniu jednego twierdzenia.
+
+Źródła narzędzi: Lean 4.35.0 release notes oraz Lean Reference Manual, `lake check --paranoid` (oddzielne jądra `nanoda`, `lean4lean`, `con-leche`, `con-ron`). Należy nadal odróżniać replay przez `leanchecker` (ten sam kernel) od niezależnych implementacji.

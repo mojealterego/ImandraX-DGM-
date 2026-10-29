@@ -1,0 +1,97 @@
+name: lean-full-formal-verification
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'proofs/**'
+      - 'proofs_mathlib/**'
+      - 'src/imandrax_dgm/formal_verification.py'
+      - '.github/workflows/lean-full-formal-verification.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  # The proof checking job does not trust a generated theorem or its build result.
+  imandrax-core-external-kernels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install sandbox tool (never bypass the sandbox)
+        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: proofs
+          build: true
+          test: false
+          lint: false
+          use-github-cache: true
+      - name: Independent kernel replay of ImandraX source proofs
+        working-directory: proofs
+        run: |
+          lake env leanchecker --fresh ImandraX
+          lake check --paranoid
+  # This target is the entire Mathlib umbrella, not a single Basic module.
+  mathlib-full-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: mojealterego/mathlib4
+          ref: d0207795ac79006da92d98544e1ce915ae386160
+          path: upstream
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: upstream
+          build: false
+          test: false
+          lint: false
+          use-github-cache: true
+      - name: Fetch content-addressed upstream Mathlib cache
+        working-directory: upstream
+        run: lake exe cache get
+      - name: Compile full Mathlib umbrella target
+        working-directory: upstream
+        run: lake build Mathlib
+      - name: Replay full umbrella module with Lean kernel
+        working-directory: upstream
+        run: lake env leanchecker Mathlib
+  # Own formal proofs are linked to the full mathlib dependency at a pinned SHA.
+  imandrax-mathlib-proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install sandbox tool
+        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: proofs_mathlib
+          build: false
+          test: false
+          lint: false
+          use-github-cache: true
+      - name: Resolve pinned Mathlib dependency
+        working-directory: proofs_mathlib
+        run: lake update
+      - name: Download verified-by-hash build artifacts (not proof acceptance)
+        working-directory: proofs_mathlib
+        run: lake exe cache get
+      - name: Compile ImandraXMathlib formal theorems
+        working-directory: proofs_mathlib
+        run: lake build ImandraXMathlib
+      - name: Kernel replay of own proofs
+        working-directory: proofs_mathlib
+        run: lake env leanchecker --fresh ImandraXMathlib.Foundations
+      - name: Independent external kernel verification
+        working-directory: proofs_mathlib
+        run: lake check --paranoid

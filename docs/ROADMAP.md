@@ -73,3 +73,16 @@ Poprzednie wpisy roadmap zachowano jako historię v0.2/v0.3. Wymagania odrębneg
 | 0.50 | Ruleset `main` wymagający właściciela + niezależny release applier | NOT CONFIGURED / NOT IMPLEMENTED |
 
 Wpisy historyczne 0.08–0.16 i 0.27–0.38 pozostają źródłową historią. Żadna nowa implementacja nie nadaje RSI prawa do zmiany `main` bez użytkownika. Formalizacja matematyki jest procesem otwartym, nie da się uczciwie uznać wszystkich dziedzin za udowodnione przez samą obecność taksonomii.
+
+## Etap 0.51–0.56: formalna kontrola twierdzeń — v0.6
+
+| Etap | Implementacja | Warunek zakończenia |
+|---|---|---|
+| 0.51 | Pełny cel `Mathlib` z przypiętym SHA | `lake build Mathlib` w GitHub Actions, artefakty runu; **NOT VERIFIED przed CI** |
+| 0.52 | Niezależne jądra dla własnych dowodów | `lake check --paranoid` PASS, nie tylko `lake build`; **NOT VERIFIED przed CI** |
+| 0.53 | Własny projekt Mathlib i 9 twierdzeń | `lake build ImandraXMathlib` + checker; **NOT VERIFIED przed CI** |
+| 0.54 | Związanie 6006 kodów MSC2020 z nazwanymi twierdzeniami | Walidacja źródeł PASS, bez fałszywego statusu 6006 dowodów |
+| 0.55 | Rejestr dowodów z Ed25519 i source SHA | Testy negatywne, zewnętrzny signer; **lokalne testy nie są atestacją** |
+| 0.56 | Pełne sprawdzenie każdego modułu wszystkich czterech bibliotek niezależnymi jądrami | **NOT DONE**; wymaga dużej pamięci, eksportów i kompletnego audytu, osobne toolchains |
+
+Uwaga: `mathlib4` jako jedna biblioteka formalizuje ogromną część matematyki, ale nie wszystkie znane twierdzenia, a tym bardziej nie nierozwiązane problemy. Żadne narzędzie nie może automatycznie nadać statusu rozwiązania problemom milenijnym.

@@ -1,0 +1,56 @@
+[
+  {
+    "declaration": "ImandraXMathlib.polynomial_square",
+    "msc_code": "12D05",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.nat_divides_product",
+    "msc_code": "11A05",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.abs_triangle",
+    "msc_code": "26A03",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.int_add_monotone",
+    "msc_code": "06F05",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.conjunction_commutes",
+    "msc_code": "03B05",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.intersection_subset_left",
+    "msc_code": "03E20",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.union_commutes",
+    "msc_code": "03E20",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.natural_power_add",
+    "msc_code": "11A07",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  },
+  {
+    "declaration": "ImandraXMathlib.composition_associative",
+    "msc_code": "03E20",
+    "module": "ImandraXMathlib.Foundations",
+    "status": "PROOF_SOURCE_UNVERIFIED"
+  }
+]

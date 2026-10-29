@@ -29,3 +29,6 @@ data/REPOSITORY_TRIAGE_704.csv
 deploy/authority/secrets/
 deploy/authority/config/trust.json
 deploy/authority/state/
+# Lean build caches and generated dependencies
+**/.lake/
+**/lake-packages/
