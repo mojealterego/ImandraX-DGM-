@@ -78,3 +78,22 @@ jobs:
           test: false
           lint: false
           use-github-cache: true
+
+  apex-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test]'
+      - name: Verified cross-engine APEX integration and owner-gated upgrades
+        run: python -m pytest -q tests/test_apex_v07.py tests/test_apex_real_integration_v07.py
+      - name: Real persistent CLI and source-backed exact computation
+        run: |
+          python -m imandrax_dgm.apex_cli --root "$GITHUB_WORKSPACE" --state-dir "$RUNNER_TEMP/omega-apex" status
+          python -m imandrax_dgm.apex_cli --root "$GITHUB_WORKSPACE" --state-dir "$RUNNER_TEMP/omega-apex" start
+          python -m imandrax_dgm.apex_cli --root "$GITHUB_WORKSPACE" --state-dir "$RUNNER_TEMP/omega-apex" math --operation gcd --arguments '{"a":84,"b":18}'
+          python -m imandrax_dgm.apex_cli --root "$GITHUB_WORKSPACE" --state-dir "$RUNNER_TEMP/omega-apex" verify
+          python -m imandrax_dgm.apex_cli --root "$GITHUB_WORKSPACE" --state-dir "$RUNNER_TEMP/omega-apex" pause

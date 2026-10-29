@@ -81,3 +81,13 @@ Wpisy historyczne 0.08–0.16 i 0.27–0.38 pozostają źródłową historią. �
 `imandrax-daemon` wymaga jawnego włączenia i przypięcia commita oraz hasha bazowego solvera; zatrzymuje się po trzech kolejnych błędach. Kod ten **nie jest uruchomiony 24/7**, nie ma klucza GitHub write ani prawa do zatwierdzania zmian. Docker socket oznacza potencjalny root na hoście, dlatego worker wymaga dedykowanej maszyny/VM, nie serwera authority.
 
 `deploy/authority/` to konfiguracja oddzielnego serwera TLS 1.3 z tokenami w plikach i publicznymi kluczami Ed25519; klucz prywatny użytkownika pozostaje poza serwerem. Brakuje hostingu, WORM, KMS/HSM, atestacji runnera, audytu penetracyjnego i obowiązkowego Ruleset GitHub. **Nie oznaczać serwera jako produkcyjnego** bez tych dowodów.
+
+
+## OMEGA Unified APEX v0.7 — threat boundary
+
+- Wszystkie zewnętrzne manifesty są nieufnymi opisami JSON, bez dynamicznego import, eval, exec czy ładowania bibliotek. Montaż portu jest możliwy tylko przez zaufany kod pierwszej strony.
+- Każde wywołanie ogranicza przestrzeń nazw, operacja, rozmiar payloadu i wyniku oraz tryb READ/RESEARCH. MUTATION i AUTHORITY nie są wykonywalne przez magistralę.
+- APEX_MANIFEST_UPGRADE wymaga PAUSED, powiązania z trwałym identity_id, poprzedniego i nowego SHA-256 manifestu oraz podpisu Ed25519 z wcześniej przypiętego publicznego klucza właściciela. Klucze prywatne nie należą do repozytorium.
+- APEX loguje odciski danych, nie pełne prompty/odpowiedzi. SQLite hash-chain nie zapewnia odporności na administratora hosta; potrzebna niezależna atestacja/WORM.
+- Ani podpis migracji manifestu, ani poprawne testy formalne nie uprawniają RSI do push, merge, deploy, samodzielnego tworzenia kluczy lub obchodzenia istniejącej authority.
+- CLI jest lokalnym interfejsem operatora, **nie** uwierzytelnionym publicznym API. Przed udostępnieniem w sieci wymagane są niezależne testy i rzeczywista kontrola dostępu.

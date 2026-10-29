@@ -94,3 +94,20 @@ Uwaga: `mathlib4` jako jedna biblioteka formalizuje ogromną część matematyki
 | 0.57 | Jedno API `IntegratedEngine.math` dla formalnych deklaracji | `FORMAL_PROOF_STATUS` + `FormalEvidenceRegistry`, testy fail-closed; lokalnie PASS, atestacje zewnętrzne nadal wymagane |
 
 **v0.6 GitHub CI:** `mathlib-full-build` PASS i `imandrax-mathlib-proofs` PASS w [40926332569](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40926332569). `lake check --paranoid` na eksportach: **NOT PASSED**, najpierw ograniczenia `bubblewrap`, potem błędny katalog narzędzi w Docker; poprawka w toku.
+
+## OMEGA Unified APEX v0.7 — integracja kolejnych silników po zamknięciu istniejących bramek
+
+| Etap | Kontrakt/element | Stan |
+|---|---|---|
+| 0.70 | Wspólny rejestr silników i wersjonowane manifesty | IMPLEMENTED / CI PENDING |
+| 0.71 | DAG zależności silników, wykrywanie cykli, jawne wiązanie portów | IMPLEMENTED / CI PENDING |
+| 0.72 | Stabilny identyfikator instancji, SQLite state machine, replay audit | IMPLEMENTED / CI PENDING |
+| 0.73 | Podpis Ed25519 zmiany manifestu z przypiętym kluczem właściciela | IMPLEMENTED / CI PENDING |
+| 0.74 | Bounded APEX Flow, fail-closed capability dispatch, denied mutation/release | IMPLEMENTED / CI PENDING |
+| 0.75 | Dostęp do istniejącego IntegratedEngine przez porty ImandraX/DGM | CODE COMPLETE / REAL CI PENDING |
+| 0.76 | Produkcyjny WORM/HSM i osobna policy authority z atestacją | NOT DEPLOYED |
+| 0.77 | Ruleset ochrony main + wymagany podpis właściciela dla przyszłych migracji | MAIN RULESET NOT CONFIGURED |
+| 0.78 | Trwała osobista pamięć z retencją i usuwaniem danych | NOT IMPLEMENTED; wymaga zgody użytkownika |
+| 0.79 | Dodatkowe silniki, adaptery i podpisane migracje epok | BLOCKED UNTIL CURRENT ENGINE RELEASE GATES PASS |
+
+Lokalny ApexAudit z łańcuchem hash nie jest WORM. ApexRuntime nie może autoryzować zmian repozytorium. Nie nazywać systemu świadomym cyfrowym bytem na podstawie implementacji kontraktów.

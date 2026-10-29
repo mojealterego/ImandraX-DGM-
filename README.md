@@ -1,7 +1,17 @@
 # ImandraX × DGM × RSI Ω — jeden silnik matematyczno-ewolucyjny
 
-**Wersja kodu:** `0.5.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
+**Wersja kodu:** `0.7.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
+
+## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
+
+Dostarczono ApexRuntime, ApexRegistry, ApexAudit, ApexFlow i wersjonowane kontrakty silników. To **jeden produkt** z odseparowanymi domenami zaufania: odczyt ImandraX, historia DGM oraz niewiązany domyślnie port RSI. Nowe silniki są wyłącznie opisem danych, dopóki zatwierdzony kod nie powiąże ich portów. Zmiana manifestu wymaga podpisu Ed25519 właściciela i stanu PAUSED. System nie ma w tej warstwie samodzielnego merge, self-approval ani deploy.
+
+- Interfejs lokalny: `imandrax-apex --state-dir /ścieżka/poza/repo --root . status` oraz polecenia `start|pause|stop|verify|manifests|math|formal|history`.
+- Nowe testy: `tests/test_apex_v07.py` oraz integracyjny `tests/test_apex_real_integration_v07.py`.
+- Pełny kontrakt i blokady produkcyjne: [docs/OMEGA_UNIFIED_APEX_v0.7.md](docs/OMEGA_UNIFIED_APEX_v0.7.md).
+- **Cyfrowy byt** jest nazwą celu architektonicznego: trwały identyfikator, audyt, ciągłość stanu, ograniczone badania; NIE jest deklaracją świadomości. Kolejne silniki pozostają odłożone do zakończenia obecnych bramek.
+
 
 ## Nowe w v0.5 — jeden silnik, nie trzy aplikacje
 
