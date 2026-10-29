@@ -32,7 +32,8 @@ jobs:
         working-directory: proofs
         run: |
           lake env leanchecker --fresh ImandraX
-          lake check --paranoid
+          lake env leanexport ImandraX > "$RUNNER_TEMP/imandrax-core.ndjson"
+          lake check --paranoid --from-export="$RUNNER_TEMP/imandrax-core.ndjson"
   # This target is the entire Mathlib umbrella, not a single Basic module.
   mathlib-full-build:
     runs-on: ubuntu-latest
