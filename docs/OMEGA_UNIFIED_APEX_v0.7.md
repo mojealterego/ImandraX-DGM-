@@ -85,3 +85,14 @@ CLI nie uruchamia usług sieciowych ani nie potwierdza 24/7. Przykładowe `/var/
 ## Kierunek dalszych prac
 
 Przed scaleniem następnego silnika należy zakończyć powyższe bramki, zarejestrować wyniki w `docs/ROADMAP.md` i pozostawić jeden `main`. **Status PROVED_STRICT wymaga prawdziwego dowodu sprawdzonego przez niezależne jądro dla konkretnej deklaracji; nie może wynikać z liczby MSC czy wyniku LLM.**
+
+### Pierwsze uruchomienie i klucz właściciela
+
+Jeżeli system ma później przyjąć następne silniki **bez utraty tożsamości**, administrator musi przy pierwszym utworzeniu instancji podać klucz **publiczny** właściciela, np.:
+
+```bash
+imandrax-apex --root "$PWD" --state-dir /var/lib/imandrax-apex \
+  --owner-public-key-file /secure/offline-owner-ed25519.pub status
+```
+
+Akceptowane jest 32-bajtowe kodowanie surowe Ed25519 albo 64 znaki szesnastkowe. Plik klucza **prywatnego** nie może znaleźć się na hoście APEX ani w GitHub Actions. Bez przypiętego klucza można prowadzić ograniczone badania, ale migracja manifestów zostaje bezwarunkowo zablokowana. Wymiana przypiętego klucza bez oddzielnej procedury odzyskiwania nie jest dostępna. Parser manifestów odrzuca powtórzone klucze JSON i niepoprawne typy zależności.

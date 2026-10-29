@@ -5,7 +5,7 @@
 
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
 
-Dostarczono ApexRuntime, ApexRegistry, ApexAudit, ApexFlow i wersjonowane kontrakty silników. To **jeden produkt** z odseparowanymi domenami zaufania: odczyt ImandraX, historia DGM oraz niewiązany domyślnie port RSI. Nowe silniki są wyłącznie opisem danych, dopóki zatwierdzony kod nie powiąże ich portów. Zmiana manifestu wymaga podpisu Ed25519 właściciela i stanu PAUSED. System nie ma w tej warstwie samodzielnego merge, self-approval ani deploy.
+Dostarczono ApexRuntime, ApexRegistry, ApexAudit, ApexFlow i wersjonowane kontrakty silników. To **jeden produkt** z odseparowanymi domenami zaufania: odczyt ImandraX, historia DGM oraz niewiązany domyślnie port RSI. Nowe silniki są wyłącznie opisem danych, dopóki zatwierdzony kod nie powiąże ich portów. Zmiana manifestu wymaga podpisu Ed25519 właściciela i stanu PAUSED. Przy pierwszym uruchomieniu podaj wyłącznie klucz PUBLICZNY przez `--owner-public-key-file`; inaczej późniejsze podpisane migracje są zablokowane. System nie ma w tej warstwie samodzielnego merge, self-approval ani deploy.
 
 - Interfejs lokalny: `imandrax-apex --state-dir /ścieżka/poza/repo --root . status` oraz polecenia `start|pause|stop|verify|manifests|math|formal|history`.
 - Nowe testy: `tests/test_apex_v07.py` oraz integracyjny `tests/test_apex_real_integration_v07.py`.

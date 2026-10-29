@@ -19,6 +19,8 @@ def main(argv=None) -> int:
     p.add_argument("--state-dir", type=Path, required=True,
                    help="Owner-controlled persistence directory, outside the checked-out repository")
     p.add_argument("--root", type=Path, default=Path.cwd())
+    p.add_argument("--owner-public-key-file", type=Path,
+                   help="Public Ed25519 key (32 raw bytes or 64 hex digits), pinned at first creation")
     sub = p.add_subparsers(dest="command", required=True)
     for name in ("status", "start", "pause", "stop", "verify", "manifests", "history"):
         sub.add_parser(name)
@@ -35,6 +37,18 @@ def main(argv=None) -> int:
     state_dir.mkdir(parents=True, exist_ok=True)
     db = state_dir / "apex.sqlite3"
     try:
+        owner_key = None
+        if args.owner_public_key_file is not None:
+            raw_key = args.owner_public_key_file.read_bytes()
+            if len(raw_key) == 32:
+                owner_key = raw_key
+            elif len(raw_key.strip()) == 64:
+                try:
+                    owner_key = bytes.fromhex(raw_key.decode("ascii").strip())
+                except (UnicodeError, ValueError) as exc:
+                    raise ApexError("INVALID_OWNER_KEY") from exc
+            else:
+                raise ApexError("INVALID_OWNER_KEY")
         if args.command in {"math", "formal", "history"}:
             from .engine import IntegratedEngine
             # Formal status/history do not need to open the knowledge index, but
@@ -51,7 +65,7 @@ def main(argv=None) -> int:
             registry = ApexRegistry()
             for manifest in core_manifests():
                 registry.register(manifest)
-        runtime = ApexRuntime(registry, db)
+        runtime = ApexRuntime(registry, db, owner_public_key=owner_key)
         if args.command == "start":
             runtime.start()
             result = runtime.status()

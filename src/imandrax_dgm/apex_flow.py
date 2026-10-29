@@ -31,6 +31,8 @@ class ApexFlow:
         for step in steps:
             if (not isinstance(step, FlowStep) or not isinstance(step.step_id, str) or
                     not _ID.fullmatch(step.step_id) or not isinstance(step.depends_on, tuple) or
+                    not all(isinstance(d, str) and _ID.fullmatch(d) for d in step.depends_on) or
+                    len(set(step.depends_on)) != len(step.depends_on) or
                     not isinstance(step.payload, dict)):
                 raise ApexError("INVALID_FLOW_STEP")
         if len({s.step_id for s in steps}) != len(steps):

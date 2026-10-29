@@ -386,3 +386,45 @@ def test_invalid_json_nan_and_nested_untrusted_state(tmp_path):
     with pytest.raises(ApexError, match="INVALID_PAYLOAD"):
         rt.dispatch(ApexRequest("rsi.propose", {"query": float("nan")}, "operator", "req-02"))
     assert rt.audit.verify()
+
+
+def test_cli_can_pin_owner_public_key_at_first_boot(tmp_path, capsys):
+    from imandrax_dgm.apex_cli import main
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+    from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
+    priv = Ed25519PrivateKey.generate()
+    pub = priv.public_key().public_bytes(Encoding.Raw, PublicFormat.Raw)
+    key_path = tmp_path / "owner_ed25519_public.key"
+    key_path.write_bytes(pub)
+    root = tmp_path / "source"
+    root.mkdir()
+    state = tmp_path / "state"
+    opts = ["--root", str(root), "--state-dir", str(state),
+            "--owner-public-key-file", str(key_path)]
+    assert main(opts + ["status"]) == 0
+    assert main(opts + ["start"]) == 0
+    registry = ApexRegistry()
+    for item in core_manifests():
+        registry.register(item)
+    runtime = ApexRuntime(registry, state / "apex.sqlite3", owner_public_key=pub)
+    assert runtime.audit.meta()["owner_key_digest"] == __import__("hashlib").sha256(pub).hexdigest()
+    wrong = tmp_path / "wrong.key"
+    wrong.write_bytes(Ed25519PrivateKey.generate().public_key().public_bytes(Encoding.Raw, PublicFormat.Raw))
+    assert main(["--root", str(root), "--state-dir", str(state),
+                 "--owner-public-key-file", str(wrong), "status"]) == 2
+
+
+def test_manifest_rejects_duplicate_json_keys_and_unhashable_fields():
+    from imandrax_dgm.apex_manifest import parse_manifest
+    duplicate = b'{"engine_id":"a","engine_id":"b","version":"1.0.0","capabilities":[{"name":"a.x","access":"READ","input_fields":[]}],"dependencies":[]}'
+    with pytest.raises(ApexError):
+        parse_manifest(duplicate)
+    malformed = b'{"engine_id":"a","version":"1.0.0","capabilities":[{"name":"a.x","access":"READ","input_fields":[["nested"]]}],"dependencies":[]}'
+    with pytest.raises(ApexError):
+        parse_manifest(malformed)
+
+
+def test_flow_rejects_non_string_dependency_without_typeerror():
+    from imandrax_dgm.apex_flow import ApexFlow, FlowStep
+    with pytest.raises(ApexError, match="INVALID_FLOW_STEP"):
+        ApexFlow("abc", (FlowStep("a", "imandrax.lookup", {}, (["wrong"],)),))

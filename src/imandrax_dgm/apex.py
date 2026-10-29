@@ -59,9 +59,11 @@ class Capability:
             raise ApexError("INVALID_CAPABILITY")
         if self.access not in _ACCESS:
             raise ApexError("INVALID_ACCESS_MODE")
-        if not isinstance(self.input_fields, tuple) or len(set(self.input_fields)) != len(self.input_fields):
+        if not isinstance(self.input_fields, tuple) or len(self.input_fields) > 32:
             raise ApexError("INVALID_INPUT_FIELDS")
-        if len(self.input_fields) > 32 or any(not isinstance(x, str) or not _FIELD.fullmatch(x) for x in self.input_fields):
+        if any(not isinstance(x, str) or not _FIELD.fullmatch(x) for x in self.input_fields):
+            raise ApexError("INVALID_INPUT_FIELDS")
+        if len(set(self.input_fields)) != len(self.input_fields):
             raise ApexError("INVALID_INPUT_FIELDS")
 
 

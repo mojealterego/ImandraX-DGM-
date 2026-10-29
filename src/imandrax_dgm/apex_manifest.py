@@ -11,8 +11,15 @@ MAX_MANIFEST_BYTES = 65536
 def parse_manifest(raw: bytes) -> EngineManifest:
     if not isinstance(raw, bytes) or not 0 < len(raw) <= MAX_MANIFEST_BYTES:
         raise ApexError("INVALID_MANIFEST_LENGTH")
+    def no_duplicate_keys(pairs):
+        obj = {}
+        for key, value in pairs:
+            if key in obj:
+                raise ApexError("DUPLICATE_MANIFEST_KEY")
+            obj[key] = value
+        return obj
     try:
-        data = json.loads(raw)
+        data = json.loads(raw, object_pairs_hook=no_duplicate_keys)
     except (ValueError, UnicodeError) as exc:
         raise ApexError("INVALID_MANIFEST_JSON") from exc
     if not isinstance(data, dict) or set(data) != {"engine_id", "version", "dependencies", "capabilities"}:
