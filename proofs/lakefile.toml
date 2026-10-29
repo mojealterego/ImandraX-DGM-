@@ -1,0 +1,5 @@
+name = "imandrax_proofs"
+version = "0.3.0"
+
+[[lean_lib]]
+name = "ImandraX"

@@ -1,0 +1,44 @@
+name: lean-upstream-pinned-compatibility-manual
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pinned-forks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - repository: mojealterego/mathlib4
+            ref: d0207795ac79006da92d98544e1ce915ae386160
+            directory: upstream
+            build_target: Mathlib.Algebra.Group.Basic
+          - repository: mojealterego/batteries
+            ref: 6d971e7e6b3f7d0a501c5418815aa9022edd3499
+            directory: upstream
+            build_target: Batteries
+          - repository: mojealterego/iris-lean
+            ref: fb21a8af4727bd42190072a5ed2836cbe9fb844e
+            directory: upstream/Iris
+            build_target: ''
+          - repository: mojealterego/mathematics_in_lean
+            ref: cff01285931648054c4fe6817baed0ccd45c0372
+            directory: upstream
+            build_target: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repository }}
+          ref: ${{ matrix.ref }}
+          path: upstream
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: ${{ matrix.directory }}
+          build: true
+          build-args: ${{ matrix.build_target }}
+          test: false
+          lint: false
+          use-github-cache: true

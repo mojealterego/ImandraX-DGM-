@@ -68,3 +68,12 @@ Dokumenty: [Security](SECURITY.md), [Operator approval](docs/OPERATOR_APPROVAL.m
 - Egzekwowanie branch protection na GitHub (ustawienie repozytorium wymaga osobnego działania właściciela).
 
 **Zewnętrzne repozytoria są materiałem porównawczym, nie bezwarunkowo importowanymi zależnościami.** Nie uruchamiać `RSIAI0` w trybie real/unrestricted. Zob. [źródłowe badanie DGM](https://arxiv.org/abs/2505.22954).
+
+## v0.3 — automatyczny proposer + izolowany runner + niezależna authority (PR do akceptacji)
+
+- `python -m imandrax_dgm.cycle_cli --root . --base-commit <40-znakowy-SHA> --output /tmp/rsi-review --max-candidates 2` generuje kod przez skonfigurowany model, pobiera metadane OpenAlex, uruchamia kandydatów w Docker bez sieci i zapisuje artefakty recenzenckie; **nie zmienia `research/solver.py`**.
+- Wymagane zmienne: `RSI_LLM_ENDPOINT`, `RSI_LLM_MODEL`, `RSI_LLM_API_KEY`, `RSI_LLM_ALLOWED_HOSTS`, `RSI_SANDBOX_IMAGE` (w produkcji obraz przypięty `@sha256`).
+- `.github/workflows/rsi-research-cycle.yml` uruchamia ograniczony cykl co 6 godzin **dopiero po merge do main i ręcznym włączeniu `RSI_CYCLE_ENABLED=true`**. Nie ma automatycznego PR, merge ani deploy.
+- `python -m imandrax_dgm.authority_cli --trust /secure/trust.json --db /secure/review.db --cert /secure/tls.crt --key /secure/tls.key` uruchamia TLS 1.3 API zatwierdzania. Należy uruchomić na osobnym serwerze, z oddzielnymi kluczami i trzema silnymi tokenami ról; **nie jest wdrożone**.
+- GitHub CI: unit/negative, rzeczywiste Docker no-net, MuJoCo CPU, Lean Lake build; osobny manualny workflow dla czterech forków Lean.
+- Szczegółowa specyfikacja i ograniczenia: [`docs/RSI_CONTINUOUS_ENGINEERING.md`](docs/RSI_CONTINUOUS_ENGINEERING.md), [`docs/MAIN_RULESET_REQUIRED.md`](docs/MAIN_RULESET_REQUIRED.md).

@@ -1,0 +1,53 @@
+name: imandrax-rsi-bounded-research-cycle
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: imandrax-rsi-research
+  cancel-in-progress: false
+jobs:
+  propose-and-test:
+    # Owner must explicitly enable this variable AFTER configuring branch protection.
+    if: ${{ vars.RSI_CYCLE_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      RSI_LLM_ENDPOINT: ${{ vars.RSI_LLM_ENDPOINT }}
+      RSI_LLM_MODEL: ${{ vars.RSI_LLM_MODEL }}
+      RSI_LLM_ALLOWED_HOSTS: ${{ vars.RSI_LLM_ALLOWED_HOSTS }}
+      RSI_LLM_API_KEY: ${{ secrets.RSI_LLM_API_KEY }}
+      RSI_SANDBOX_IMAGE: python:3.12-slim
+      RSI_CI_ALLOW_UNPINNED_IMAGE: 'true' # CI research only; not a production sandbox pin
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - name: Fail closed if no model credentials configured
+        shell: bash
+        run: |
+          test -n "$RSI_LLM_API_KEY"
+          test -n "$RSI_LLM_ENDPOINT"
+          test -n "$RSI_LLM_MODEL"
+          test -n "$RSI_LLM_ALLOWED_HOSTS"
+      - name: Prepare no-network candidate runtime
+        run: docker pull python:3.12-slim
+      - name: Generate two candidates and execute regression plus heldout tests
+        run: |
+          python -m imandrax_dgm.cycle_cli \
+            --root . --base-commit "${GITHUB_SHA}" \
+            --output "${RUNNER_TEMP}/rsi-review" --max-candidates 2
+      - name: Preserve proposals for explicit human review (no auto-PR/merge)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rsi-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/rsi-review/
+          if-no-files-found: ignore
+          retention-days: 30

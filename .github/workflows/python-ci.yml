@@ -1,4 +1,4 @@
-name: imandrax-dgm-rsi-reference
+name: imandrax-dgm-rsi-ci
 on:
   push:
     branches: [main]
@@ -16,17 +16,58 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -e '.[test]'
-      - name: Unit, negative and research integration tests
+      - name: Unit and adversarial controls
         run: python -m pytest -q
       - name: Syntax
-        run: python -m compileall -q src
-      - name: Public inventory (no private names)
+        run: python -m compileall -q src scripts
+      - name: Public inventory
         run: python -m imandrax_dgm.cli inventory
-      - name: Assert no automatic deployment or mutation entrypoint
+      - name: Assert no self-approval or code deployment API
         run: |
           python - <<'PY'
           from imandrax_dgm.rsi import RSIReviewStore, RSIInbox
-          assert not hasattr(RSIReviewStore, 'apply_patch')
-          assert not hasattr(RSIReviewStore, 'deploy')
-          assert not hasattr(RSIInbox, 'apply_patch')
+          from imandrax_dgm.cycle import ResearchCycle
+          assert not hasattr(RSIReviewStore,'apply_patch')
+          assert not hasattr(RSIReviewStore,'deploy')
+          assert not hasattr(RSIInbox,'apply_patch')
+          assert not hasattr(ResearchCycle,'merge')
           PY
+  isolated-docker-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e .
+      - name: Docker runtime available
+        run: docker info
+      - name: Pull evaluation image (CI only; prod requires digest pin)
+        run: docker pull python:3.12-slim
+      - name: Real networkless unprivileged candidate execution
+        run: python scripts/smoke_docker.py
+  mujoco-physics-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install actual MuJoCo physics runtime
+        run: python -m pip install 'mujoco==3.3.6'
+      - name: Deterministic CPU pendulum simulation
+        run: python scripts/mujoco_smoke.py
+  lean-proof-kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: proofs
+          build: true
+          test: false
+          lint: false
+          use-github-cache: true

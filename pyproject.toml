@@ -3,8 +3,8 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "imandrax-dgm-unified"
-version = "0.2.0"
-description = "Research-only ImandraX+DGM with human-approved RSI"
+version = "0.3.0"
+description = "Bounded self-proposal and isolated evaluation for owner-approved RSI"
 requires-python = ">=3.11"
 dependencies = ["cryptography>=41"]
 [project.optional-dependencies]
@@ -12,6 +12,8 @@ test = ["pytest>=8"]
 [project.scripts]
 imandrax-dgm = "imandrax_dgm.cli:main"
 imandrax-rsi = "imandrax_dgm.rsi_cli:main"
+imandrax-cycle = "imandrax_dgm.cycle_cli:main"
+imandrax-authority = "imandrax_dgm.authority_cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 [tool.pytest.ini_options]

@@ -25,3 +25,12 @@ Dla `main` włącz w Settings → Rules → Rulesets: PR required, minimum 1 rev
 ### Nie uruchamiać
 
 `mojealterego/RSIAI0` domyślnie opisuje konfigurację real shell z nieograniczonymi poleceniami. Upstream `dgm` jest badawczym eksperymentem, nie bezpiecznym modułem do osadzenia w zaufanej usłudze. Oba traktować jako **niezaufane źródła**. Nie kopiować sekretów ani prywatnej listy repozytoriów do publicznego repo.
+
+## v0.3 — egress, wykonanie i approval
+
+- **Brak auto-merge:** zaplanowany workflow ma `contents:read`; model nie posiada tokenu zapisu ani klucza prywatnego zatwierdzającego.
+- **Separacja internetu:** research i LLM mogą korzystać z sieci, lecz Docker candidate ma `--network none` i nie otrzymuje sekretów.
+- **Brak automatycznego podpisu:** unsigned local test reports nie są akceptowane jako niezależne PASS attestation.
+- **Approval API:** TLS 1.3 i role bearer, lecz do zatwierdzenia nadal wymagany jest niezależny podpis Ed25519 użytkownika.
+- **Docker ≠ Firecracker:** to ograniczony runner badawczy, nie dowód odporności na ucieczkę z kontenera.
+- **GitHub main nadal niechroniony:** właściciel musi ustawić Ruleset zgodnie z `docs/MAIN_RULESET_REQUIRED.md`.
