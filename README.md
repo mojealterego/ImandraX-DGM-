@@ -121,3 +121,5 @@ Brak wdrożenia niezależnego proof checker dla wszystkich dziedzin MSC, produkc
 - `scripts/proof_coverage_report.py`: ścisła macierz 6006 tematów MSC i **9 kandydatów na dowody** przypisanych do 7 kodów. Dopóki nie ma niezależnego potwierdzenia, liczba dowodów w rejestrze to **0**, a nie 6006.
 
 Pełna formalizacja **całej matematyki** nie jest zamkniętym zadaniem możliwym do oznaczenia jako wykonane; możliwe jest stopniowe formalizowanie konkretnych twierdzeń i dowodów. Nowy checker nie jest systemem odkrywania dowodów, lecz ich niezależnej weryfikacji.
+
+**Korekta audytowa:** weryfikacja v0.6 wykryła, że wcześniejszy krok CI własnych twierdzeń Lean uruchamiał Lake bez domyślnego celu (`Nothing to build`). Dodano obowiązkowy `defaultTargets = ["ImandraX"]`. Poprzedni zielony wynik CI dla tej części nie jest dowodem kompilacji; decydują wyniki po tej poprawce.

@@ -76,6 +76,7 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           lake-package-directory: proofs_mathlib
+          auto-config: false
           build: false
           test: false
           lint: false

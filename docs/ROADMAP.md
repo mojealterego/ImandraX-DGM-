@@ -86,3 +86,5 @@ Wpisy historyczne 0.08–0.16 i 0.27–0.38 pozostają źródłową historią. �
 | 0.56 | Pełne sprawdzenie każdego modułu wszystkich czterech bibliotek niezależnymi jądrami | **NOT DONE**; wymaga dużej pamięci, eksportów i kompletnego audytu, osobne toolchains |
 
 Uwaga: `mathlib4` jako jedna biblioteka formalizuje ogromną część matematyki, ale nie wszystkie znane twierdzenia, a tym bardziej nie nierozwiązane problemy. Żadne narzędzie nie może automatycznie nadać statusu rozwiązania problemom milenijnym.
+
+**Korekta weryfikacji v0.6:** `proofs` miało wcześniej brak `defaultTargets` — `lean-action` wykonywał `Nothing to build`. Zostało naprawione; stare sukcesy nie stanowią dowodu kompilacji tych modułów. Rzeczywista weryfikacja od nowego przebiegu CI.

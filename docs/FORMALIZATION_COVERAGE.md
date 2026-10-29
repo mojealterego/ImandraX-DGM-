@@ -35,3 +35,7 @@ Zaliczenie kompilacji upstream nie oznacza importu tych bibliotek do jednego pro
 4. `proof_coverage_report.py` — walidacja 6006 kodów MSC2020 i powiązań z nazwanymi deklaracjami. Kategorie MSC są tematami, a nie twierdzeniami. Nie wolno uznać całego MSC za udowodniony po sprawdzeniu jednego twierdzenia.
 
 Źródła narzędzi: Lean 4.35.0 release notes oraz Lean Reference Manual, `lake check --paranoid` (oddzielne jądra `nanoda`, `lean4lean`, `con-leche`, `con-ron`). Należy nadal odróżniać replay przez `leanchecker` (ten sam kernel) od niezależnych implementacji.
+
+### Audyt CI — wykryta i naprawiona fałszywie pozytywna kompilacja
+
+Pierwszy przebieg v0.6 wykazał, że dotychczasowy `proofs/lakefile.toml` nie miał `defaultTargets`, a `lean-action` zgłaszał `Nothing to build`. Z tego powodu wcześniejszy status `lean-proof-kernel PASS` nie był wystarczającym dowodem kompilacji własnych twierdzeń. Wprowadzono `defaultTargets = ["ImandraX"]`, a nowy workflow wymaga jawnego `leanchecker --fresh ImandraX` oraz `lake check --paranoid`. Również nowy workspace Mathlib wymaga wygenerowania manifestu Lake przed uruchomieniem zautomatyzowanej konfiguracji; zastosowano `auto-config: false` i jawne `lake update`. Wyniki po naprawie należy odczytać z nowego przebiegu GitHub Actions, nie z poprzednich PASS.

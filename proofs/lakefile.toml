@@ -1,5 +1,6 @@
 name = "imandrax_proofs"
-version = "0.4.0"
+version = "0.6.0"
+defaultTargets = ["ImandraX"]
 
 [[lean_lib]]
 name = "ImandraX"

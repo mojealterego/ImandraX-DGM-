@@ -142,3 +142,10 @@ def test_audit_report_rejects_msc_fabrication(tmp_path):
     with pytest.raises(ValueError, match='mapping'):
         report(ROOT/'data/msc2020_6006_coverage.csv', f,
             ROOT/'proofs_mathlib/ImandraXMathlib/Foundations.lean')
+
+
+def test_core_lake_default_target_is_not_noop():
+    import tomllib
+    config = tomllib.loads((ROOT/'proofs/lakefile.toml').read_text())
+    assert 'ImandraX' in config['defaultTargets']
+    assert any(x['name'] == 'ImandraX' for x in config['lean_lib'])
