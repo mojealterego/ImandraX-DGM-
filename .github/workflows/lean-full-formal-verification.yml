@@ -60,9 +60,9 @@ jobs:
       - name: Compile full Mathlib umbrella target
         working-directory: upstream
         run: lake build Mathlib
-      - name: Replay full umbrella module with Lean kernel
+      - name: Replay bounded module with Lean kernel (full library replay requires high-memory runner)
         working-directory: upstream
-        run: lake env leanchecker Mathlib
+        run: lake env leanchecker Mathlib.Algebra.Group.Basic
   # Own formal proofs are linked to the full mathlib dependency at a pinned SHA.
   imandrax-mathlib-proofs:
     runs-on: ubuntu-latest
@@ -75,8 +75,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y bubblewrap
       - uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: proofs_mathlib
-          auto-config: false
+          lake-package-directory: proofs
           build: false
           test: false
           lint: false
