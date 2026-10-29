@@ -28,6 +28,9 @@ def main(argv=None):
     p.add_argument('--root',type=Path,default=ROOT)
     sub = p.add_subparsers(dest='command',required=True)
     sub.add_parser('inventory')
+    portfolio = sub.add_parser('portfolio', help='Read-only portfolio evidence and integration gates')
+    portfolio.add_argument('--limit', type=int, default=20)
+    portfolio.add_argument('--evidence', type=Path)
     search = sub.add_parser('search')
     search.add_argument('query')
     search.add_argument('--knowledge-db',type=Path)
@@ -57,6 +60,15 @@ def main(argv=None):
         c = RepoCatalog.from_tsv(root/'data/repositories_public_701.tsv')
         out = {'total':len(c.repos),'priority':dict(Counter(r['priority'] for r in c.triage())),
                'evidence_tier':dict(Counter(r['evidence_tier'] for r in c.triage()))}
+    elif args.command == 'portfolio':
+        from .portfolio import PortfolioAudit, PortfolioEvidenceError
+        try:
+            out = PortfolioAudit.from_paths(
+                root / 'data' / 'repositories_public_701.tsv',
+                args.evidence or root / 'data' / 'portfolio_root_evidence_v1.json',
+            ).report(limit=args.limit)
+        except (PortfolioEvidenceError, ValueError, OSError) as exc:
+            p.error(f'Portfolio audit rejected: {exc}')
     elif args.command == 'search':
         db = args.knowledge_db or root/'data/IMANDRAX_MATH_KNOWLEDGE_FTS.sqlite3'
         out = KnowledgeIndex(db).search(args.query,args.limit,args.source)

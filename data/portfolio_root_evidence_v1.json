@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "evidence": [
+    {
+      "repository": "mojealterego/Aether-Photo-Video-",
+      "readme_blob_sha": "20fe95e97d780d7f806516df0553ca9487e51f99",
+      "license_blob_sha": null,
+      "license_marker": "NOT_CHECKED"
+    },
+    {
+      "repository": "mojealterego/agent-evaluation-lab",
+      "readme_blob_sha": "3f91e52a1d72252d9f44592c07f60728837ebc2d",
+      "license_blob_sha": "f49a4e16e68b128803cc2dcea614603632b04eac",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/agent-framework",
+      "readme_blob_sha": "fad86ea1d439bfb11df19b9e5d14c0b493b79ae0",
+      "license_blob_sha": "9e841e7a26e4eb057b24511e7b92d42b257a80e5",
+      "license_marker": "MIT"
+    },
+    {
+      "repository": "mojealterego/agent-opt",
+      "readme_blob_sha": "9490964b993eeb188ff4bc5ca167a2848cfdb156",
+      "license_blob_sha": "72ffed2f0b1fdca403260663a3a4156532c4bcb6",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/alphageometry",
+      "readme_blob_sha": "263247a3c5e3836a73dc8aad190b51e26ce0f690",
+      "license_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/batteries",
+      "readme_blob_sha": "416b669c5ba56684690ef3126395a97e9691bdd8",
+      "license_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/codeql",
+      "readme_blob_sha": "99433b8ca49feeec60735de6eab15bd4c22bd50f",
+      "license_blob_sha": "d7e60ca2fa32f4463c43b49713cd3d2bc2ddf379",
+      "license_marker": "MIT"
+    },
+    {
+      "repository": "mojealterego/dgm",
+      "readme_blob_sha": "e4ed9fa7747d265536961a98d3361000b58e396d",
+      "license_blob_sha": "ba43cb811f1fdc963d9601012bb51f69c2598ca0",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/graph-of-thoughts",
+      "readme_blob_sha": "1dc4d7d2d63720180f3d463bf5aeda33adc9ad59",
+      "license_blob_sha": "78c90a342a8db0a0e446a38dea73cd4101f53da4",
+      "license_marker": "BSD-3-Clause"
+    },
+    {
+      "repository": "mojealterego/Knowledge-projects",
+      "readme_blob_sha": "03721d2abe3870137714947e935eb77eea888d5e",
+      "license_blob_sha": null,
+      "license_marker": "NOT_CHECKED"
+    },
+    {
+      "repository": "mojealterego/langgraph",
+      "readme_blob_sha": "97c31e9cb4d8fe56be8d768ce3eb5e22400e897e",
+      "license_blob_sha": "fc0602feecdd6748623c852ab534e1ca612673c7",
+      "license_marker": "MIT"
+    },
+    {
+      "repository": "mojealterego/mathematics_in_lean",
+      "readme_blob_sha": "8e1808aa3391823bcee7ca4752a1bc2e231eb821",
+      "license_blob_sha": "8dada3edaf50dbc082c9a125058f25def75e625a",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/mathlib4",
+      "readme_blob_sha": "3f45aadc12d28176fa8eb50ee609f83f5b9a5264",
+      "license_blob_sha": "8dada3edaf50dbc082c9a125058f25def75e625a",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/mcp-context-forge",
+      "readme_blob_sha": "4723fa95f14fb9b09a77027c85cf9cde3350800b",
+      "license_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "license_marker": "Apache-2.0"
+    },
+    {
+      "repository": "mojealterego/ocaf-runtime",
+      "readme_blob_sha": "2f56cf9eb844559e378c26ea6c1d17e9a4113948",
+      "license_blob_sha": null,
+      "license_marker": "NOT_CHECKED"
+    },
+    {
+      "repository": "mojealterego/OpenAlpha_Evolve",
+      "readme_blob_sha": "52a479e4b19ffa90089f38fbe425bc4b3dbd794f",
+      "license_blob_sha": "7b00cf2a8221b66021192f948bf84f2b057a6fda",
+      "license_marker": "MIT"
+    },
+    {
+      "repository": "mojealterego/RSIAI0",
+      "readme_blob_sha": "450392bdce5f4dd4f9853acb18cf469ecd4ff11f",
+      "license_blob_sha": "cd857c2dcbf59b5d390a61ba68d1ccbe9a072f7e",
+      "license_marker": "MIT"
+    },
+    {
+      "repository": "mojealterego/ToolNeuron",
+      "readme_blob_sha": "53433168578d6b07608937d11fc0c71601e7fb60",
+      "license_blob_sha": "5f8a41135c6e9b2b70277117cd982f4d228c1a74",
+      "license_marker": "MIT"
+    }
+  ]
+}

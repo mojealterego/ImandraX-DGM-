@@ -111,3 +111,14 @@ Uwaga: `mathlib4` jako jedna biblioteka formalizuje ogromną część matematyki
 | 0.79 | Dodatkowe silniki, adaptery i podpisane migracje epok | BLOCKED UNTIL CURRENT ENGINE RELEASE GATES PASS |
 
 Lokalny ApexAudit z łańcuchem hash nie jest WORM. ApexRuntime nie może autoryzować zmian repozytorium. Nie nazywać systemu świadomym cyfrowym bytem na podstawie implementacji kontraktów.
+
+## Etap 0.80–0.83: portfolio due diligence v0.8
+
+| Etap | Zakres | Stan |
+|---|---|---|
+| 0.80 | Katalog 701 publicznych repozytoriów i klasyfikacja P0–P4 | IMPLEMENTED EARLIER / METADATA ONLY |
+| 0.81 | Evidence 18 README i 15 LICENSE z blob SHA | ROOT FILES INSPECTED / NOT CODE AUDIT |
+| 0.82 | `PortfolioAudit`, fail-closed, testy negatywne i CLI `portfolio` | IMPLEMENTED / REMOTE CI PENDING |
+| 0.83 | Pełny audyt kodu, SBOM, licencje zależności, reprodukowalne testy, podpisane epoki | NOT IMPLEMENTED / BLOCKED BY 0.76–0.79 |
+
+Zapis evidence nie przyznaje uprawnień do wykonania kodu, montażu portów ani zmian generowanych przez RSI. Dokumentacja: `docs/PORTFOLIO_DUE_DILIGENCE_v0.8.md`.

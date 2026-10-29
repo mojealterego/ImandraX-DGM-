@@ -135,3 +135,7 @@ Pełna formalizacja **całej matematyki** nie jest zamkniętym zadaniem możliwy
 **Korekta audytowa:** weryfikacja v0.6 wykryła, że wcześniejszy krok CI własnych twierdzeń Lean uruchamiał Lake bez domyślnego celu (`Nothing to build`). Dodano obowiązkowy `defaultTargets = ["ImandraX"]`. Poprzedni zielony wynik CI dla tej części nie jest dowodem kompilacji; decydują wyniki po tej poprawce.
 
 **Jedno API dla dowodów:** `IntegratedEngine.math(MathTask(kind="FORMAL_PROOF_STATUS", statement="ImandraXMathlib.polynomial_square"))` odczytuje wpis rejestru `FormalEvidenceRegistry`. Bez podpisanego wyniku zewnętrznego checkera zwraca `UNVERIFIED`, nigdy nie traktuje dowolnego zdania naturalnego jako dowodu. CLI `imandrax-dgm math --kind FORMAL_PROOF_STATUS --statement ...` udostępnia ten sam odczyt.
+
+## Portfolio due diligence v0.8 — bez montowania kolejnych silników
+
+Dodano `PortfolioAudit` i `imandrax-dgm --root . portfolio --limit 20` do tego samego produktu. Odczytano 18 plików README i 15 plików licencyjnych z katalogu 701 publicznych repozytoriów. Każda integracja pozostaje `NOT_INTEGRATED`; wstępny marker licencji nie jest audytem zgodności. Szczegóły: [Portfolio due diligence](docs/PORTFOLIO_DUE_DILIGENCE_v0.8.md). RSI nadal nie ma prawa do samodzielnego merge, deploy ani podpisywania epok.
