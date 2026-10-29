@@ -116,3 +116,14 @@ def test_checked_in_root_evidence_is_well_formed(tmp_path):
     assert report['readme_inspected'] == 18
     assert report['license_files_inspected'] == 15
     assert report['ready_for_integration'] == 0
+
+def test_real_cli_portfolio_uses_one_existing_product(capsys):
+    from imandrax_dgm.cli import main
+    root = Path(__file__).resolve().parents[1]
+    assert main(['--root', str(root), 'portfolio', '--limit', '1']) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result['catalog_total'] == 701
+    assert result['readme_inspected'] == 18
+    assert result['license_files_inspected'] == 15
+    assert result['ready_for_integration'] == 0
+    assert len(result['candidates']) == 1

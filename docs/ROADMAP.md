@@ -118,7 +118,7 @@ Lokalny ApexAudit z łańcuchem hash nie jest WORM. ApexRuntime nie może autory
 |---|---|---|
 | 0.80 | Katalog 701 publicznych repozytoriów i klasyfikacja P0–P4 | IMPLEMENTED EARLIER / METADATA ONLY |
 | 0.81 | Evidence 18 README i 15 LICENSE z blob SHA | ROOT FILES INSPECTED / NOT CODE AUDIT |
-| 0.82 | `PortfolioAudit`, fail-closed, testy negatywne i CLI `portfolio` | IMPLEMENTED / REMOTE CI PENDING |
+| 0.82 | `PortfolioAudit`, fail-closed, testy negatywne i CLI `portfolio` | CI PASS 143/143, 5/5 jobs: https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40975311219 |
 | 0.83 | Pełny audyt kodu, SBOM, licencje zależności, reprodukowalne testy, podpisane epoki | NOT IMPLEMENTED / BLOCKED BY 0.76–0.79 |
 
 Zapis evidence nie przyznaje uprawnień do wykonania kodu, montażu portów ani zmian generowanych przez RSI. Dokumentacja: `docs/PORTFOLIO_DUE_DILIGENCE_v0.8.md`.

@@ -1,6 +1,6 @@
 # ImandraX × DGM × RSI Ω — jeden silnik matematyczno-ewolucyjny
 
-**Wersja kodu:** `0.7.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
+**Wersja kodu:** `0.8.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
 
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
