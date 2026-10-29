@@ -82,7 +82,7 @@ def test_duplicate_json_keys_are_rejected(tmp_path):
 def test_limits_and_output_order_are_deterministic(tmp_path):
     audit = PortfolioAudit.from_paths(_inventory(tmp_path), _evidence(tmp_path, [_record('dgm')]))
     assert [r['repository'] for r in audit.report(limit=2)['candidates']] == [
-        'mojealterego/mathlib4', 'mojealterego/dgm']
+        'mojealterego/dgm', 'mojealterego/mathlib4']
     for limit in (0, -1, 4, True, '2'):
         with pytest.raises(ValueError):
             audit.report(limit=limit)
