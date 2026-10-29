@@ -39,14 +39,14 @@ jobs:
           toolchain_dir="$(dirname "$(dirname "$(elan which lean)")")"
           test -x "$toolchain_dir/bin/lake"
           chmod 644 "$RUNNER_TEMP/imandrax-core.ndjson"
-          docker pull ubuntu:24.04
+          printf 'FROM ubuntu:24.04\nRUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates && rm -rf /var/lib/apt/lists/*\n' | docker build -t imandrax-lean-checker:v0.6 -
           docker run --rm --network none --read-only --cap-drop ALL \
             --security-opt no-new-privileges --pids-limit 64 --memory 5g --cpus 2 \
             --user 10001:10001 --tmpfs /tmp:rw,nosuid,nodev,size=128m \
             -v "$toolchain_dir:/opt/lean:ro" \
             -v "$RUNNER_TEMP/imandrax-core.ndjson:/export.ndjson:ro" \
             -e LEAN_SYSROOT=/opt/lean -e PATH=/opt/lean/bin:/usr/bin:/bin \
-            ubuntu:24.04 /opt/lean/bin/lake check --paranoid \
+            imandrax-lean-checker:v0.6 /opt/lean/bin/lake check --paranoid \
             --from-export=/export.ndjson --inadvisably-no-sandbox
   # This target is the entire Mathlib umbrella, not a single Basic module.
   mathlib-full-build:
