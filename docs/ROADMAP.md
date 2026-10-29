@@ -54,3 +54,22 @@
 | 0.38 | Egzekwowany Ruleset main i zewnętrzny podpisujący serwer | NOT CONFIGURED |
 
 Poprzednie wpisy roadmap zachowano jako historię v0.2/v0.3. Wymagania odrębnego PR dotyczą **propozycji generowanych przez autonomiczny RSI**, a nie bezpośrednich zmian kodu zleconych i autoryzowanych przez właściciela w `main`.
+
+## Postęp v0.5 — źródłowa integracja + rzeczywiste wielopokoleniowe badania
+
+| Etap | Dostarczony element | Weryfikacja / stan |
+|---|---|---|
+| 0.39 | MSC2020: 6006 szczegółowych kodów i stron źródłowych w repo | CSV + deterministyczny SQLite FTS5 + test 6006; SOURCE_INDEXED_ONLY |
+| 0.40 | DGM: trwałe badawcze drzewo wariantów z SHA, depth, parent i selekcją | `research_archive.py`, testy RED→GREEN; RESEARCH_ONLY |
+| 0.41 | DGM: rodzic z poprzedniej generacji w kolejnym promptowaniu RSI | `generator.py`, `cycle.py`; testy wielopokoleniowe; UNATTESTED |
+| 0.42 | Trwały stan pomiędzy okresowymi GitHub Actions | `actions/cache` research-only; zależy od retencji i aktywacji RSI |
+| 0.43 | Ciągły proces RSI na dedykowanym hoście | `imandrax-daemon` + systemd template; LOCAL_TEST_PASS, NOT DEPLOYED |
+| 0.44 | Lean: nowe kernel-checkable twierdzenia o arytmetyce | `proofs/ImandraX/Arithmetic.lean`; GitHub CI PENDING |
+| 0.45 | Cztery forki Lean — automatyczna macierz zgodności | workflow push/weekly; UPSTREAM CI PENDING |
+| 0.46 | Serwer zatwierdzania na osobnym hoście | Compose + TLS 1.3 + secret files; LOCAL_TEST_PASS, HOST NOT DEPLOYED |
+| 0.47 | Rzeczywisty pełny checker dowolnych twierdzeń, 6006 formalizacji | NOT IMPLEMENTED |
+| 0.48 | Firecracker/microVM z atestacją, zewnętrzny WORM/KMS/HSM | NOT IMPLEMENTED |
+| 0.49 | 704 repozytoria: pełny kod, licencje, SBOM, build i testy | NOT IMPLEMENTED; 701 PUBLIC METADATA ONLY |
+| 0.50 | Ruleset `main` wymagający właściciela + niezależny release applier | NOT CONFIGURED / NOT IMPLEMENTED |
+
+Wpisy historyczne 0.08–0.16 i 0.27–0.38 pozostają źródłową historią. Żadna nowa implementacja nie nadaje RSI prawa do zmiany `main` bez użytkownika. Formalizacja matematyki jest procesem otwartym, nie da się uczciwie uznać wszystkich dziedzin za udowodnione przez samą obecność taksonomii.

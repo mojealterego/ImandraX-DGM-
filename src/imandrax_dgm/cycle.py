@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 from .generator import ProposalGenerator, ProposalError, score_population
 from .sandbox import SandboxError, make_math_cases, static_security_check
+from .research_archive import ResearchArchive
 
 
 class ResearchCycle:
@@ -21,12 +22,16 @@ class ResearchCycle:
         self.sandbox = sandbox
         self.max_candidates = max_candidates
 
-    def run(self, root: Path, base_commit: str, output: Path, *, mathematical_context: list[dict] | None = None) -> dict:
+    def run(self, root: Path, base_commit: str, output: Path, *, mathematical_context: list[dict] | None = None, research_archive: ResearchArchive | None = None) -> dict:
         root, output = Path(root), Path(output)
         if output.resolve().is_relative_to(root.resolve()):
             # Only generated review files may be written under root; never alter source.
             if output.resolve() == root.resolve() / 'research':
                 raise ValueError('Output may not overwrite research source')
+        if output.is_symlink() or any((output/name).exists() or (output/name).is_symlink()
+                for name in ('proposal.json','changes.json','evaluation.json','cycle_status.json',
+                             'research.json','SHA256SUMS.json')):
+            raise ValueError('Research cycle output must be a fresh artifact directory')
         output.mkdir(parents=True, exist_ok=True)
         papers, errors = list((mathematical_context or [])[:8]), []
         for query in ('Lean 4 automated theorem proving proof search',
@@ -41,10 +46,12 @@ class ResearchCycle:
         source_path = root / 'research' / 'solver.py'
         base_content = source_path.read_text(encoding='utf-8') if source_path.exists() else ''
         generator = ProposalGenerator(self.llm)
+        baseline_sha = hashlib.sha256(base_content.encode()).hexdigest()
+        parent = research_archive.choose_parent(base_commit,baseline_sha) if research_archive else None
         feedback, evaluated, proposals = [], [], {}
         for _ in range(self.max_candidates):
             try:
-                proposal = generator.propose(root, base_commit, papers, feedback)
+                proposal = generator.propose(root, base_commit, papers, feedback, research_parent=parent)
                 ident = proposal.candidate.candidate_id
                 if ident in proposals:
                     feedback.append({'status':'DUPLICATE_PROPOSAL'})
@@ -61,9 +68,25 @@ class ResearchCycle:
                 heldout_score = heldout_result['passed']/heldout_result['total']
                 novelty = 1 - difflib.SequenceMatcher(a=base_content, b=content, autojunk=False).ratio()
                 record = {'id':ident, 'status':'EVALUATED_UNATTESTED',
+                          'research_parent_id':proposal.research_parent_id,
+                          'research_depth':proposal.research_depth,
                           'regression':regression_score, 'heldout':heldout_score,
                           'novelty':round(novelty,5), 'regression_counts':regression_result,
                           'heldout_counts':heldout_result}
+                if research_archive is not None:
+                    evidence_sha = hashlib.sha256(json.dumps(record,sort_keys=True,
+                                    separators=(',',':'),allow_nan=False).encode()).hexdigest()
+                    research_archive.record(candidate_id=ident,base_commit=base_commit,
+                        baseline_sha256=baseline_sha,patch_sha256=proposal.candidate.patch_digest,
+                        content=content,parent_id=proposal.research_parent_id,
+                        regression=regression_score,heldout=heldout_score,
+                        novelty=novelty,evidence_sha256=evidence_sha)
+                    if regression_score>=.9 and heldout_score>=.9 and proposal.research_depth<12:
+                        parent = research_archive.choose_parent(base_commit,baseline_sha)
+                elif regression_score>=.9 and heldout_score>=.9 and proposal.research_depth<12:
+                    parent = {'candidate_id':ident,'content':content,
+                              'source_sha256':hashlib.sha256(content.encode()).hexdigest(),
+                              'depth':proposal.research_depth}
                 evaluated.append(record)
                 proposals[ident] = proposal
                 feedback.append({'status':'EVALUATED_UNATTESTED','regression':regression_score,
@@ -77,7 +100,10 @@ class ResearchCycle:
             winner = proposals[selected['id']]
             proposal_json = {'candidate':asdict(winner.candidate), 'base_commit':winner.base_commit,
                              'baseline_sha256':winner.baseline_sha256,
-                             'patch':winner.patch, 'state':'PROPOSED_NOT_APPROVED'}
+                             'patch':winner.patch, 'state':'PROPOSED_NOT_APPROVED',
+                             'research_lineage':{'parent_id':winner.research_parent_id,
+                                                 'depth':winner.research_depth,
+                                                 'parent_source_sha256':winner.research_parent_sha256}}
             changes_json = dict(winner.changes)
             state = 'AWAITING_HUMAN_REVIEW'
         else:
@@ -91,6 +117,7 @@ class ResearchCycle:
                  'proposal.json':proposal_json, 'changes.json':changes_json,
                  'cycle_status.json':{'state':state,'candidates_tested':len(evaluated),
                                       'selected_candidate':selected['id'] if selected else None,
+                                      'research_generation':winner.research_depth if selected else None,
                                       'no_automatic_apply':True,'no_automatic_merge':True}}
         hashes={}
         for name, data in files.items():

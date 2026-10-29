@@ -1,0 +1,58 @@
+# Standalone host, separate from the network-enabled proposer and Docker evaluator.
+# Not production deployed by this repository. See README.md before running.
+services:
+  human-approval-authority:
+    build:
+      context: ../..
+      dockerfile: deploy/authority/Dockerfile
+    restart: unless-stopped
+    user: "10001:10001"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    mem_limit: 512m
+    cpus: "1.0"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    ports:
+      - "127.0.0.1:9443:9443"
+    environment:
+      RSI_AUTH_PROPOSER_TOKEN_FILE: /run/secrets/proposer_token
+      RSI_AUTH_RUNNER_TOKEN_FILE: /run/secrets/runner_token
+      RSI_AUTH_REVIEWER_TOKEN_FILE: /run/secrets/reviewer_token
+    secrets:
+      - proposer_token
+      - runner_token
+      - reviewer_token
+      - tls_cert
+      - tls_key
+    volumes:
+      - ./config/trust.json:/run/config/trust.json:ro
+      - ./state:/state
+    command:
+      - --trust
+      - /run/config/trust.json
+      - --db
+      - /state/review.sqlite3
+      - --bind
+      - 0.0.0.0
+      - --port
+      - "9443"
+      - --cert
+      - /run/secrets/tls_cert
+      - --key
+      - /run/secrets/tls_key
+secrets:
+  proposer_token:
+    file: ./secrets/proposer_token
+  runner_token:
+    file: ./secrets/runner_token
+  reviewer_token:
+    file: ./secrets/reviewer_token
+  tls_cert:
+    file: ./secrets/tls.crt
+  tls_key:
+    file: ./secrets/tls.key

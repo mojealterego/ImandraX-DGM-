@@ -56,19 +56,32 @@ jobs:
           test -n "$RSI_LLM_ENDPOINT"
           test -n "$RSI_LLM_MODEL"
           test -n "$RSI_LLM_ALLOWED_HOSTS"
-      - name: Build minimal class-level source index (not full 19k index)
-        run: python scripts/build_msc_class_index.py --output "${RUNNER_TEMP}/msc-class.sqlite3"
+      - name: Build 6006-code MSC2020 source index (not formal proofs)
+        run: python scripts/build_msc_full_index.py --output "${RUNNER_TEMP}/msc-full.sqlite3"
       - name: Prepare isolated evaluator
         run: docker pull python:3.12-slim
+      - name: Restore research-only DGM genealogy (untrusted, no approval keys)
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/rsi-state/research_generations.sqlite3
+          key: research-lineage-${{ runner.os }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            research-lineage-${{ runner.os }}-${{ github.sha }}-
       - name: Mathematical research -> DGM candidate -> RSI review registration
         run: |
           python -m imandrax_dgm.cli --root . evolve \
-            --knowledge-db "${RUNNER_TEMP}/msc-class.sqlite3" \
+            --knowledge-db "${RUNNER_TEMP}/msc-full.sqlite3" \
             --state-dir "${RUNNER_TEMP}/rsi-state" \
             --campaign-id "cycle-${GITHUB_RUN_ID}" \
-            --source MSC2020-CLASS-ROUTING --code 00-XX \
+            --source MSC2020-OFFICIAL --code 00-01 \
             --base-commit "${GITHUB_SHA}" \
             --output "${RUNNER_TEMP}/rsi-review" --max-candidates 2
+      - name: Preserve research genealogy for the next bounded cycle
+        if: success()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/rsi-state/research_generations.sqlite3
+          key: research-lineage-${{ runner.os }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Store review artifacts; never commit, approve, merge or deploy
         if: always()
         uses: actions/upload-artifact@v4

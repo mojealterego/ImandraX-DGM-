@@ -1,36 +1,83 @@
-# SECURITY — ImandraX × DGM × RSI Ω
+# Roadmap — ImandraX × DGM × RSI Ω
 
-## Główna zasada: użytkownik jest jedyną władzą zatwierdzającą
+| Etap | Wymaganie | Stan i dowód |
+|---|---|---|
+| 0.01 | Repozytorium docelowe i publiczny kod referencyjny | PR #1 scalony 2026-10-29; kolejna wersja wyłącznie przez PR |
+| 0.02 | 701 publicznych rekordów + klasyfikacja; 3 prywatne wyłączone | Lokalna walidacja CSV/TSV; nie audyt kodu |
+| 0.03 | Read-only KnowledgeIndex + provenance | Lokalny test na fixture; 19 114 rekordów tylko w osobnym artefakcie |
+| 0.04 | ResearchGate, budżety, whitelist ścieżek | Lokalny test PASS |
+| 0.05 | RSIInbox — cykliczne rejestrowanie propozycji bez mutacji kodu | Lokalny test PASS; wymaga uruchomionego procesu |
+| 0.06 | Cztery podpisane suites i kryptograficzne zatwierdzenie użytkownika | Lokalny test PASS; bez zewnętrznego serwera authority |
+| 0.07 | Archiwum zatwierdzonych generacji DGM, selekcja rodziców | Lokalny test PASS; bez uruchamiania kandydatów |
+| 0.08 | Pełna integracja proposerów DGM i RSI z LLM oraz tworzenie patchy | NOT IMPLEMENTED |
+| 0.09 | Weryfikator rzeczywistego SHA-256 patcha i stanu źródłowego | NOT IMPLEMENTED |
+| 0.10 | Izolowany wykonawca Firecracker no-net z atestacją | NOT IMPLEMENTED |
+| 0.11 | Zewnętrzny immutable ledger, signer i policy service | NOT IMPLEMENTED |
+| 0.12 | Lean: izolowane toolchains 4.34/4.35/4.36, build + kernel check | NOT RUN |
+| 0.13 | MuJoCo / Physics-IQ E2E, wyniki transferowe, statystyka RSI | NOT RUN |
+| 0.14 | Security negative E2E, fuzz, SBOM, licencje 704 repozytoriów | NOT RUN |
+| 0.15 | PR approval i egzekwowanie ruleset w GitHub | NEEDS REPOSITORY OWNER CONFIGURATION |
+| 0.16 | Produkcyjne release/canary/rollback wyłącznie za zgodą użytkownika | NOT IMPLEMENTED |
 
-Każda zmiana artefaktu wykonywalnego, kodu, promptów, polityki, kluczy, zależności, benchmarków, modelu, konfiguracji lub wdrożenia wymaga osobnej, świadomej zgody właściciela. Proposer DGM/RSI **nie posiada klucza zatwierdzającego**, uprawnień do `main`, sekretów CI, runnera ani zaufanego checkera. Zatwierdzenie wymaga podpisu Ed25519 na kanonicznym JSON zawierającym: identyfikator propozycji, SHA-256 manifestu, SHA-256 patcha, SHA-256 źródła bazowego, hash polityki, tożsamość recenzenta, decyzję i termin ważności.
+**Zasada:** nie oznaczać żadnej bramki produkcyjnej jako PASS na podstawie lokalnego pytest. Oryginalne ImandraX G01–G20 i DGM R0–R14 pozostają osobnymi wymaganiami. Dalsze zmiany kodu: PR → przegląd → podpis użytkownika → testy → merge wykonany przez użytkownika.
 
-### Implementowane w v0.2–v0.4
+## Postęp v0.3 — tylko stan potwierdzony kodem i lokalnymi testami
 
-- Brak API `apply`, `deploy`, `merge` lub automatycznej promocji; tylko propozycje, podpisy, archiwum metadanych.
-- Fail closed przy braku publicznych kluczy użytkownika i runnera.
-- Cztery niezależnie podpisane suites (`STATIC_CHECK`, `REGRESSION`, `SECURITY`, `HELDOUT`) z wynikiem `PASS` wymagane przed `APPROVE`.
-- Podpisane decyzje `APPROVE`/`REJECT` są końcowe dla danej propozycji. Wygasły podpis traci ważność autoryzacyjną.
-- Whitelist ścieżek badawczych i blokada `security`, `policy`, `tests`, `release`, `.github`, `keys`, `ci` itd. Identyfikatory są immutowalne.
-- Podpisy runnera i recenzenta muszą należeć do różnych kluczy.
-- Lokalny rejestr audytowy append-only z hash-chain; nie jest zabezpieczeniem przed administratorem bazy.
+| Etap | Dostarczony element | Stan |
+|---|---|---|
+| 0.17 | OpenAlex metadata research i HTTPS allowlisted LLM | IMPLEMENTED, live credentials NOT CONFIGURED |
+| 0.18 | Samodzielne generowanie jednego pliku solvera przez LLM | IMPLEMENTED, live generation NOT RUN |
+| 0.19 | Weryfikacja realnego patch SHA i source baseline SHA | IMPLEMENTED, end-to-end signature binding PENDING |
+| 0.20 | Docker sandbox no-net z limitami i trusted worker | IMPLEMENTED, real Docker CI verification PENDING |
+| 0.21 | DGM quality/novelty ranking i 2 warianty na cykl | IMPLEMENTED, trwała ewolucja wielopokoleniowa PENDING |
+| 0.22 | Harmonogram 6h z artefaktami, bez uprawnień zapisu | WORKFLOW PREPARED, DISABLED UNTIL OWNER ACTIVATION |
+| 0.23 | HTTPS TLS 1.3 approval authority reference server | IMPLEMENTED, EXTERNAL DEPLOYMENT PENDING |
+| 0.24 | Lean kernel build + manualne fork matrix | WORKFLOW PREPARED, CI PENDING |
+| 0.25 | MuJoCo CPU smoke real runtime | WORKFLOW PREPARED, CI PENDING |
+| 0.26 | GitHub main Ruleset i wymagany CODEOWNERS review | OWNER ACTION REQUIRED, NOT SET |
+| 0.27 | Firecracker microVM, WORM, external attestation, hosted 24/7 | NOT IMPLEMENTED |
 
-### Czego nie zapewnia lokalny prototyp
+## Zunifikowana realizacja v0.4 — 2026-10-29, bezpośrednio w `main`
 
-SQLite w tym samym procesie nie jest odporną na przejęcie granicą uprawnień. Proposer musi działać w **innym procesie i innym kontekście bezpieczeństwa**, a w produkcji również na niezależnym hoście/VM. `RSIInbox` ma ograniczenia plików i symlinków, lecz nie gwarantuje ochrony przed wyścigami filesystemu ani przed atakiem lokalnego właściciela katalogu. Nie uruchamiać niezaufanego patcha na hoście. `APPROVED` jest zapisem podpisanej decyzji, **nie** wdrożeniem. Przed zastosowaniem patcha wymagany jest osobny trusted applier sprawdzający rzeczywiste SHA-256 plików, baseline i podpisy, z rollbackiem.
+| Etap | Element | Stan |
+|---|---|---|
+| 0.28 | Zachowanie pełnych blueprintów ImandraX v1.3 i DGM–RSI v1.0 w jednym repozytorium | DONE: `docs/blueprints/` |
+| 0.29 | Jeden kontrakt `IntegratedEngine` dla wiedzy, matematyki, DGM i RSI | LOCAL_TEST_PASS |
+| 0.30 | Weryfikacja SHA artefaktów i source drift przed `PROPOSED` | LOCAL_TEST_PASS |
+| 0.31 | Automatyczne przekazanie źródeł matematycznych do proposera | LOCAL_TEST_PASS |
+| 0.32 | Ukrycie wyników heldout przed kolejnymi promptami LLM | LOCAL_TEST_PASS |
+| 0.33 | CLI `imandrax-dgm math/evolve` i 63-klasowy bootstrap MSC2020 | LOCAL_TEST_PASS |
+| 0.34 | Publiczny research-watch OpenAlex co 6 godzin | WORKFLOW CONFIGURED; LIVE RUN TO VERIFY |
+| 0.35 | RSI propozycje kodu co 6 godzin | CONFIGURATION REQUIRED: API key, vars, enable |
+| 0.36 | Pełne biblioteki mathlib4/Batteries/Iris/MIL, checkery i wszystkie 6006 dziedzin | NOT IMPLEMENTED |
+| 0.37 | Produkcyjne microVM, signer, multi-host, full 704 source audit | NOT IMPLEMENTED |
+| 0.38 | Egzekwowany Ruleset main i zewnętrzny podpisujący serwer | NOT CONFIGURED |
 
-### GitHub — obowiązująca decyzja właściciela v0.4
+Poprzednie wpisy roadmap zachowano jako historię v0.2/v0.3. Wymagania odrębnego PR dotyczą **propozycji generowanych przez autonomiczny RSI**, a nie bezpośrednich zmian kodu zleconych i autoryzowanych przez właściciela w `main`.
 
-Zmiany bezpośrednio zlecone przez właściciela są rozwijane w `main`, bez nowych gałęzi. **Autonomiczny RSI nie posiada uprawnień do zapisu `main`** i nie może automatycznie zastosować patcha nawet po zaliczeniu testów. Właściciel zatwierdza dokładny manifest, a dopiero niezależny operator stosuje patch po weryfikacji SHA. GitHub Ruleset należy skonfigurować zgodnie z `docs/MAIN_RULESET_REQUIRED.md`; `CODEOWNERS` sam nie wymusza zatwierdzenia. 
+## Postęp v0.5 — źródłowa integracja + rzeczywiste wielopokoleniowe badania
 
-### Nie uruchamiać
+| Etap | Dostarczony element | Weryfikacja / stan |
+|---|---|---|
+| 0.39 | MSC2020: 6006 szczegółowych kodów i stron źródłowych w repo | CSV + deterministyczny SQLite FTS5 + test 6006; SOURCE_INDEXED_ONLY |
+| 0.40 | DGM: trwałe badawcze drzewo wariantów z SHA, depth, parent i selekcją | `research_archive.py`, testy RED→GREEN; RESEARCH_ONLY |
+| 0.41 | DGM: rodzic z poprzedniej generacji w kolejnym promptowaniu RSI | `generator.py`, `cycle.py`; testy wielopokoleniowe; UNATTESTED |
+| 0.42 | Trwały stan pomiędzy okresowymi GitHub Actions | `actions/cache` research-only; zależy od retencji i aktywacji RSI |
+| 0.43 | Ciągły proces RSI na dedykowanym hoście | `imandrax-daemon` + systemd template; LOCAL_TEST_PASS, NOT DEPLOYED |
+| 0.44 | Lean: nowe kernel-checkable twierdzenia o arytmetyce | `proofs/ImandraX/Arithmetic.lean`; GitHub CI PENDING |
+| 0.45 | Cztery forki Lean — automatyczna macierz zgodności | workflow push/weekly; UPSTREAM CI PENDING |
+| 0.46 | Serwer zatwierdzania na osobnym hoście | Compose + TLS 1.3 + secret files; LOCAL_TEST_PASS, HOST NOT DEPLOYED |
+| 0.47 | Rzeczywisty pełny checker dowolnych twierdzeń, 6006 formalizacji | NOT IMPLEMENTED |
+| 0.48 | Firecracker/microVM z atestacją, zewnętrzny WORM/KMS/HSM | NOT IMPLEMENTED |
+| 0.49 | 704 repozytoria: pełny kod, licencje, SBOM, build i testy | NOT IMPLEMENTED; 701 PUBLIC METADATA ONLY |
+| 0.50 | Ruleset `main` wymagający właściciela + niezależny release applier | NOT CONFIGURED / NOT IMPLEMENTED |
 
-`mojealterego/RSIAI0` domyślnie opisuje konfigurację real shell z nieograniczonymi poleceniami. Upstream `dgm` jest badawczym eksperymentem, nie bezpiecznym modułem do osadzenia w zaufanej usłudze. Oba traktować jako **niezaufane źródła**. Nie kopiować sekretów ani prywatnej listy repozytoriów do publicznego repo.
+Wpisy historyczne 0.08–0.16 i 0.27–0.38 pozostają źródłową historią. Żadna nowa implementacja nie nadaje RSI prawa do zmiany `main` bez użytkownika. Formalizacja matematyki jest procesem otwartym, nie da się uczciwie uznać wszystkich dziedzin za udowodnione przez samą obecność taksonomii.
 
-## v0.3 — egress, wykonanie i approval
+## v0.5 — wielopokoleniowe badania i zewnętrzna authority
 
-- **Brak auto-merge:** zaplanowany workflow ma `contents:read`; model nie posiada tokenu zapisu ani klucza prywatnego zatwierdzającego.
-- **Separacja internetu:** research i LLM mogą korzystać z sieci, lecz Docker candidate ma `--network none` i nie otrzymuje sekretów.
-- **Brak automatycznego podpisu:** unsigned local test reports nie są akceptowane jako niezależne PASS attestation.
-- **Approval API:** TLS 1.3 i role bearer, lecz do zatwierdzenia nadal wymagany jest niezależny podpis Ed25519 użytkownika.
-- **Docker ≠ Firecracker:** to ograniczony runner badawczy, nie dowód odporności na ucieczkę z kontenera.
-- **GitHub main nadal niechroniony:** właściciel musi ustawić Ruleset zgodnie z `docs/MAIN_RULESET_REQUIRED.md`.
+`ResearchArchive` zapisuje wyłącznie **niezaufany kod badawczy** i jego empiryczne wyniki. Rekordy są wiązane z bazowym commitem i SHA-256, blokują UPDATE/DELETE i mają kontrolę integralności, ale nie są kryptograficznie podpisane ani odporne na administratora SQLite. Cache GitHub Actions służy wyłącznie do wznowienia badań, **nie** jako źródło atestacji, polityki lub decyzji. Głębia genealogii i liczba rekordów są ograniczone. Zmiana bazowego commita lub solvera unieważnia możliwość ponownego użycia starego rodzica.
+
+`imandrax-daemon` wymaga jawnego włączenia i przypięcia commita oraz hasha bazowego solvera; zatrzymuje się po trzech kolejnych błędach. Kod ten **nie jest uruchomiony 24/7**, nie ma klucza GitHub write ani prawa do zatwierdzania zmian. Docker socket oznacza potencjalny root na hoście, dlatego worker wymaga dedykowanej maszyny/VM, nie serwera authority.
+
+`deploy/authority/` to konfiguracja oddzielnego serwera TLS 1.3 z tokenami w plikach i publicznymi kluczami Ed25519; klucz prywatny użytkownika pozostaje poza serwerem. Brakuje hostingu, WORM, KMS/HSM, atestacji runnera, audytu penetracyjnego i obowiązkowego Ruleset GitHub. **Nie oznaczać serwera jako produkcyjnego** bez tych dowodów.

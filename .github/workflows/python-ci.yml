@@ -64,6 +64,11 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+      - name: Reject proof holes and locally declared axioms
+        run: |
+          if grep -R -nE '(^|[^[:alnum:]_])(sorry|admit|axiom|unsafe)([^[:alnum:]_]|$)' proofs/ImandraX --include='*.lean'; then
+            echo 'Unverified proof hole or local axiom detected'; exit 1
+          fi
       - uses: leanprover/lean-action@v1
         with:
           lake-package-directory: proofs

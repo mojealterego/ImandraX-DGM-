@@ -16,6 +16,7 @@ import re
 from typing import Mapping
 
 from .evolution import ApprovedArchive
+from .research_archive import ResearchArchive
 from .gates import Candidate, Policy, canonical_payload
 from .knowledge import KnowledgeIndex
 from .rsi import RSIReviewStore
@@ -56,6 +57,7 @@ class IntegratedEngine:
         self.reviews = RSIReviewStore(review_db, policy=self.policy,
                                       runner_keys=runner_keys, reviewer_keys=reviewer_keys)
         self.archive = ApprovedArchive(archive_db, authorize=self.reviews.is_authorized)
+        self.research_archive = ResearchArchive(Path(archive_db).with_name("research_generations.sqlite3"))
 
     @staticmethod
     def _bounded_integer(value: object) -> int:
@@ -208,6 +210,24 @@ class IntegratedEngine:
                 len(matching) != 1 or matching[0].get('status') != 'EVALUATED_UNATTESTED' or
                 selected.get('status') != 'EVALUATED_UNATTESTED'):
             raise ArtifactError('Selected candidate does not match evaluation')
+        lineage = proposal.get('research_lineage')
+        if lineage is not None:
+            if (not isinstance(lineage,dict) or
+                    set(lineage) != {'parent_id','depth','parent_source_sha256'} or
+                    type(lineage['depth']) is not int or not 0 <= lineage['depth'] <= 12 or
+                    (lineage['parent_id'] is None) != (lineage['depth'] == 0) or
+                    (lineage['parent_source_sha256'] is None) != (lineage['depth'] == 0)):
+                raise ArtifactError('Malformed research lineage')
+            if lineage['depth']:
+                if (not isinstance(lineage['parent_id'],str) or
+                        not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,127}',lineage['parent_id']) or
+                        not isinstance(lineage['parent_source_sha256'],str) or
+                        not _SHA256.fullmatch(lineage['parent_source_sha256'])):
+                    raise ArtifactError('Invalid research parent digest')
+            for record in (selected, matching[0]):
+                if (record.get('research_parent_id') != lineage['parent_id'] or
+                        record.get('research_depth') != lineage['depth']):
+                    raise ArtifactError('Research lineage and evaluation mismatch')
         for record in (selected, matching[0]):
             for field in ('regression','heldout'):
                 val=record.get(field)
@@ -226,7 +246,8 @@ class IntegratedEngine:
         if not _SHA40.fullmatch(base_commit):
             raise ValueError('Expected pinned Git commit')
         self.research.open_campaign(campaign_id,self.policy.max_tokens)
-        result = cycle.run(root,base_commit,output,mathematical_context=context)
+        result = cycle.run(root,base_commit,output,mathematical_context=context,
+                           research_archive=self.research_archive)
         if result.get('state') != 'AWAITING_HUMAN_REVIEW':
             self.ledger.append(campaign_id,'CANCELLED',{'reason':'NO_ADMISSIBLE_CANDIDATE'},campaign_id+':cancel')
             return {'state':'NO_ADMISSIBLE_CANDIDATE','proof_status':'NOT_PROVED','approval':'NOT_REQUESTED'}

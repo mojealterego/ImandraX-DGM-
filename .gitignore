@@ -24,3 +24,8 @@ data/repositories_704.tsv
 data/REPOSITORY_TRIAGE_704.csv
 
 .imandrax-state/
+
+# Independent authority host-local files
+deploy/authority/secrets/
+deploy/authority/config/trust.json
+deploy/authority/state/

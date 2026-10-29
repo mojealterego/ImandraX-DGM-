@@ -1,0 +1,26 @@
+# Template: dedicated research worker host ONLY. Not installed by this repo.
+# The docker group grants root-equivalent host privileges; use a dedicated VM.
+[Unit]
+Description=ImandraX DGM RSI research-only continuous worker
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=imandrax
+Group=imandrax
+WorkingDirectory=/srv/imandrax
+EnvironmentFile=/etc/imandrax/rsi.env
+ExecStart=/srv/imandrax/.venv/bin/imandrax-daemon --root /srv/imandrax --base-commit ${RSI_BASE_COMMIT} --knowledge-db /var/lib/imandrax/math.sqlite3 --state-dir /var/lib/imandrax/state --output-root /var/lib/imandrax/research --source MSC2020-OFFICIAL --code 00-01 --interval-seconds 21600 --max-cycles 0
+Restart=on-failure
+RestartSec=300
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/imandrax
+MemoryMax=2G
+CPUQuota=200%
+
+[Install]
+WantedBy=multi-user.target
