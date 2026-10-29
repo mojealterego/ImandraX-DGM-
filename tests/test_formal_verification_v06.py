@@ -78,7 +78,9 @@ def test_workflow_has_full_mathlib_target_and_paranoid_external_check():
     assert 'lake build Mathlib' in wf
     assert 'lake check --paranoid' in wf
     assert 'lake-package-directory' not in wf or 'proofs_mathlib' in wf
-    assert '--inadvisably-no-sandbox' not in wf
+    assert 'docker run --rm --network none --read-only --cap-drop ALL' in wf
+    assert '--security-opt no-new-privileges' in wf
+    assert '--inadvisably-no-sandbox' in wf
     assert 'continue-on-error: true' not in wf
     assert 'd0207795ac79006da92d98544e1ce915ae386160' in wf
 
@@ -149,3 +151,24 @@ def test_core_lake_default_target_is_not_noop():
     config = tomllib.loads((ROOT/'proofs/lakefile.toml').read_text())
     assert 'ImandraX' in config['defaultTargets']
     assert any(x['name'] == 'ImandraX' for x in config['lean_lib'])
+
+
+def test_integrated_engine_exposes_registry_without_inventing_proof(tmp_path, math_db):
+    from imandrax_dgm.engine import IntegratedEngine, MathTask
+    engine = IntegratedEngine(knowledge_db=math_db,
+        inventory=ROOT/'data/repositories_public_701.tsv',
+        ledger_db=tmp_path/'ledger.sqlite3', review_db=tmp_path/'reviews.sqlite3',
+        archive_db=tmp_path/'archive.sqlite3', formal_registry_db=tmp_path/'formal.sqlite3')
+    spec = _spec(tmp_path)
+    engine.formal.register(spec, source_root=tmp_path)
+    result = engine.math(MathTask(kind='FORMAL_PROOF_STATUS', statement=spec.declaration))
+    assert result['status'] == 'UNVERIFIED'
+    assert result['proof_status'] == 'NOT_PROVED'
+    assert result['declaration'] == spec.declaration
+    with pytest.raises(ValueError):
+        engine.math(MathTask(kind='FORMAL_PROOF_STATUS', statement='No.such.theorem'))
+
+
+def test_lean_import_must_be_first_nonblank_line():
+    source = (ROOT/'proofs_mathlib/ImandraXMathlib/Foundations.lean').read_text()
+    assert source.lstrip().startswith('import Mathlib')

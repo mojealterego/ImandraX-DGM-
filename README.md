@@ -123,3 +123,5 @@ Brak wdrożenia niezależnego proof checker dla wszystkich dziedzin MSC, produkc
 Pełna formalizacja **całej matematyki** nie jest zamkniętym zadaniem możliwym do oznaczenia jako wykonane; możliwe jest stopniowe formalizowanie konkretnych twierdzeń i dowodów. Nowy checker nie jest systemem odkrywania dowodów, lecz ich niezależnej weryfikacji.
 
 **Korekta audytowa:** weryfikacja v0.6 wykryła, że wcześniejszy krok CI własnych twierdzeń Lean uruchamiał Lake bez domyślnego celu (`Nothing to build`). Dodano obowiązkowy `defaultTargets = ["ImandraX"]`. Poprzedni zielony wynik CI dla tej części nie jest dowodem kompilacji; decydują wyniki po tej poprawce.
+
+**Jedno API dla dowodów:** `IntegratedEngine.math(MathTask(kind="FORMAL_PROOF_STATUS", statement="ImandraXMathlib.polynomial_square"))` odczytuje wpis rejestru `FormalEvidenceRegistry`. Bez podpisanego wyniku zewnętrznego checkera zwraca `UNVERIFIED`, nigdy nie traktuje dowolnego zdania naturalnego jako dowodu. CLI `imandrax-dgm math --kind FORMAL_PROOF_STATUS --statement ...` udostępnia ten sam odczyt.

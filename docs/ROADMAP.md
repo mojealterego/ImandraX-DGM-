@@ -90,3 +90,5 @@ Uwaga: `mathlib4` jako jedna biblioteka formalizuje ogromną część matematyki
 **Korekta weryfikacji v0.6:** `proofs` miało wcześniej brak `defaultTargets` — `lean-action` wykonywał `Nothing to build`. Zostało naprawione; stare sukcesy nie stanowią dowodu kompilacji tych modułów. Rzeczywista weryfikacja od nowego przebiegu CI.
 
 **CI v0.6 — obserwacja:** `lake build Mathlib` wykonał **18 183 zadania i zakończył się sukcesem** (run 40924696557), natomiast `leanchecker Mathlib` zakończył się sygnałem 139 na standardowym runnerze. To **nie** jest PASS niezależnego sprawdzenia całej biblioteki. Następny workflow sprawdza osobny ograniczony moduł, a pełny replay wymaga dalszej diagnostyki i/lub hosta o większej pamięci. Nowy workspace `proofs_mathlib` miał problem startowy z brakującym `lake-manifest.json`; konfiguracja instaluje teraz Lean z istniejącego projektu `proofs`, następnie wykonuje `lake update` w nowym workspace.
+
+| 0.57 | Jedno API `IntegratedEngine.math` dla formalnych deklaracji | `FORMAL_PROOF_STATUS` + `FormalEvidenceRegistry`, testy fail-closed; lokalnie PASS, atestacje zewnętrzne nadal wymagane |

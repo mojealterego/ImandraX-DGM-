@@ -15,6 +15,7 @@ from pathlib import Path
 import re
 from typing import Mapping
 
+from .formal_verification import FormalEvidenceRegistry, FormalVerificationError
 from .evolution import ApprovedArchive
 from .research_archive import ResearchArchive
 from .gates import Candidate, Policy, canonical_payload
@@ -47,9 +48,11 @@ class IntegratedEngine:
 
     def __init__(self, *, knowledge_db: Path, inventory: Path, ledger_db: Path,
                  review_db: Path, archive_db: Path, policy: Policy | None = None,
+                 formal_registry_db: Path | None = None,
                  runner_keys: Mapping[str, bytes] | None = None,
                  reviewer_keys: Mapping[str, bytes] | None = None):
         self.policy = policy or Policy.default()
+        self.formal = FormalEvidenceRegistry(formal_registry_db or Path(archive_db).with_name("formal_proofs.sqlite3"))
         self.research = UnifiedResearchEngine(knowledge_db, inventory, ledger_db, self.policy)
         self.knowledge = self.research.knowledge
         self.catalog = self.research.catalog
@@ -86,6 +89,16 @@ class IntegratedEngine:
                     'statement': task.statement, 'source_found': bool(rows),
                     'checker': 'NO_INDEPENDENT_KERNEL_ATTESTATION',
                     'note': 'A source entry or a generated proof is not kernel verification'}
+        if task.kind == 'FORMAL_PROOF_STATUS':
+            if not isinstance(task.statement, str) or not task.statement.strip():
+                raise ValueError('Named Lean declaration required')
+            try:
+                record = self.formal.get(task.statement)
+            except FormalVerificationError as exc:
+                raise ValueError('Unknown formally registered declaration') from exc
+            return {**record, 'proof_status': ('EXTERNALLY_CHECKED' if record['status'] == 'EXTERNALLY_CHECKED' else 'NOT_PROVED'),
+                    'scope': 'DECLARATION_ONLY_NOT_ENTIRE_MSC_CATEGORY',
+                    'note': 'Status is a signed checker attestation, not a claim about an arbitrary natural-language statement'}
         if task.kind == 'EXACT_COMPUTE':
             args = task.arguments
             if not isinstance(args, dict):

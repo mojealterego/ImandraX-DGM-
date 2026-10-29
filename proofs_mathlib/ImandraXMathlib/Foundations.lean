@@ -1,10 +1,10 @@
+import Mathlib
+
 /-!
 ImandraX × DGM × RSI Ω: genuinely formalized, narrowly scoped examples.
 The statements below are proved in Lean. Their MSC tags are research metadata,
 not an assertion that an entire MSC category is formalized.
 -/
-import Mathlib
-
 namespace ImandraXMathlib
 
 /-- Elementary polynomial identity over the integers. -/

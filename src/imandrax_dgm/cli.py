@@ -36,7 +36,7 @@ def main(argv=None):
     math = sub.add_parser('math')
     math.add_argument('--knowledge-db',type=Path,required=True)
     math.add_argument('--state-dir',type=Path)
-    math.add_argument('--kind',required=True,choices=['LOOKUP','EXACT_COMPUTE','FORMAL_THEOREM'])
+    math.add_argument('--kind',required=True,choices=['LOOKUP','EXACT_COMPUTE','FORMAL_THEOREM','FORMAL_PROOF_STATUS'])
     math.add_argument('--source')
     math.add_argument('--code')
     math.add_argument('--statement',default='')
