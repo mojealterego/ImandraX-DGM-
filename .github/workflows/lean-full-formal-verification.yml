@@ -33,9 +33,11 @@ jobs:
           lake env leanexport ImandraX > "$RUNNER_TEMP/imandrax-core.ndjson"
           # Export is built only from owner-approved main, not untrusted RSI patches.
       - name: Independent checkers inside no-network, read-only Docker sandbox
+        working-directory: proofs
         run: |
           set -euo pipefail
           toolchain_dir="$(dirname "$(dirname "$(elan which lean)")")"
+          test -x "$toolchain_dir/bin/lake"
           chmod 644 "$RUNNER_TEMP/imandrax-core.ndjson"
           docker pull ubuntu:24.04
           docker run --rm --network none --read-only --cap-drop ALL \
