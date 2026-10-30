@@ -1,0 +1,18 @@
+{
+  "source_commit": "d66842e56a6d4fa02601a54ecbe426225e382f54",
+  "pytest": {
+    "passed": 218,
+    "failed": 0
+  },
+  "wheel_install_simulation": "SIMULATION_PASS",
+  "mujoco": {
+    "version": "3.3.6",
+    "steps": 200,
+    "repeatable": true,
+    "qpos": -0.16590903533932624
+  },
+  "formal_proofs": "NOT_RUN_IN_THIS_SESSION",
+  "external_deployment": "NOT_PERFORMED",
+  "release_authorized": false,
+  "evidence": "UNSIGNED_LOCAL_EXECUTION"
+}

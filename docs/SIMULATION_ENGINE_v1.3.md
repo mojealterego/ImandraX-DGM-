@@ -55,3 +55,15 @@ signera ani ogólnej inteligencji. `release_authorized` pozostaje false.
 CI odtwarza tryb referencyjny, rzeczywisty Docker oraz instalację z wheel.
 Pełne wdrożenie zewnętrzne i pozostałe otwarte pozycje roadmap nie są zamknięte
 przez wynik tej symulacji.
+
+## Lokalna walidacja 2026-10-30
+
+218 testów PASS; zbudowano wheel i sdist 1.3.0; wykonano pełną symulację
+z wheel w nowym virtualenv. Tryb reference i rzeczywisty Docker: SIMULATION_PASS,
+300/300 przypadków API oraz 300/300 dla każdego z dwóch solverów transferowych.
+MuJoCo 3.3.6: 200 kroków, wynik powtarzalny. Lean w tej sesji nie uruchamiano.
+
+Raporty w [evidence/v1.3](../evidence/v1.3/) zapisują faktyczne base_commit
+oraz hashe plików implementacji, również dla przebiegu wykonanego przed commitem.
+Raport build wskazuje commit implementacji. To lokalne, niepodpisane evidence;
+wyniki GitHub CI należy odczytać osobno po push.

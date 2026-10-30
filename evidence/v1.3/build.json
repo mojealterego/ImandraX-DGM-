@@ -1,0 +1,29 @@
+{
+  "artifacts": [
+    {
+      "name": "imandrax_dgm_unified-1.3.0-py3-none-any.whl",
+      "sha256": "ed867fed6484959fac1ec3e5c43326a388b03648486bd860b93b676052b7cf98",
+      "size_bytes": 99228,
+      "type": "wheel"
+    },
+    {
+      "name": "imandrax_dgm_unified-1.3.0.tar.gz",
+      "sha256": "4e90dfc4d492cad6f4db86a40d86a51c0383d60a0de5ac96e72d8f0f24891c5b",
+      "size_bytes": 124159,
+      "type": "sdist"
+    }
+  ],
+  "missing_independent_gates": [
+    "RULESET_MAIN_REVIEW",
+    "SIGNED_OWNER_DECISION",
+    "INDEPENDENT_TEST_ATTESTATIONS",
+    "EXTERNAL_AUTHORITY_DEPLOYED",
+    "DISASTER_RECOVERY_DRILL",
+    "KMS_WORM_AND_PRIVACY_POLICY"
+  ],
+  "name": "imandrax-dgm-unified",
+  "release_authorized": false,
+  "source_commit": "d66842e56a6d4fa02601a54ecbe426225e382f54",
+  "status": "UNSIGNED_BUILD_ARTIFACT_EVIDENCE_NOT_RELEASE_APPROVAL",
+  "version": "1.3.0"
+}
