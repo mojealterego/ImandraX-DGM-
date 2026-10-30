@@ -153,3 +153,7 @@ Audyt repozytoriów gier i mediów: `imandrax-dgm --root . media-audit --limit 1
 ## OMEGA Memory Recovery Gate v1.1
 
 Zintegrowano spójne kopie SQLite pamięci bitemporalnej, manifest z SHA-256 i logicznym checkpointem, weryfikację podpisu Ed25519 **kluczem publicznym właściciela**, ochronę przed rollbackiem z zewnętrznie przypiętą sekwencją oraz odtwarzanie wyłącznie do nowego pliku. Prywatny klucz służy do podpisu **poza** runtime. Mechanizm nie stanowi WORM/HSM ani kompletnej infrastruktury HA. [Runbook](docs/MEMORY_RECOVERY_GATE_v1.1.md).
+
+## Kontrola artefaktów pakietu v1.1
+
+CI wykonuje teraz również budowę **wheel i sdist**, weryfikuje metadane Name/Version i SHA-256, a następnie instaluje wheel w nowym środowisku i sprawdza działanie jego CLI z jawnie wskazanym katalogiem zasobów (`--root`). Artefakty zachowywane są do ręcznego przeglądu jako **niepodpisany dowód budowania**, nie zatwierdzenie release. Źródłowe zasoby MSC i katalog repozytoriów nadal muszą być dostarczone oddzielnie; sam wheel nie jest autonomiczną instalacją wszystkich danych i modeli.
