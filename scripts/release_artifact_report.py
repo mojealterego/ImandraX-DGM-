@@ -62,7 +62,9 @@ def _archive_metadata(path: Path, *, wheel: bool) -> bytes:
                     raise ArtifactError("UNEXPECTED_ARCHIVE_LINK")
                 if member.size > _MAX_ARCHIVE:
                     raise ArtifactError("OVERSIZED_ARCHIVE_MEMBER")
-                if member.name.endswith("/PKG-INFO"):
+                # Only top-level sdist metadata; nested *.egg-info/PKG-INFO
+                # is legitimate and must not count as a second root manifest.
+                if member.name.endswith("/PKG-INFO") and len(PurePosixPath(member.name).parts) == 2:
                     entries.append(member)
             if len(entries) != 1:
                 raise ArtifactError("MISSING_OR_DUPLICATE_SDIST_METADATA")

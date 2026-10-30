@@ -62,3 +62,19 @@ def test_source_commit_is_validated(tmp_path):
     dist,project,_=build_archive(tmp_path)
     with pytest.raises(ArtifactError,match="INVALID_SOURCE_COMMIT"):
         build_report(dist,project,"nope")
+
+
+def test_realistic_sdist_nested_egg_info_pkg_info_is_not_duplicate(tmp_path):
+    dist,project,_=build_archive(tmp_path)
+    payload=b"Metadata-Version: 2.3\nName: imandrax-dgm-unified\nVersion: 1.1.0\n"
+    with tarfile.open(dist/"unit-1.1.0.tar.gz","w:gz") as tf:
+        for path in (
+            "unit-1.1.0/PKG-INFO",
+            "unit-1.1.0/src/imandrax_dgm_unified.egg-info/PKG-INFO"
+        ):
+            info=tarfile.TarInfo(path)
+            info.size=len(payload)
+            tf.addfile(info,io.BytesIO(payload))
+    result=build_report(dist,project,"b"*40)
+    assert result["release_authorized"] is False
+    assert len(result["artifacts"])==2
