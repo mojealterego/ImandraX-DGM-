@@ -81,6 +81,21 @@ class IntegratedEngine:
         from .cognition import CognitiveDecisionCycle
         return CognitiveDecisionCycle(self.memory)
 
+    @property
+    def event_queue(self):
+        """Local durable event outbox; handlers do not gain release authority."""
+        from .event_workflows import DurableEventQueue
+        if not hasattr(self, "_event_queue"):
+            self._event_queue = DurableEventQueue(
+                self._cognitive_memory_db.with_name("research_events.sqlite3"))
+        return self._event_queue
+
+    @property
+    def reasoning(self):
+        """Time-scoped explicit graph-hop verifier over the existing memory."""
+        from .reasoning_workflows import MultiHopVerifier
+        return MultiHopVerifier(self.memory)
+
     @staticmethod
     def _bounded_integer(value: object) -> int:
         if type(value) is not int or value.bit_length() > 256:

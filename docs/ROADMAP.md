@@ -138,3 +138,21 @@ Zapis evidence nie przyznaje uprawnień do wykonania kodu, montażu portów ani 
 | 0.98 | Signed APEX capability-epoch migration, production authority, multi-tenant isolation | NOT IMPLEMENTED / OWNER-SIGNATURE AND INFRASTRUCTURE REQUIRED |
 
 Nie zmieniono `core_manifests` i jego digestu: istniejąca tożsamość APEX pozostaje nienaruszona. Pełne szczegóły `docs/COGNITIVE_STACK_v0.9.md`.
+
+## OMEGA Cognitive Workflows v1.0 — nowy zakres
+
+| Etap | Przedmiot | Stan |
+|---|---|---|
+| 1.00 | Tree-of-Thoughts bounded beam + Graph-of-Thoughts existing | IMPLEMENTED; CI PENDING |
+| 1.01 | ReWOO DAG, ontologia i readonly tool dispatch | IMPLEMENTED; CI PENDING |
+| 1.02 | Multi-hop evidence links, anti-false-bridge | IMPLEMENTED; CI PENDING |
+| 1.03 | Critique/refine, retrospection, procedural memory contracts | IMPLEMENTED RESEARCH ONLY; CI PENDING |
+| 1.04 | Durable event queue, lease/idempotency/retry/deadletter | IMPLEMENTED LOCAL; CI PENDING |
+| 1.05 | Async verification of bounded hypotheses in waiting periods | IMPLEMENTED ON-DEMAND; NO 24/7 DAEMON |
+| 1.06 | Episodic-to-semantic reference synthesis | IMPLEMENTED; NOT SEMANTIC LEARNING |
+| 1.07 | Cascaded offline inference routing (no model execution) | IMPLEMENTED; CI PENDING |
+| 1.08 | 701 inventory multimedia/game/model triage, 12 README, 8 root LICENSE | METADATA AND ROOT FILES ONLY; CODE AUDIT NOT DONE |
+| 1.09 | World model fork from Google / Genie source identification | NOT VERIFIED; NO IMPORT |
+| 1.10 | Unattended integration, owner-signed APEX migration, actual models & production HA | BLOCKED; NO OWNER SIGNATURE / ATTESTATION |
+
+Nie zmieniono podpisywanego zestawu manifestów APEX. `readme/LICENSE` to nie pełna zgodność licencji, szczególnie dla BSL-1.1, AGPL-3.0 i LTX. Szczegóły: `docs/COGNITIVE_WORKFLOWS_v1.0.md`.

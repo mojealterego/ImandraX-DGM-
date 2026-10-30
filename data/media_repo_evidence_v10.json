@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "snapshot": "2026-10-30",
+  "method": "GITHUB_README_AND_ROOT_LICENSE_ONLY",
+  "repositories": [
+    {
+      "repository": "mojealterego/Unreal-MCP",
+      "readme_blob_sha": "d80ffb05076466bce90fe6bb06786f04ae89bffc",
+      "license_blob_sha": "ce3ece890d10e18d5f524ad13ea56ad644c0acff",
+      "license_label": "Apache-2.0",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/Unity-MCP2",
+      "readme_blob_sha": "0e4abe8c2807bfd0c699aad82fad741e4c091bd9",
+      "license_blob_sha": "106983b4c6f49a91c4dd7b11dc19a4927c42ccda",
+      "license_label": "Apache-2.0",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/godot-orchestrator",
+      "readme_blob_sha": "962824d6101fe6b9fff86da6ff2d716e93d72c2e",
+      "license_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "license_label": "Apache-2.0",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/HunyuanVideo-I2V",
+      "readme_blob_sha": "9bc2f3e29d77a82a4505b3e8ed3f34c3967d6003",
+      "license_blob_sha": null,
+      "license_label": "UNVERIFIED",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/photocraft",
+      "readme_blob_sha": "74a5c78f36ad0dce203274ef6aa675e45ff96c1b",
+      "license_blob_sha": null,
+      "license_label": "UNVERIFIED",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/ComfyUI-LTXVideo",
+      "readme_blob_sha": "81b9e7e4935fe66f420a33f5b23ebb841dfef8f1",
+      "license_blob_sha": "b0d79e2e318e8931fbdad112136372ec28603d2d",
+      "license_label": "LTX-2-COMMUNITY",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/LTX-Video-Trainer",
+      "readme_blob_sha": "b990433244531889d6999baf844e95051f5d8e70",
+      "license_blob_sha": null,
+      "license_label": "UNVERIFIED",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/Uncensored-Local-Studio",
+      "readme_blob_sha": "4f0ed61c800cc438c97580048ee4383ed5754c47",
+      "license_blob_sha": "38d2d2fde1d377f482f92d311d4a3f600d6440d9",
+      "license_label": "MIT",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/MaxVideoAi",
+      "readme_blob_sha": "50a5c496e7fc742f4b497f8d35f94f6c20003523",
+      "license_blob_sha": "3424b6522da3f6382f5caacdc6da9df2dee8933e",
+      "license_label": "BSL-1.1",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/Giant-Music-Transformer",
+      "readme_blob_sha": "8032e6328b934e8a20af1d62279e7f61fc9d2718",
+      "license_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "license_label": "Apache-2.0",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/Aether-Photo-Video-",
+      "readme_blob_sha": "20fe95e97d780d7f806516df0553ca9487e51f99",
+      "license_blob_sha": null,
+      "license_label": "UNVERIFIED",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    },
+    {
+      "repository": "mojealterego/Stable-Diffusion-KMP",
+      "readme_blob_sha": "aad207c0f19884e1b27396876326b63b80586dd9",
+      "license_blob_sha": "0ad25db4bd1d86c452db3f9602ccdbe172438f52",
+      "license_label": "AGPL-3.0",
+      "license_compatibility": "NOT_REVIEWED",
+      "source_audit": "NOT_DONE",
+      "integrated": false
+    }
+  ]
+}

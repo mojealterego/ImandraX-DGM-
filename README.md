@@ -1,6 +1,6 @@
 # ImandraX × DGM × RSI Ω — jeden silnik matematyczno-ewolucyjny
 
-**Wersja kodu:** `0.9.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
+**Wersja kodu:** `1.0.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
 
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
@@ -143,3 +143,9 @@ Dodano `PortfolioAudit` i `imandrax-dgm --root . portfolio --limit 20` do tego s
 ## OMEGA Cognitive Stack v0.9 — pamięć i badawcza kognicja
 
 Dodano do **tego samego pakietu** bitemporalny magazyn faktów, pamięć epizodyczną/semantyczną/proceduralną, graf relacji, historyczne korekty, odtwarzanie logicznej kopii w punkcie czasu, refleksję, DAG myśli, badawczy genotyp/fitness i planowanie trasy modeli bez uruchamiania zewnętrznych API. Rejestr badań rozszerzono o [awesome-jepa](https://github.com/mojealterego/awesome-jepa) i [R2-Reasoner](https://github.com/tsinghua-fib-lab/R2-Reasoner), **bez importu ich niezweryfikowanego kodu ani wag**. Wszystko pozostaje bez autonomicznego zatwierdzania, merge czy deploymentu. [Szczegóły i ograniczenia](docs/COGNITIVE_STACK_v0.9.md).
+
+## OMEGA Cognitive Workflows v1.0 — nieautonomiczne bramki narzędzi
+
+Rozszerzono ten sam `IntegratedEngine` o `reasoning` i `event_queue`. Dodano Tree-of-Thoughts (przeszukiwanie ograniczone), jawny weryfikator multi-hop zapobiegający nieuzasadnionym mostom, ReWOO planner oddzielający plan od obserwacji, ontologiczny rejestr narzędzi tylko READ, asynchroniczny wykonawca jawnie przypiętych handlerów, trwały event outbox z lease/retry, krytykę/refine, deterministyczną syntezę epizodów, kaskadowy planner modeli oraz lokalną weryfikację hipotez. **Wyniki nie stanowią dowodów formalnych, a runtime nie wykonuje automatycznego merge/deploy.**
+
+Audyt repozytoriów gier i mediów: `imandrax-dgm --root . media-audit --limit 120`; operator pamięci: `imandrax-dgm --root . cognitive --state-dir /tmp/omega --op event-process --payload-file process.json`. Kod nowych silników nie został automatycznie skopiowany. [Dokumentacja kontraktów](docs/COGNITIVE_WORKFLOWS_v1.0.md).

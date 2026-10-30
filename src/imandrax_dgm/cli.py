@@ -35,8 +35,13 @@ def main(argv=None):
     cognitive.add_argument('--state-dir', type=Path, required=True)
     cognitive.add_argument('--op', required=True, choices=(
         'remember', 'recall', 'graph', 'checkpoint', 'recover',
-        'decision', 'reflect', 'summarize', 'thoughts', 'route', 'genotype'))
+        'decision', 'reflect', 'summarize', 'thoughts', 'route', 'genotype',
+        'tot', 'multihop', 'rewoo-validate', 'critique', 'episodes', 'cascade',
+        'event-enqueue', 'event-claim', 'event-status', 'event-ack', 'event-fail',
+        'event-process'))
     cognitive.add_argument('--payload-file', type=Path, required=True)
+    media = sub.add_parser('media-audit', help='Read-only classification of game and media repositories')
+    media.add_argument('--limit', type=int, default=120)
     search = sub.add_parser('search')
     search.add_argument('query')
     search.add_argument('--knowledge-db',type=Path)
@@ -75,6 +80,13 @@ def main(argv=None):
             ).report(limit=args.limit)
         except (PortfolioEvidenceError, ValueError, OSError) as exc:
             p.error(f'Portfolio audit rejected: {exc}')
+    elif args.command == 'media-audit':
+        from .media_audit import audit_media_repositories
+        try:
+            out = audit_media_repositories(root/'data/repositories_public_701.tsv',
+                  root/'data/media_repo_evidence_v10.json', limit=args.limit)
+        except (ValueError, TypeError, OSError, json.JSONDecodeError) as exc:
+            p.error('Media audit rejected: ' + type(exc).__name__)
     elif args.command == 'cognitive':
         from .cognitive_cli import execute, load_payload
         from .cognitive_memory import MemoryError
