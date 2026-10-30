@@ -127,12 +127,12 @@ Zapis evidence nie przyznaje uprawnień do wykonania kodu, montażu portów ani 
 
 | Etap | Zakres | Stan |
 |---|---|---|
-| 0.90 | Bitemporal store, append-only history, as-of time, optimistic concurrency | IMPLEMENTED / CI PENDING |
-| 0.91 | Bitemporal graph, scoped edges, episodic/semantic/procedural/working/general tags | IMPLEMENTED / CI PENDING; AUTHN/RBAC NOT IMPLEMENTED |
-| 0.92 | Point-in-time clone and local integrity verification | IMPLEMENTED / CI PENDING; NOT EXTERNAL BACKUP |
-| 0.93 | CoALA cognitive cycle, correction/reflexion, deterministic summary | IMPLEMENTED / CI PENDING; NO LLM INFERENCE |
-| 0.94 | Graph of Thoughts DAG and offline R2-inspired bounded router | IMPLEMENTED / CI PENDING; NO RL TRAINING |
-| 0.95 | Digital genotype, bounded mutation/fixed fitness | IMPLEMENTED / CI PENDING; NO CODE APPLICATION |
+| 0.90 | Bitemporal store, append-only history, as-of time, optimistic concurrency | IMPLEMENTED / CI PASS 170/170 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40980910805) |
+| 0.91 | Bitemporal graph, scoped edges, episodic/semantic/procedural/working/general tags | IMPLEMENTED / CI PASS 170/170 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40980910805); AUTHN/RBAC NOT IMPLEMENTED |
+| 0.92 | Point-in-time clone and local integrity verification | IMPLEMENTED / CI PASS 170/170 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40980910805); NOT EXTERNAL BACKUP |
+| 0.93 | CoALA cognitive cycle, correction/reflexion, deterministic summary | IMPLEMENTED / CI PASS 170/170 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40980910805); NO LLM INFERENCE |
+| 0.94 | Graph of Thoughts DAG and offline R2-inspired bounded router | IMPLEMENTED / CI PASS 170/170 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40980910805); NO RL TRAINING |
+| 0.95 | Digital genotype, bounded mutation/fixed fitness | IMPLEMENTED / CI PASS 170/170 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40980910805); NO CODE APPLICATION |
 | 0.96 | Source registration of awesome-jepa and R2-Reasoner | READ-ONLY REFERENCES; NOT MODEL INTEGRATION |
 | 0.97 | JEPA inference, holographic memory, Shimi Index, vector GraphRAG | NOT IMPLEMENTED / SPECIFICATION AND MODELS REQUIRED |
 | 0.98 | Signed APEX capability-epoch migration, production authority, multi-tenant isolation | NOT IMPLEMENTED / OWNER-SIGNATURE AND INFRASTRUCTURE REQUIRED |
