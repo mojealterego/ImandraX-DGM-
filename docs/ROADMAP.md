@@ -174,8 +174,10 @@ Podpis snapshotu nie jest podpisem aprobaty kodu i nie może zastąpić podpisan
 
 **v1.1 weryfikacja:** `eb9f3c248a831b39e1fe17683a3915fe61ef4c56` (5/5 jobs, 196/196 testów): https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743. Nie jest to dowód wykonania produkcyjnych etapów 1.15–1.16, ani podpis właściciela.
 
-| 1.17 | Wheel/sdist, kontrola Name/Version, ścieżek archiwów, SHA-256 | IMPLEMENTED; CI PENDING |
-| 1.18 | Czysty venv: instalacja wheel i rzeczywisty CLI inventory na 701 rekordach | IMPLEMENTED; CI PENDING; REQUIRES EXTERNAL --root RESOURCES |
+| 1.17 | Wheel/sdist, kontrola Name/Version, ścieżek archiwów, SHA-256 | IMPLEMENTED; CI PASS 201/201 tests, 6/6 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40988032432) |
+| 1.18 | Czysty venv: instalacja wheel i rzeczywisty CLI inventory na 701 rekordach | IMPLEMENTED; CI PASS 201/201 tests, 6/6 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40988032432); REQUIRES EXTERNAL --root RESOURCES |
 | 1.19 | Reproducible builds (bit-identical), podpisane provenance/SBOM zależności, artifact signing | NOT IMPLEMENTED / RELEASE BLOCKER |
 
 Zapis `build_evidence.json` ma `release_authorized=false`; **nie zastępuje** niezależnych podpisów, Ruleset ani zgody właściciela.
+
+**v1.1 release-artifact evidence (2026-10-30):** 201/201 Python tests, 6/6 jobs, real wheel/sdist built and clean-venv wheel CLI smoke PASS. Workflow: https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40988032432. Downloadable unsigned artifacts retained by GitHub Actions (`omega-v1.1-unsigned-package-evidence`). This is not SBOM/compliance certification, reproducible-build proof, or a signed production release. Existing external-host and GitHub ruleset gates remain unresolved.
