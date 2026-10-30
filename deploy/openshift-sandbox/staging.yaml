@@ -1,0 +1,160 @@
+# STAGING ONLY; never import real owner private keys, KMS credentials or real HSM material.
+# Replace the image digest before use. Does not provision an external HSM or WORM.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: omega-staging-authority
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: omega-staging-state
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omega-staging-authority
+  labels:
+    app: omega-staging-authority
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: omega-staging-authority
+  template:
+    metadata:
+      labels:
+        app: omega-staging-authority
+    spec:
+      serviceAccountName: omega-staging-authority
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: authority
+          # Replace with an actual immutable pushed digest via the staging runbook.
+          image: quay.io/REPLACE_ME/omega-authority@sha256:REPLACE_WITH_64_HEX_DIGEST
+          imagePullPolicy: IfNotPresent
+          args:
+            - --trust
+            - /run/config/trust.json
+            - --db
+            - /state/review.sqlite3
+            - --bind
+            - 0.0.0.0
+            - --port
+            - "9443"
+            - --cert
+            - /run/tls/tls.crt
+            - --key
+            - /run/tls/tls.key
+          env:
+            - name: RSI_AUTH_PROPOSER_TOKEN_FILE
+              value: /run/tokens/proposer_token
+            - name: RSI_AUTH_RUNNER_TOKEN_FILE
+              value: /run/tokens/runner_token
+            - name: RSI_AUTH_REVIEWER_TOKEN_FILE
+              value: /run/tokens/reviewer_token
+          ports:
+            - containerPort: 9443
+              name: tls-api
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          startupProbe:
+            httpGet:
+              path: /healthz
+              scheme: HTTPS
+              port: tls-api
+            periodSeconds: 10
+            failureThreshold: 18
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              scheme: HTTPS
+              port: tls-api
+            periodSeconds: 10
+          volumeMounts:
+            - name: trust
+              mountPath: /run/config
+              readOnly: true
+            - name: tokens
+              mountPath: /run/tokens
+              readOnly: true
+            - name: tls
+              mountPath: /run/tls
+              readOnly: true
+            - name: state
+              mountPath: /state
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: trust
+          configMap:
+            name: omega-staging-trust
+            defaultMode: 0444
+        - name: tokens
+          secret:
+            secretName: omega-staging-tokens
+            defaultMode: 0444
+        - name: tls
+          secret:
+            secretName: omega-staging-tls
+            defaultMode: 0444
+        - name: state
+          persistentVolumeClaim:
+            claimName: omega-staging-state
+        - name: tmp
+          emptyDir:
+            sizeLimit: 32Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: omega-staging-authority
+spec:
+  type: ClusterIP
+  selector:
+    app: omega-staging-authority
+  ports:
+    - name: https
+      port: 9443
+      targetPort: tls-api
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: omega-staging-authority-private
+spec:
+  podSelector:
+    matchLabels:
+      app: omega-staging-authority
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              omega-authority-client: "true"
+      ports:
+        - port: 9443
+          protocol: TCP
+  egress: []

@@ -1,6 +1,6 @@
 # ImandraX × DGM × RSI Ω — jeden silnik matematyczno-ewolucyjny
 
-**Wersja kodu:** `1.1.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
+**Wersja kodu:** `1.2.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
 
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
@@ -157,3 +157,7 @@ Zintegrowano spójne kopie SQLite pamięci bitemporalnej, manifest z SHA-256 i l
 ## Kontrola artefaktów pakietu v1.1
 
 CI wykonuje teraz również budowę **wheel i sdist**, weryfikuje metadane Name/Version i SHA-256, a następnie instaluje wheel w nowym środowisku i sprawdza działanie jego CLI z jawnie wskazanym katalogiem zasobów (`--root`). Artefakty zachowywane są do ręcznego przeglądu jako **niepodpisany dowód budowania**, nie zatwierdzenie release. Źródłowe zasoby MSC i katalog repozytoriów nadal muszą być dostarczone oddzielnie; sam wheel nie jest autonomiczną instalacją wszystkich danych i modeli.
+
+## OMEGA Independent Production Gates v1.2
+
+Nowe kontrakty podpisów niezależnych ról, testy odmowy przy brakującym dowodzie, manifest OpenShift **staging only** dla Red Hat Developer Sandbox oraz propozycja GitHub Ruleset `main`. **Żadna z konfiguracji nie została aktywowana zewnętrznie**. Brak faktycznych attestation KMS/HSM/WORM, hostów failover, uprawnień tworzenia Ruleset oraz zalogowanego konta OpenShift. [Stan i procedura](docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md).

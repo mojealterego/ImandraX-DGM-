@@ -131,3 +131,43 @@ jobs:
             dist/*.tar.gz
             build_evidence.json
           retention-days: 14
+
+  independent-trust-negative-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test]'
+      - name: Validate independent gate contracts and OpenShift staging policy
+        run: python -m pytest -q tests/test_release_admission_v12.py tests/test_staging_security_v12.py
+      - name: Assert unconfigured production authority fails closed
+        run: |
+          python - <<'PY'
+          import json
+          from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+          from cryptography.hazmat.primitives import serialization
+          from imandrax_dgm.release_admission import REQUIRED_ROLES, evaluate_release
+          keys = {}
+          for role in REQUIRED_ROLES:
+              sk = Ed25519PrivateKey.generate()
+              keys[role] = sk.public_key().public_bytes(
+                  serialization.Encoding.Raw,serialization.PublicFormat.Raw)
+          result = evaluate_release(source_sha="a"*40,artifact_sha256="b"*64,
+                                    trusted_keys=keys,receipts={},now=1800000000)
+          assert result["release_authorized"] is False
+          assert result["status"] == "BLOCKED_MISSING_INDEPENDENT_EVIDENCE"
+          result["note"] = "NEGATIVE TEST ONLY, ephemeral fixture public keys"
+          with open("negative_gate_evidence.json","w",encoding="utf-8") as f:
+              json.dump(result,f,sort_keys=True,indent=2)
+          PY
+      - name: Record blocked status, not a production approval
+        uses: actions/upload-artifact@v4
+        with:
+          name: omega-trust-gate-negative-test-only
+          path: negative_gate_evidence.json
+          retention-days: 14

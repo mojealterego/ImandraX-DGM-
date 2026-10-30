@@ -181,3 +181,16 @@ Podpis snapshotu nie jest podpisem aprobaty kodu i nie może zastąpić podpisan
 Zapis `build_evidence.json` ma `release_authorized=false`; **nie zastępuje** niezależnych podpisów, Ruleset ani zgody właściciela.
 
 **v1.1 release-artifact evidence (2026-10-30):** 201/201 Python tests, 6/6 jobs, real wheel/sdist built and clean-venv wheel CLI smoke PASS. Workflow: https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40988032432. Downloadable unsigned artifacts retained by GitHub Actions (`omega-v1.1-unsigned-package-evidence`). This is not SBOM/compliance certification, reproducible-build proof, or a signed production release. Existing external-host and GitHub ruleset gates remain unresolved.
+
+## OMEGA-PANOPTICON — domykanie bramek zewnętrznych v1.2 (2026-10-30)
+
+| Etap | Element | Zweryfikowany status |
+|---|---|---|
+| 1.20 | Red Hat OpenShift Sandbox, staging-only Deployment, Service, NetworkPolicy, PVC; bez sekretnych danych | SPECIFIED + REPO IMPLEMENTED; CI PENDING; NOT DEPLOYED |
+| 1.21 | GitHub main Ruleset template, wymagane kontrole i niezależna recenzja | PROPOSED ONLY; LIVE API: [] (UNPROTECTED); OWNER ACTION REQUIRED |
+| 1.22 | Seven independent Ed25519 release gate receipts bound to commit & artifact digest | IMPLEMENTED; CI PENDING; NO EXTERNAL SIGNERS |
+| 1.23 | Signed HSM/KMS, WORM and independent authority host | NOT DEPLOYED; NO EXTERNAL ENDPOINT / KEY / STORAGE EVIDENCE |
+| 1.24 | Physical multi-host failure injection and recovery with trusted independent logs | NOT EXECUTED; sandbox shared cluster NOT SUFFICIENT |
+| 1.25 | Owner-signed production release, independently stored trust anchors and GitHub enforcement | BLOCKED; NO SELF APPROVAL |
+
+Note: strict independent PR review contradicts absolute no-branches workflow; enabling it requires explicit owner decision to allow temporary review branches. Do not claim the JSON file equals GitHub enforcement. Details in `docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md`.

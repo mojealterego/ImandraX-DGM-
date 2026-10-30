@@ -3,12 +3,12 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "imandrax-dgm-unified"
-version = "1.1.0"
+version = "1.2.0"
 description = "Unified ImandraX mathematical knowledge, DGM research evolution and owner-approved RSI"
 requires-python = ">=3.11"
 dependencies = ["cryptography>=41"]
 [project.optional-dependencies]
-test = ["pytest>=8"]
+test = ["pytest>=8", "PyYAML>=6.0.2,<7"]
 [project.scripts]
 imandrax-dgm = "imandrax_dgm.cli:main"
 imandrax-rsi = "imandrax_dgm.rsi_cli:main"
