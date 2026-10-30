@@ -163,11 +163,13 @@ Nie zmieniono podpisywanego zestawu manifestów APEX. `readme/LICENSE` to nie pe
 
 | Etap | Rezultat | Stan |
 |---|---|---|
-| 1.11 | Online SQLite backup pamięci i manifest SHA-256 | IMPLEMENTED; CI PENDING |
-| 1.12 | Weryfikacja podpisu Ed25519 właściciela i powiązanie z tożsamością | IMPLEMENTED; CI PENDING; OFFLINE SIGNER REQUIRED |
-| 1.13 | Anti-rollback z zewnętrznym high-watermark | IMPLEMENTED; CI PENDING; EXTERNAL TRUST ROOT REQUIRED |
-| 1.14 | Odzyskiwanie podpisanej kopii bez nadpisywania live state | IMPLEMENTED; CI PENDING |
+| 1.11 | Online SQLite backup pamięci i manifest SHA-256 | IMPLEMENTED; CI PASS 196/196 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743) |
+| 1.12 | Weryfikacja podpisu Ed25519 właściciela i powiązanie z tożsamością | IMPLEMENTED; CI PASS 196/196 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743); OFFLINE SIGNER REQUIRED |
+| 1.13 | Anti-rollback z zewnętrznym high-watermark | IMPLEMENTED; CI PASS 196/196 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743); EXTERNAL TRUST ROOT REQUIRED |
+| 1.14 | Odzyskiwanie podpisanej kopii bez nadpisywania live state | IMPLEMENTED; CI PASS 196/196 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743) |
 | 1.15 | Zewnętrzny WORM/KMS/HSM/zaszyfrowane backupy/testy multi-host | NOT DEPLOYED / PRODUCTION BLOCKER |
 | 1.16 | Ruleset GitHub main i niezależne zatwierdzanie publikacji | NOT CONFIGURED; repository rulesets API returned zero on 2026-10-30 |
 
 Podpis snapshotu nie jest podpisem aprobaty kodu i nie może zastąpić podpisanego zatwierdzenia RSI.
+
+**v1.1 weryfikacja:** `eb9f3c248a831b39e1fe17683a3915fe61ef4c56` (5/5 jobs, 196/196 testów): https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743. Nie jest to dowód wykonania produkcyjnych etapów 1.15–1.16, ani podpis właściciela.
