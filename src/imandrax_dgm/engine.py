@@ -62,6 +62,25 @@ class IntegratedEngine:
         self.archive = ApprovedArchive(archive_db, authorize=self.reviews.is_authorized)
         self.research_archive = ResearchArchive(Path(archive_db).with_name("research_generations.sqlite3"))
 
+        # Shared cognition is loaded on demand; it does not change the
+        # signed APEX manifest or grant RSI an approval/merge capability.
+        self._cognitive_memory_db = Path(archive_db).with_name("cognitive_memory.sqlite3")
+        self._cognitive_memory = None
+
+    @property
+    def memory(self):
+        """The same persistent bitemporal store as the operator CLI."""
+        if self._cognitive_memory is None:
+            from .cognitive_memory import BitemporalGraphMemory
+            self._cognitive_memory = BitemporalGraphMemory(self._cognitive_memory_db)
+        return self._cognitive_memory
+
+    @property
+    def cognition(self):
+        """Advisory decision/reflection over this engine's local memory."""
+        from .cognition import CognitiveDecisionCycle
+        return CognitiveDecisionCycle(self.memory)
+
     @staticmethod
     def _bounded_integer(value: object) -> int:
         if type(value) is not int or value.bit_length() > 256:
