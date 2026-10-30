@@ -1,3 +1,5 @@
+> **Aktualizacja zakresu — desktop/mobile:** obowiązuje [LOCAL_ARCHITECTURE](LOCAL_ARCHITECTURE.md). Hosting, HSM/WORM i multi-host dotyczą opcjonalnego profilu serwerowego. Nie są warunkami działania produktu lokalnego. Instalatory odłożono do zakończenia rozbudowy. Istniejące mechanizmy podpisów i odmowy nie są wyłączane.
+
 # Roadmap — ImandraX × DGM × RSI Ω
 
 | Etap | Wymaganie | Stan i dowód |
@@ -208,3 +210,15 @@ bez sieci z przypiętym obrazem. Generator pozostaje scenariuszem, nie LLM.
 Naprawiono odnajdywanie Docker w `/usr/local/bin` i odczyt worker.py przy 0600.
 Wyniki nie zamykają bramek formalnych ani produkcyjnych.
 Instrukcja: [SIMULATION_ENGINE_v1.3](SIMULATION_ENGINE_v1.3.md).
+
+
+## Lokalna baza architektoniczna v1 — przed dalszą rozbudową
+
+Zamknięto decyzję o lokalnym desktop/mobile, wersjonowanym kontrakcie aplikacji,
+warstwach i kierunkach zależności, lifecycle, katalogach danych i zasobów,
+polityce migracji, rozszerzeniach oraz odrębnych bramkach wydania platformowego.
+Implementacja referencyjna: `local_runtime.py`, `ports.py`, oddzielona
+`evaluation_policy.py`; kontrola wszystkich modułów: `check_architecture.py`.
+Obecne manifesty APEX i ich uprawnienia zachowano. Wydania instalacyjne i
+pakiety dystrybucyjne są wstrzymane w CI. UI, most natywny, pełny eksport danych
+aplikacji i testy na urządzeniach pozostają przyszłą realizacją tej architektury.

@@ -1,3 +1,5 @@
+> **Aktualizacja zakresu — desktop/mobile:** obowiązuje [LOCAL_ARCHITECTURE](docs/LOCAL_ARCHITECTURE.md). Hosting, HSM/WORM i multi-host dotyczą opcjonalnego profilu serwerowego. Nie są warunkami działania produktu lokalnego. Instalatory odłożono do zakończenia rozbudowy. Istniejące mechanizmy podpisów i odmowy nie są wyłączane.
+
 # Roadmap — ImandraX × DGM × RSI Ω
 
 | Etap | Wymaganie | Stan i dowód |

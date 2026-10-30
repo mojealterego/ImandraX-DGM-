@@ -1,3 +1,5 @@
+> **Aktualizacja zakresu — desktop/mobile:** obowiązuje [LOCAL_ARCHITECTURE](LOCAL_ARCHITECTURE.md). Hosting, HSM/WORM i multi-host dotyczą opcjonalnego profilu serwerowego. Nie są warunkami działania produktu lokalnego. Instalatory odłożono do zakończenia rozbudowy. Istniejące mechanizmy podpisów i odmowy nie są wyłączane.
+
 > **ARCHIWALNA SPECYFIKACJA v0.1.** Aktualna implementacja i wspólny kontrakt v0.4: [UNIFIED_ENGINE_v0.4.md](UNIFIED_ENGINE_v0.4.md). Wcześniejsze stany „NOT IMPLEMENTED” mogą być nieaktualne.
 
 # IMANDRAX × DGM–RSI Ω — Unified Mathematical Discovery & Verified Evolution Engine

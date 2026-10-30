@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "layers": {
+    "domain": [
+      "__init__",
+      "gates",
+      "catalog",
+      "adaptive_evolution",
+      "reasoning_workflows",
+      "evaluation_policy",
+      "release_admission",
+      "ports"
+    ],
+    "storage": [
+      "knowledge",
+      "ledger",
+      "rsi",
+      "evolution",
+      "formal_verification",
+      "cognitive_memory",
+      "event_workflows",
+      "research_archive",
+      "msc_index"
+    ],
+    "application": [
+      "engine",
+      "unified",
+      "generator",
+      "cycle",
+      "cognition",
+      "episode_synthesis",
+      "cognitive_proactive",
+      "memory_snapshot",
+      "apex",
+      "apex_flow",
+      "apex_manifest",
+      "apex_integrations",
+      "media_audit",
+      "portfolio"
+    ],
+    "local_entry": [
+      "local_runtime"
+    ],
+    "adapter": [
+      "sandbox",
+      "sandbox_worker",
+      "research_engine",
+      "approval_api",
+      "simulation",
+      "daemon",
+      "cli",
+      "apex_cli",
+      "authority_cli",
+      "cognitive_cli",
+      "cycle_cli",
+      "rsi_cli"
+    ]
+  },
+  "allowed_dependencies": {
+    "domain": [
+      "domain"
+    ],
+    "storage": [
+      "domain",
+      "storage"
+    ],
+    "application": [
+      "domain",
+      "storage",
+      "application"
+    ],
+    "local_entry": [
+      "domain",
+      "storage",
+      "application",
+      "local_entry"
+    ],
+    "adapter": [
+      "domain",
+      "storage",
+      "application",
+      "local_entry",
+      "adapter"
+    ]
+  },
+  "forbidden_core_imports": [
+    "subprocess",
+    "socket",
+    "urllib",
+    "http",
+    "requests",
+    "httpx",
+    "importlib",
+    "ctypes",
+    "multiprocessing"
+  ],
+  "installer_builds": "DEFERRED_UNTIL_ENGINE_EXPANSION_COMPLETE"
+}

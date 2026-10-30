@@ -14,7 +14,7 @@ import re
 import sqlite3
 
 from .gates import canonical_payload
-from .sandbox import static_security_check
+from .evaluation_policy import static_security_check
 
 _SHA256 = re.compile(r'^[0-9a-f]{64}$')
 _SHA40 = re.compile(r'^[0-9a-f]{40}$')

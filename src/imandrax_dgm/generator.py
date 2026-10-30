@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 from typing import Mapping
 from .gates import Candidate, Policy, ResearchGate, canonical_payload
+from .ports import ProposalProvider
 
 
 class ProposalError(ValueError):
@@ -28,7 +29,7 @@ class GeneratedProposal:
 
 
 class ProposalGenerator:
-    def __init__(self, llm, *, policy: Policy | None = None, max_content_bytes: int = 160_000):
+    def __init__(self, llm: ProposalProvider, *, policy: Policy | None = None, max_content_bytes: int = 160_000):
         self.llm = llm
         self.policy = policy or Policy.default()
         self.max_content_bytes = max_content_bytes

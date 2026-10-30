@@ -9,12 +9,13 @@ import hashlib
 import json
 from pathlib import Path
 from .generator import ProposalGenerator, ProposalError, score_population
-from .sandbox import SandboxError, make_math_cases, static_security_check
+from .evaluation_policy import SandboxError, make_math_cases, static_security_check
 from .research_archive import ResearchArchive
+from .ports import ResearchProvider, ProposalProvider, CandidateEvaluator
 
 
 class ResearchCycle:
-    def __init__(self, research, llm, sandbox, *, max_candidates: int = 2):
+    def __init__(self, research: ResearchProvider, llm: ProposalProvider, sandbox: CandidateEvaluator, *, max_candidates: int = 2):
         if not 1 <= max_candidates <= 4:
             raise ValueError('Cycle budget must be 1..4 candidates')
         self.research = research

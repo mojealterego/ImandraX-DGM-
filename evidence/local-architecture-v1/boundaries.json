@@ -1,0 +1,7 @@
+{
+  "status": "ARCHITECTURE_CHECK_PASS",
+  "modules": 44,
+  "errors": [],
+  "scope": "STATIC_BOUNDARIES_NOT_NATIVE_PLATFORM_CERTIFICATION",
+  "installer_builds": "DEFERRED_UNTIL_ENGINE_EXPANSION_COMPLETE"
+}

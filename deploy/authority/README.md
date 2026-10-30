@@ -1,3 +1,5 @@
+> **Aktualizacja zakresu — desktop/mobile:** obowiązuje [LOCAL_ARCHITECTURE](../../docs/LOCAL_ARCHITECTURE.md). Hosting, HSM/WORM i multi-host dotyczą opcjonalnego profilu serwerowego. Nie są warunkami działania produktu lokalnego. Instalatory odłożono do zakończenia rozbudowy. Istniejące mechanizmy podpisów i odmowy nie są wyłączane.
+
 # Independent human approval authority — deployment blueprint
 
 **State:** deployable reference configuration; **not deployed** and **not a production attestation or release authority**. This service verifies independent Ed25519 signatures; it does **not** sign on the user's behalf, apply code, merge GitHub commits or run model proposals.

@@ -3,6 +3,21 @@
 **Wersja kodu:** `1.3.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-30
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
 
+## Obowiązujący cel: lokalny desktop i mobile
+
+Silnik działa na urządzeniu użytkownika. **Trwały hosting i konto chmurowe nie
+są wymaganiami produktu.** Windows, macOS, Linux, Android i iOS korzystają ze
+wspólnego rdzenia i kontraktu lokalnego. Instalatory oraz binarki są wstrzymane
+do zakończenia rozbudowy; job CI publikujący wheel/sdist został wyłączony.
+
+Obowiązująca [architektura lokalna](docs/LOCAL_ARCHITECTURE.md) ustala granice
+modułów, API v1, cykl życia, dane, różnice platform i warunki rozszerzeń.
+`LocalRuntime` jest referencyjnym wejściem aplikacji bez Git, Docker i sieci.
+`python scripts/check_architecture.py` sprawdza granice w CI. Powłoka UI i most
+natywny są zaplanowane; testy kontraktów nie oznaczają gotowych aplikacji mobilnych.
+Historyczne sekcje o serwerze, HSM/WORM i wdrożeniu zewnętrznym dotyczą wyłącznie
+opcjonalnego profilu serwerowego, a nie zamknięcia architektury lokalnej.
+
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
 
 Dostarczono ApexRuntime, ApexRegistry, ApexAudit, ApexFlow i wersjonowane kontrakty silników. To **jeden produkt** z odseparowanymi domenami zaufania: odczyt ImandraX, historia DGM oraz niewiązany domyślnie port RSI. Nowe silniki są wyłącznie opisem danych, dopóki zatwierdzony kod nie powiąże ich portów. Zmiana manifestu wymaga podpisu Ed25519 właściciela i stanu PAUSED. Przy pierwszym uruchomieniu podaj wyłącznie klucz PUBLICZNY przez `--owner-public-key-file`; inaczej późniejsze podpisane migracje są zablokowane. System nie ma w tej warstwie samodzielnego merge, self-approval ani deploy.

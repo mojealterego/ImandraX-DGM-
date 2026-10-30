@@ -1,3 +1,5 @@
+> **Aktualizacja zakresu — desktop/mobile:** obowiązuje [LOCAL_ARCHITECTURE](LOCAL_ARCHITECTURE.md). Hosting, HSM/WORM i multi-host dotyczą opcjonalnego profilu serwerowego. Nie są warunkami działania produktu lokalnego. Instalatory odłożono do zakończenia rozbudowy. Istniejące mechanizmy podpisów i odmowy nie są wyłączane.
+
 # OMEGA v1.2 — independent trust gates and Red Hat Sandbox staging
 
 **Status:** code/specification and GitHub CI only, NOT deployed. No owner private key has entered this repository, Docker image, CI or Red Hat cluster. All source-controlled JSON and YAML are templates, not effective policy.
