@@ -87,7 +87,7 @@ class DockerSandbox:
         self.worker = Path(worker).resolve()
         self.run = run
 
-    def command(self, input_dir: Path, name: str) -> list[str]:
+    def command(self, input_dir: Path, name: str, *, worker: Path | None = None) -> list[str]:
         if not re.fullmatch(r'[a-z0-9-]{1,63}', name):
             raise SandboxError('Invalid container name')
         return ['docker','run','--rm','--name',name,
@@ -96,7 +96,7 @@ class DockerSandbox:
                 '--memory','512m','--cpus','1','--user','65534:65534',
                 '--tmpfs','/tmp:rw,noexec,nosuid,size=16m',
                 '--mount',f'type=bind,src={Path(input_dir).resolve()},dst=/input,readonly',
-                '--mount',f'type=bind,src={self.worker},dst=/trusted/worker.py,readonly',
+                '--mount',f'type=bind,src={worker or self.worker},dst=/trusted/worker.py,readonly',
                 self.image,'python','-I','-B','/trusted/worker.py','/input/solver.py','/input/cases.json']
 
     def evaluate(self, content: str, cases: list[dict], *, timeout: int = 60) -> dict:
@@ -111,17 +111,22 @@ class DockerSandbox:
             directory = Path(temp)
             (directory/'solver.py').write_text(content, encoding='utf-8')
             (directory/'cases.json').write_text(json.dumps(cases, ensure_ascii=False), encoding='utf-8')
+            # A checkout may use mode 0600. Stage a readable, immutable mount
+            # without changing the original trusted worker's permissions.
+            staged_worker = directory/'worker.py'
+            staged_worker.write_bytes(self.worker.read_bytes())
+            staged_worker.chmod(0o644)
             directory.chmod(0o755)
             (directory/'solver.py').chmod(0o644)
             (directory/'cases.json').chmod(0o644)
-            cmd = self.command(directory, name)
+            cmd = self.command(directory, name, worker=staged_worker)
             try:
                 proc = self.run(cmd, timeout=timeout, text=True, capture_output=True,
-                                shell=False, env={'PATH':'/usr/bin:/bin'})
+                                shell=False, env={'PATH':'/usr/local/bin:/usr/bin:/bin'})
             except subprocess.TimeoutExpired as exc:
                 try:
                     self.run(['docker','rm','-f',name],timeout=10,text=True,capture_output=True,
-                             shell=False,env={'PATH':'/usr/bin:/bin'})
+                             shell=False,env={'PATH':'/usr/local/bin:/usr/bin:/bin'})
                 except (OSError, subprocess.SubprocessError):
                     pass
                 raise SandboxError('Candidate timed out and container cleanup requested') from exc

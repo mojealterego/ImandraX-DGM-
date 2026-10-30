@@ -31,13 +31,18 @@ def test_sandbox_runs_only_via_docker_with_bounded_output(tmp_path):
     calls=[]
     def fake_run(cmd, **kw):
         calls.append((cmd,kw))
+        mount = next(arg for arg in cmd if 'dst=/trusted/worker.py' in arg)
+        staged = Path(mount.split('src=')[1].split(',')[0])
+        assert staged.read_bytes() == worker.read_bytes()
+        assert staged.stat().st_mode & 0o777 == 0o644
+        assert staged != worker
         return subprocess.CompletedProcess(cmd,0,stdout=json.dumps({'passed':1,'total':1,'duration_ms':1}),stderr='')
     sandbox=DockerSandbox(image='python:3.12-slim',worker=worker,allow_unpinned_for_ci=True,run=fake_run)
     result=sandbox.evaluate('def solve(task): return 1', [{'operation':'gcd','a':2,'b':4,'expected':2}],timeout=30)
     assert result['passed']==1
     assert calls[0][1]['timeout']==30
     assert calls[0][1]['shell'] is False
-    assert calls[0][1]['env']=={'PATH':'/usr/bin:/bin'}
+    assert calls[0][1]['env']=={'PATH':'/usr/local/bin:/usr/bin:/bin'}
     assert '--network' in calls[0][0]
 
 

@@ -198,3 +198,13 @@ Korekta 2026-10-30: usunięto niezamówiony wymóg niezależnego recenzenta PR, 
 **v1.2 in-repository CI evidence**: [run 40989888953](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953), head `c5bb62b5425d1074b9d44602d450848d7878aca0`: 209 Python tests PASS, 7/7 CI jobs PASS; 8 tests of release signature gate and OpenShift policy pass. Prowadzi to do CI-VERIFIED TEMPLATE + OFFLINE GATE ONLY, **not** Red Hat deployment, active Ruleset, KMS/WORM or genuine multi-host disaster recovery.
 
 | 1.26 | Reuse old OCAF Red Hat OpenShift connection for isolated ImandraX staging; source-pinned BuildConfig | BUILD SPEC PREPARED; LIVE EXECUTION PENDING; NO SECRET COPIES |
+
+## v1.3 — odtwarzalna symulacja całego silnika
+
+Dodano `imandrax-dgm simulate`, automatyczny indeks MSC, dwa cykle z trwałą
+ genealogią, rzeczywistą ocenę arytmetyki, negatywnego kandydata i raport SHA-256.
+Dostępne są jawne tryby: zamknięty zestaw funkcji referencyjnych oraz Docker
+bez sieci z przypiętym obrazem. Generator pozostaje scenariuszem, nie LLM.
+Naprawiono odnajdywanie Docker w `/usr/local/bin` i odczyt worker.py przy 0600.
+Wyniki nie zamykają bramek formalnych ani produkcyjnych.
+Instrukcja: [SIMULATION_ENGINE_v1.3](SIMULATION_ENGINE_v1.3.md).

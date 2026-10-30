@@ -1,6 +1,6 @@
 # ImandraX × DGM × RSI Ω — jeden silnik matematyczno-ewolucyjny
 
-**Wersja kodu:** `1.2.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
+**Wersja kodu:** `1.3.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-30
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
 
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
@@ -163,3 +163,22 @@ CI wykonuje teraz również budowę **wheel i sdist**, weryfikuje metadane Name/
 Nowe kontrakty podpisów niezależnych ról, testy odmowy przy brakującym dowodzie, manifest OpenShift **staging only** dla Red Hat Developer Sandbox oraz propozycja GitHub Ruleset `main` **bez niezależnej recenzji PR i bez innych gałęzi**. **Żadna z konfiguracji nie została aktywowana zewnętrznie**. Brak faktycznych attestation KMS/HSM/WORM, hostów failover, uprawnień tworzenia Ruleset oraz zalogowanego konta OpenShift. [Stan i procedura](docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md).
 
 **Korekta właścicielska (2026-10-30):** wycofano niezamówiony wymóg recenzenta i PR z szablonu Ruleset. Możliwa jest bezpośrednia praca na `main`; nie jest to tożsame z produkcyjną autoryzacją RSI. Ochrona przed usunięciem i force push wymaga aktywacji przez administratora GitHub.
+
+
+## Uruchamialny silnik symulacyjny v1.3
+
+Jedno polecenie buduje indeks 6006 kodów MSC i wykonuje dwa cykle istniejącego
+`IntegratedEngine`, z błędnymi i poprawnymi kandydatami, trwałą genealogią,
+kontrolą artefaktów i rzeczywistą arytmetyką:
+
+```bash
+python -m pip install -e '.[test]'
+imandrax-dgm --root . simulate --output /tmp/imandrax-simulation
+```
+
+Katalog wynikowy musi być nowy i znajdować się poza repozytorium. `report.json`
+zawiera wyniki i ograniczenia, `SHA256SUMS.json` wiąże artefakty i bazy danych.
+Tryb domyślny działa bez LLM, sieci i Dockera: wykonuje wyłącznie wbudowane funkcje
+referencyjne. Nie interpretuje dowolnego kodu kandydata. Tryb `--backend docker
+--image python@sha256:...` wykonuje źródła kandydatów w kontenerach bez sieci.
+Szczegóły: [uruchomienie i interpretacja dowodów](docs/SIMULATION_ENGINE_v1.3.md).

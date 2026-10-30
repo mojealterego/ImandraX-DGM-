@@ -28,6 +28,11 @@ def main(argv=None):
     p.add_argument('--root',type=Path,default=ROOT)
     sub = p.add_subparsers(dest='command',required=True)
     sub.add_parser('inventory')
+    simulation = sub.add_parser('simulate', help='Reproducible empirical engine simulation')
+    simulation.add_argument('--output', type=Path, required=True)
+    simulation.add_argument('--generations', type=int, default=2)
+    simulation.add_argument('--backend', choices=('reference', 'docker'), default='reference')
+    simulation.add_argument('--image', help='Docker image pinned by sha256 digest')
     portfolio = sub.add_parser('portfolio', help='Read-only portfolio evidence and integration gates')
     portfolio.add_argument('--limit', type=int, default=20)
     portfolio.add_argument('--evidence', type=Path)
@@ -67,7 +72,17 @@ def main(argv=None):
     evo.add_argument('--max-candidates',type=int,default=2)
     args = p.parse_args(argv)
     root = args.root.resolve()
-    if args.command == 'inventory':
+    if args.command == 'simulate':
+        from .simulation import run_simulation
+        from .sandbox import SandboxError
+        try:
+            out = run_simulation(root=root, output=args.output, generations=args.generations,
+                                 backend=args.backend, image=args.image)
+        except (ValueError, OSError, SandboxError) as exc:
+            p.error(f'Simulation rejected: {exc}')
+        print(json.dumps(out, ensure_ascii=False, indent=2))
+        return 0 if out['status'] == 'SIMULATION_PASS' else 1
+    elif args.command == 'inventory':
         c = RepoCatalog.from_tsv(root/'data/repositories_public_701.tsv')
         out = {'total':len(c.repos),'priority':dict(Counter(r['priority'] for r in c.triage())),
                'evidence_tier':dict(Counter(r['evidence_tier'] for r in c.triage()))}
