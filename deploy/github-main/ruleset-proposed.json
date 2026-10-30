@@ -1,5 +1,5 @@
 {
-  "name": "OMEGA strict main review (owner action required)",
+  "name": "OMEGA main only - prevent deletion and force push (owner action required)",
   "target": "branch",
   "enforcement": "active",
   "bypass_actors": [],
@@ -17,45 +17,6 @@
     },
     {
       "type": "non_fast_forward"
-    },
-    {
-      "type": "required_status_checks",
-      "parameters": {
-        "strict_required_status_checks_policy": true,
-        "required_status_checks": [
-          {
-            "context": "unit-and-negative"
-          },
-          {
-            "context": "lean-proof-kernel"
-          },
-          {
-            "context": "isolated-docker-e2e"
-          },
-          {
-            "context": "apex-e2e"
-          },
-          {
-            "context": "mujoco-physics-e2e"
-          },
-          {
-            "context": "wheel-and-artifact-integrity"
-          },
-          {
-            "context": "independent-trust-negative-gate"
-          }
-        ]
-      }
-    },
-    {
-      "type": "pull_request",
-      "parameters": {
-        "dismiss_stale_reviews_on_push": true,
-        "require_code_owner_review": false,
-        "require_last_push_approval": true,
-        "required_approving_review_count": 1,
-        "required_review_thread_resolution": true
-      }
     }
   ]
 }

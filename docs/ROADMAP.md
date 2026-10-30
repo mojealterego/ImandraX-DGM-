@@ -16,10 +16,10 @@
 | 0.12 | Lean: izolowane toolchains 4.34/4.35/4.36, build + kernel check | NOT RUN |
 | 0.13 | MuJoCo / Physics-IQ E2E, wyniki transferowe, statystyka RSI | NOT RUN |
 | 0.14 | Security negative E2E, fuzz, SBOM, licencje 704 repozytoriów | NOT RUN |
-| 0.15 | PR approval i egzekwowanie ruleset w GitHub | NEEDS REPOSITORY OWNER CONFIGURATION |
+| 0.15 | Ochrona `main` przed usunięciem i force push, bez wymogu PR | NEEDS REPOSITORY OWNER CONFIGURATION |
 | 0.16 | Produkcyjne release/canary/rollback wyłącznie za zgodą użytkownika | NOT IMPLEMENTED |
 
-**Zasada:** nie oznaczać żadnej bramki produkcyjnej jako PASS na podstawie lokalnego pytest. Oryginalne ImandraX G01–G20 i DGM R0–R14 pozostają osobnymi wymaganiami. Dalsze zmiany kodu: PR → przegląd → podpis użytkownika → testy → merge wykonany przez użytkownika.
+**Zasada:** nie oznaczać żadnej bramki produkcyjnej jako PASS na podstawie lokalnego pytest. Oryginalne ImandraX G01–G20 i DGM R0–R14 pozostają osobnymi wymaganiami. Zmiany polecone przez właściciela: wyłącznie `main`, bez przymusowego PR i bez dodatkowego recenzenta. RSI nie ma prawa do samodzielnego zastosowania kodu lub zatwierdzenia wydania.
 
 ## Postęp v0.3 — tylko stan potwierdzony kodem i lokalnymi testami
 
@@ -168,7 +168,7 @@ Nie zmieniono podpisywanego zestawu manifestów APEX. `readme/LICENSE` to nie pe
 | 1.13 | Anti-rollback z zewnętrznym high-watermark | IMPLEMENTED; CI PASS 196/196 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743); EXTERNAL TRUST ROOT REQUIRED |
 | 1.14 | Odzyskiwanie podpisanej kopii bez nadpisywania live state | IMPLEMENTED; CI PASS 196/196 tests, 5/5 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40987408743) |
 | 1.15 | Zewnętrzny WORM/KMS/HSM/zaszyfrowane backupy/testy multi-host | NOT DEPLOYED / PRODUCTION BLOCKER |
-| 1.16 | Ruleset GitHub main i niezależne zatwierdzanie publikacji | NOT CONFIGURED; repository rulesets API returned zero on 2026-10-30 |
+| 1.16 | Ruleset GitHub main; właścicielski podpis wydania RSI (osobna bramka) | NOT CONFIGURED; repository rulesets API returned zero on 2026-10-30 |
 
 Podpis snapshotu nie jest podpisem aprobaty kodu i nie może zastąpić podpisanego zatwierdzenia RSI.
 
@@ -187,12 +187,12 @@ Zapis `build_evidence.json` ma `release_authorized=false`; **nie zastępuje** ni
 | Etap | Element | Zweryfikowany status |
 |---|---|---|
 | 1.20 | Red Hat OpenShift Sandbox, staging-only Deployment, Service, NetworkPolicy, PVC; bez sekretnych danych | SPECIFIED + REPO IMPLEMENTED; CI PASS 209/209, 7/7 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953); NOT EXTERNALLY DEPLOYED; NOT DEPLOYED |
-| 1.21 | GitHub main Ruleset template, wymagane kontrole i niezależna recenzja | PROPOSED ONLY; LIVE API: [] (UNPROTECTED); OWNER ACTION REQUIRED |
+| 1.21 | GitHub main Ruleset tylko non-fast-forward i deletion; bez PR/recenzenta | PROPOSED ONLY; LIVE API: [] (UNPROTECTED); OWNER ACTION REQUIRED |
 | 1.22 | Seven independent Ed25519 release gate receipts bound to commit & artifact digest | IMPLEMENTED; CI PASS 209/209, 7/7 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953); NOT EXTERNALLY DEPLOYED; NO EXTERNAL SIGNERS |
 | 1.23 | Signed HSM/KMS, WORM and independent authority host | NOT DEPLOYED; NO EXTERNAL ENDPOINT / KEY / STORAGE EVIDENCE |
 | 1.24 | Physical multi-host failure injection and recovery with trusted independent logs | NOT EXECUTED; sandbox shared cluster NOT SUFFICIENT |
 | 1.25 | Owner-signed production release, independently stored trust anchors and GitHub enforcement | BLOCKED; NO SELF APPROVAL |
 
-Note: strict independent PR review contradicts absolute no-branches workflow; enabling it requires explicit owner decision to allow temporary review branches. Do not claim the JSON file equals GitHub enforcement. Details in `docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md`.
+Korekta 2026-10-30: usunięto niezamówiony wymóg niezależnego recenzenta PR, pull_request i required_status_checks z proponowanego ruleset. Obowiązuje `main` bez dodatkowych gałęzi. CI post-push ≠ skuteczny gate pre-push. Plik JSON nadal nie oznacza aktywnej ochrony GitHub. Details in `docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md`.
 
 **v1.2 in-repository CI evidence**: [run 40989888953](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953), head `c5bb62b5425d1074b9d44602d450848d7878aca0`: 209 Python tests PASS, 7/7 CI jobs PASS; 8 tests of release signature gate and OpenShift policy pass. Prowadzi to do CI-VERIFIED TEMPLATE + OFFLINE GATE ONLY, **not** Red Hat deployment, active Ruleset, KMS/WORM or genuine multi-host disaster recovery.

@@ -160,4 +160,6 @@ CI wykonuje teraz również budowę **wheel i sdist**, weryfikuje metadane Name/
 
 ## OMEGA Independent Production Gates v1.2
 
-Nowe kontrakty podpisów niezależnych ról, testy odmowy przy brakującym dowodzie, manifest OpenShift **staging only** dla Red Hat Developer Sandbox oraz propozycja GitHub Ruleset `main`. **Żadna z konfiguracji nie została aktywowana zewnętrznie**. Brak faktycznych attestation KMS/HSM/WORM, hostów failover, uprawnień tworzenia Ruleset oraz zalogowanego konta OpenShift. [Stan i procedura](docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md).
+Nowe kontrakty podpisów niezależnych ról, testy odmowy przy brakującym dowodzie, manifest OpenShift **staging only** dla Red Hat Developer Sandbox oraz propozycja GitHub Ruleset `main` **bez niezależnej recenzji PR i bez innych gałęzi**. **Żadna z konfiguracji nie została aktywowana zewnętrznie**. Brak faktycznych attestation KMS/HSM/WORM, hostów failover, uprawnień tworzenia Ruleset oraz zalogowanego konta OpenShift. [Stan i procedura](docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md).
+
+**Korekta właścicielska (2026-10-30):** wycofano niezamówiony wymóg recenzenta i PR z szablonu Ruleset. Możliwa jest bezpośrednia praca na `main`; nie jest to tożsame z produkcyjną autoryzacją RSI. Ochrona przed usunięciem i force push wymaga aktywacji przez administratora GitHub.

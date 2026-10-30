@@ -29,15 +29,11 @@ def test_openshift_is_staging_only_and_private():
     assert policy["spec"]["egress"]==[]
     assert "Egress" in policy["spec"]["policyTypes"]
 
-def test_ruleset_is_proposed_not_live_evidence():
+def test_ruleset_proposal_respects_owner_main_only_without_pr():
     payload=json.loads((ROOT/"deploy/github-main/ruleset-proposed.json").read_text())
     assert payload["enforcement"]=="active"
-    assert "refs/heads/main" in payload["conditions"]["ref_name"]["include"]
-    types={r["type"] for r in payload["rules"]}
-    assert {"pull_request","required_status_checks","non_fast_forward","deletion"}<=types
-    checks=next(x["parameters"]["required_status_checks"] for x in payload["rules"]
-                if x["type"]=="required_status_checks")
-    workflow=(ROOT/".github/workflows/python-ci.yml").read_text()
-    for item in checks:
-        assert item["context"] in workflow
-    assert len(checks)>=6
+    assert payload["conditions"]["ref_name"]["include"]==["refs/heads/main"]
+    assert payload["bypass_actors"]==[]
+    assert {r["type"] for r in payload["rules"]}=={"deletion","non_fast_forward"}
+    assert all(x["type"] not in {"pull_request","required_status_checks"} for x in payload["rules"])
+    assert not list(ROOT.glob(".github/workflows/*reviewer*"))

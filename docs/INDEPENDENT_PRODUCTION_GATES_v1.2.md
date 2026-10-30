@@ -23,18 +23,18 @@ The source is deploy/openshift-sandbox/staging.yaml. It describes one isolated, 
 Red Hat official sandbox documentation: https://developers.redhat.com/developer-sandbox/FAQ
 and https://developers.redhat.com/developer-sandbox
 
-## GitHub main ruleset
+## GitHub main ruleset — corrected to the owner-approved main-only workflow
 
-GitHub API inspection at 2026-10-30: rulesets \`[]\`. The installed GitHub connector cannot create an administrative ruleset, even though it can write source code.
+The earlier proposal mistakenly imposed an independent PR reviewer and required a pull request. **It was not an owner requirement and has been withdrawn.** No second reviewer, temporary branches or PRs are required for owner-requested direct updates to main.
 
-**Template:** deploy/github-main/ruleset-proposed.json, ready for review by the owner. It calls for:
-- no deletion or force push to main;
-- exact required CI checks for all six jobs;
-- one independent approving PR review and approval of the final commit.
+GitHub API inspection at 2026-10-30: rulesets [] (none active). The installed GitHub source connector cannot administer rulesets. The source file deploy/github-main/ruleset-proposed.json now contains **only** deletion protection and non-fast-forward protection. This is an owner-applied administrative proposal, not enforced merely because it is committed.
 
-**Conflict with existing branch policy:** a GitHub PR-based approval ruleset cannot coexist with a strict *no other branches* policy for the same repository. To activate this strict ruleset, the owner must authorize a temporary review branch for changes or change the chosen workflow; otherwise GitHub will reject direct-to-main commits. The template is **not applied**. With an unconfigured ruleset, release admission remains blocked. A self-review is not an independent reviewer approval.
+There is deliberately no pull_request or required_status_checks rule in this proposal. Required status checks on main can block direct pushes until checks already exist for the incoming commit; in a strict no-other-branches workflow, this would create a deployment deadlock. CI continues to run and provide post-push verifiable evidence, but **post-push CI is not a pre-push gate**. The owner can separately decide on a compatible pre-push signed-commit or release policy; do not silently enable it.
 
-Owner action: open GitHub repository **Settings → Rules → Rulesets**, configure the proposed controls subject to supported plan and GitHub validation, and verify API \`GET /repos/mojealterego/ImandraX-DGM-/rulesets\` reports \`enforcement=active\`. Never infer policy enforcement from a committed template.
+Human approval remains required for agent-generated release/apply/migration and does not require independent PR review or another human reviewer. Evidence runner and external infrastructure trust domains remain independent so that the agent cannot approve its own verification claims.
+
+Actual enforcement requires the repository owner to apply the two rules through Settings → Rules → Rulesets and verify the GitHub API; this connection cannot perform administrative ruleset writes.
+
 
 ## Independent admission from signatures
 
