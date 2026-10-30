@@ -158,3 +158,16 @@ Nie zmieniono `core_manifests` i jego digestu: istniejąca tożsamość APEX poz
 Nie zmieniono podpisywanego zestawu manifestów APEX. `readme/LICENSE` to nie pełna zgodność licencji, szczególnie dla BSL-1.1, AGPL-3.0 i LTX. Szczegóły: `docs/COGNITIVE_WORKFLOWS_v1.0.md`.
 
 **v1.0 CI evidence:** `203c17d17d7451d5cdbce6b38ef31d42451a5b06` / [run 40983359574](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40983359574): 188 Python tests PASS, 5/5 CI jobs PASS. Nie potwierdza produkcyjnych bramek 1.09–1.10.
+
+## Domykanie krytycznych bramek v1.1
+
+| Etap | Rezultat | Stan |
+|---|---|---|
+| 1.11 | Online SQLite backup pamięci i manifest SHA-256 | IMPLEMENTED; CI PENDING |
+| 1.12 | Weryfikacja podpisu Ed25519 właściciela i powiązanie z tożsamością | IMPLEMENTED; CI PENDING; OFFLINE SIGNER REQUIRED |
+| 1.13 | Anti-rollback z zewnętrznym high-watermark | IMPLEMENTED; CI PENDING; EXTERNAL TRUST ROOT REQUIRED |
+| 1.14 | Odzyskiwanie podpisanej kopii bez nadpisywania live state | IMPLEMENTED; CI PENDING |
+| 1.15 | Zewnętrzny WORM/KMS/HSM/zaszyfrowane backupy/testy multi-host | NOT DEPLOYED / PRODUCTION BLOCKER |
+| 1.16 | Ruleset GitHub main i niezależne zatwierdzanie publikacji | NOT CONFIGURED; repository rulesets API returned zero on 2026-10-30 |
+
+Podpis snapshotu nie jest podpisem aprobaty kodu i nie może zastąpić podpisanego zatwierdzenia RSI.

@@ -1,6 +1,6 @@
 # ImandraX × DGM × RSI Ω — jeden silnik matematyczno-ewolucyjny
 
-**Wersja kodu:** `1.0.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
+**Wersja kodu:** `1.1.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
 
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
@@ -149,3 +149,7 @@ Dodano do **tego samego pakietu** bitemporalny magazyn faktów, pamięć epizody
 Rozszerzono ten sam `IntegratedEngine` o `reasoning` i `event_queue`. Dodano Tree-of-Thoughts (przeszukiwanie ograniczone), jawny weryfikator multi-hop zapobiegający nieuzasadnionym mostom, ReWOO planner oddzielający plan od obserwacji, ontologiczny rejestr narzędzi tylko READ, asynchroniczny wykonawca jawnie przypiętych handlerów, trwały event outbox z lease/retry, krytykę/refine, deterministyczną syntezę epizodów, kaskadowy planner modeli oraz lokalną weryfikację hipotez. **Wyniki nie stanowią dowodów formalnych, a runtime nie wykonuje automatycznego merge/deploy.**
 
 Audyt repozytoriów gier i mediów: `imandrax-dgm --root . media-audit --limit 120`; operator pamięci: `imandrax-dgm --root . cognitive --state-dir /tmp/omega --op event-process --payload-file process.json`. Kod nowych silników nie został automatycznie skopiowany. [Dokumentacja kontraktów](docs/COGNITIVE_WORKFLOWS_v1.0.md).
+
+## OMEGA Memory Recovery Gate v1.1
+
+Zintegrowano spójne kopie SQLite pamięci bitemporalnej, manifest z SHA-256 i logicznym checkpointem, weryfikację podpisu Ed25519 **kluczem publicznym właściciela**, ochronę przed rollbackiem z zewnętrznie przypiętą sekwencją oraz odtwarzanie wyłącznie do nowego pliku. Prywatny klucz służy do podpisu **poza** runtime. Mechanizm nie stanowi WORM/HSM ani kompletnej infrastruktury HA. [Runbook](docs/MEMORY_RECOVERY_GATE_v1.1.md).

@@ -53,11 +53,53 @@ def execute(op: str, payload: dict[str, Any], *,
         "tot", "multihop", "rewoo-validate", "critique", "episodes", "cascade",
         "event-enqueue", "event-claim", "event-status", "event-ack",
         "event-fail", "event-process",
+        "snapshot-export", "snapshot-verify", "snapshot-restore",
     }
     if op not in allowed:
         raise ValueError("UNKNOWN_COGNITIVE_OPERATION")
     memory = BitemporalGraphMemory(state_dir / "cognitive_memory.sqlite3")
     cycle = CognitiveDecisionCycle(memory)
+    if op.startswith("snapshot-"):
+        from .memory_snapshot import (
+            export_snapshot, verify_snapshot, restore_snapshot,
+        )
+        def safe(path: str) -> Path:
+            if not isinstance(path, str) or not path:
+                raise ValueError("INVALID_SNAPSHOT_PATH")
+            value = Path(path)
+            if not value.is_absolute() or value.resolve().is_relative_to(root):
+                raise ValueError("SNAPSHOT_PATH_MUST_BE_ABSOLUTE_OUTSIDE_REPO")
+            return value
+        if op == "snapshot-export":
+            if set(payload) != {"snapshot", "manifest", "identity_id"}:
+                raise ValueError("INVALID_SNAPSHOT_EXPORT")
+            output = export_snapshot(
+                memory, snapshot=safe(payload["snapshot"]),
+                manifest=safe(payload["manifest"]),
+                identity_id=payload["identity_id"])
+            return {"status": "UNSIGNED_BACKUP_REQUIRES_OFFLINE_OWNER_SIGNATURE",
+                    "manifest": output}
+        if op in ("snapshot-verify", "snapshot-restore"):
+            fields = {"snapshot", "manifest", "signature_hex",
+                      "owner_public_key_hex", "expected_identity_id",
+                      "min_system_seq"}
+            if set(payload) != (fields | {"destination"} if op == "snapshot-restore" else fields):
+                raise ValueError("INVALID_SNAPSHOT_VERIFICATION")
+            try:
+                key = bytes.fromhex(payload["owner_public_key_hex"])
+            except (ValueError, TypeError) as exc:
+                raise ValueError("INVALID_OWNER_PUBLIC_KEY") from exc
+            opts = {
+                "snapshot": safe(payload["snapshot"]),
+                "manifest": safe(payload["manifest"]),
+                "signature_hex": payload["signature_hex"],
+                "owner_public_key": key,
+                "expected_identity_id": payload["expected_identity_id"],
+                "min_system_seq": payload["min_system_seq"],
+            }
+            if op == "snapshot-verify":
+                return verify_snapshot(**opts)
+            return restore_snapshot(**opts, destination=safe(payload["destination"]))
     if op == "remember":
         return memory.put(**payload)
     if op == "recall":
