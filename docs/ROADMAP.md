@@ -122,3 +122,19 @@ Lokalny ApexAudit z łańcuchem hash nie jest WORM. ApexRuntime nie może autory
 | 0.83 | Pełny audyt kodu, SBOM, licencje zależności, reprodukowalne testy, podpisane epoki | NOT IMPLEMENTED / BLOCKED BY 0.76–0.79 |
 
 Zapis evidence nie przyznaje uprawnień do wykonania kodu, montażu portów ani zmian generowanych przez RSI. Dokumentacja: `docs/PORTFOLIO_DUE_DILIGENCE_v0.8.md`.
+
+## Etap 0.90–0.98 — OMEGA Cognitive Stack v0.9
+
+| Etap | Zakres | Stan |
+|---|---|---|
+| 0.90 | Bitemporal store, append-only history, as-of time, optimistic concurrency | IMPLEMENTED / CI PENDING |
+| 0.91 | Bitemporal graph, scoped edges, episodic/semantic/procedural/working/general tags | IMPLEMENTED / CI PENDING; AUTHN/RBAC NOT IMPLEMENTED |
+| 0.92 | Point-in-time clone and local integrity verification | IMPLEMENTED / CI PENDING; NOT EXTERNAL BACKUP |
+| 0.93 | CoALA cognitive cycle, correction/reflexion, deterministic summary | IMPLEMENTED / CI PENDING; NO LLM INFERENCE |
+| 0.94 | Graph of Thoughts DAG and offline R2-inspired bounded router | IMPLEMENTED / CI PENDING; NO RL TRAINING |
+| 0.95 | Digital genotype, bounded mutation/fixed fitness | IMPLEMENTED / CI PENDING; NO CODE APPLICATION |
+| 0.96 | Source registration of awesome-jepa and R2-Reasoner | READ-ONLY REFERENCES; NOT MODEL INTEGRATION |
+| 0.97 | JEPA inference, holographic memory, Shimi Index, vector GraphRAG | NOT IMPLEMENTED / SPECIFICATION AND MODELS REQUIRED |
+| 0.98 | Signed APEX capability-epoch migration, production authority, multi-tenant isolation | NOT IMPLEMENTED / OWNER-SIGNATURE AND INFRASTRUCTURE REQUIRED |
+
+Nie zmieniono `core_manifests` i jego digestu: istniejąca tożsamość APEX pozostaje nienaruszona. Pełne szczegóły `docs/COGNITIVE_STACK_v0.9.md`.

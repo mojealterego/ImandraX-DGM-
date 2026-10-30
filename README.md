@@ -1,6 +1,6 @@
 # ImandraX × DGM × RSI Ω — jeden silnik matematyczno-ewolucyjny
 
-**Wersja kodu:** `0.8.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
+**Wersja kodu:** `0.9.0` • **Gałąź robocza i docelowa:** `main` • **Data integracji:** 2026-10-29  
 **Stan:** `INTEGRATED_RESEARCH_PROTOTYPE_WITH_PERSISTENT_RESEARCH_GENEALOGY`; nie jest produkcyjnym proverem, autonomiczną AGI ani wdrożonym samodoskonalącym się serwerem.
 
 ## OMEGA Unified APEX v0.7 — warstwa ciągłości i integracji
@@ -139,3 +139,7 @@ Pełna formalizacja **całej matematyki** nie jest zamkniętym zadaniem możliwy
 ## Portfolio due diligence v0.8 — bez montowania kolejnych silników
 
 Dodano `PortfolioAudit` i `imandrax-dgm --root . portfolio --limit 20` do tego samego produktu. Odczytano 18 plików README i 15 plików licencyjnych z katalogu 701 publicznych repozytoriów. Każda integracja pozostaje `NOT_INTEGRATED`; wstępny marker licencji nie jest audytem zgodności. Szczegóły: [Portfolio due diligence](docs/PORTFOLIO_DUE_DILIGENCE_v0.8.md). RSI nadal nie ma prawa do samodzielnego merge, deploy ani podpisywania epok.
+
+## OMEGA Cognitive Stack v0.9 — pamięć i badawcza kognicja
+
+Dodano do **tego samego pakietu** bitemporalny magazyn faktów, pamięć epizodyczną/semantyczną/proceduralną, graf relacji, historyczne korekty, odtwarzanie logicznej kopii w punkcie czasu, refleksję, DAG myśli, badawczy genotyp/fitness i planowanie trasy modeli bez uruchamiania zewnętrznych API. Rejestr badań rozszerzono o [awesome-jepa](https://github.com/mojealterego/awesome-jepa) i [R2-Reasoner](https://github.com/tsinghua-fib-lab/R2-Reasoner), **bez importu ich niezweryfikowanego kodu ani wag**. Wszystko pozostaje bez autonomicznego zatwierdzania, merge czy deploymentu. [Szczegóły i ograniczenia](docs/COGNITIVE_STACK_v0.9.md).

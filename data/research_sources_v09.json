@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "recorded_date": "2026-10-30",
+  "items": [
+    {
+      "repo": "mojealterego/awesome-jepa",
+      "commit": "2a63bcf635f67d67bcf471a4bf08160e6eff2b26",
+      "readme": "readme.md",
+      "readme_blob": "33c8533e44ca85791fa83b41589c044fa5e3e51c",
+      "license": "CC-BY-4.0",
+      "license_blob": "0e1a3067921468972557f95a59112b2077224587",
+      "purpose": "JEPA research bibliography and world-model architecture",
+      "integration": "READ_ONLY_REFERENCES_NOT_MODEL_INFERENCE"
+    },
+    {
+      "repo": "tsinghua-fib-lab/R2-Reasoner",
+      "commit": "96d3fbbd2b6499e67e2eb14f1607a2e5aaa8a0bd",
+      "readme": "README.md",
+      "readme_blob": "1031bd6e0264979035f47d1f15fe4369834adca8",
+      "license": "MIT",
+      "license_blob": "4971281abb9e9568103c69866bb1f05fabad3f6a",
+      "purpose": "Fine-grained decomposer/router research, no pretrained checkpoint integrated",
+      "integration": "OFFLINE_ROUTER_INDEPENDENT_IMPLEMENTATION"
+    }
+  ]
+}
