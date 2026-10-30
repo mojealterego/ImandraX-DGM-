@@ -186,11 +186,13 @@ Zapis `build_evidence.json` ma `release_authorized=false`; **nie zastępuje** ni
 
 | Etap | Element | Zweryfikowany status |
 |---|---|---|
-| 1.20 | Red Hat OpenShift Sandbox, staging-only Deployment, Service, NetworkPolicy, PVC; bez sekretnych danych | SPECIFIED + REPO IMPLEMENTED; CI PENDING; NOT DEPLOYED |
+| 1.20 | Red Hat OpenShift Sandbox, staging-only Deployment, Service, NetworkPolicy, PVC; bez sekretnych danych | SPECIFIED + REPO IMPLEMENTED; CI PASS 209/209, 7/7 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953); NOT EXTERNALLY DEPLOYED; NOT DEPLOYED |
 | 1.21 | GitHub main Ruleset template, wymagane kontrole i niezależna recenzja | PROPOSED ONLY; LIVE API: [] (UNPROTECTED); OWNER ACTION REQUIRED |
-| 1.22 | Seven independent Ed25519 release gate receipts bound to commit & artifact digest | IMPLEMENTED; CI PENDING; NO EXTERNAL SIGNERS |
+| 1.22 | Seven independent Ed25519 release gate receipts bound to commit & artifact digest | IMPLEMENTED; CI PASS 209/209, 7/7 jobs (https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953); NOT EXTERNALLY DEPLOYED; NO EXTERNAL SIGNERS |
 | 1.23 | Signed HSM/KMS, WORM and independent authority host | NOT DEPLOYED; NO EXTERNAL ENDPOINT / KEY / STORAGE EVIDENCE |
 | 1.24 | Physical multi-host failure injection and recovery with trusted independent logs | NOT EXECUTED; sandbox shared cluster NOT SUFFICIENT |
 | 1.25 | Owner-signed production release, independently stored trust anchors and GitHub enforcement | BLOCKED; NO SELF APPROVAL |
 
 Note: strict independent PR review contradicts absolute no-branches workflow; enabling it requires explicit owner decision to allow temporary review branches. Do not claim the JSON file equals GitHub enforcement. Details in `docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md`.
+
+**v1.2 in-repository CI evidence**: [run 40989888953](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953), head `c5bb62b5425d1074b9d44602d450848d7878aca0`: 209 Python tests PASS, 7/7 CI jobs PASS; 8 tests of release signature gate and OpenShift policy pass. Prowadzi to do CI-VERIFIED TEMPLATE + OFFLINE GATE ONLY, **not** Red Hat deployment, active Ruleset, KMS/WORM or genuine multi-host disaster recovery.
