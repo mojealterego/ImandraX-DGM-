@@ -1,0 +1,35 @@
+# Staging only; SHA-pinned source and no automatic build trigger.
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: omega-imandrax-authority
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: omega-imandrax-authority
+spec:
+  runPolicy: Serial
+  successfulBuildsHistoryLimit: 2
+  failedBuildsHistoryLimit: 1
+  source:
+    type: Git
+    git:
+      uri: https://github.com/mojealterego/ImandraX-DGM-.git
+      ref: dd1c0ae118e6bf44a4778731aeea24e5427623f9
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: deploy/authority/Dockerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: omega-imandrax-authority:staging
+  triggers: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi

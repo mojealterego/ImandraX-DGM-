@@ -196,3 +196,5 @@ Zapis `build_evidence.json` ma `release_authorized=false`; **nie zastępuje** ni
 Korekta 2026-10-30: usunięto niezamówiony wymóg niezależnego recenzenta PR, pull_request i required_status_checks z proponowanego ruleset. Obowiązuje `main` bez dodatkowych gałęzi. CI post-push ≠ skuteczny gate pre-push. Plik JSON nadal nie oznacza aktywnej ochrony GitHub. Details in `docs/INDEPENDENT_PRODUCTION_GATES_v1.2.md`.
 
 **v1.2 in-repository CI evidence**: [run 40989888953](https://github.com/mojealterego/ImandraX-DGM-/actions/runs/40989888953), head `c5bb62b5425d1074b9d44602d450848d7878aca0`: 209 Python tests PASS, 7/7 CI jobs PASS; 8 tests of release signature gate and OpenShift policy pass. Prowadzi to do CI-VERIFIED TEMPLATE + OFFLINE GATE ONLY, **not** Red Hat deployment, active Ruleset, KMS/WORM or genuine multi-host disaster recovery.
+
+| 1.26 | Reuse old OCAF Red Hat OpenShift connection for isolated ImandraX staging; source-pinned BuildConfig | BUILD SPEC PREPARED; LIVE EXECUTION PENDING; NO SECRET COPIES |

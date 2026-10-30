@@ -66,3 +66,9 @@ Invariants:
 - multi-host evidence cannot be replaced with two containers on one runner or pods in one shared cluster;
 - no sensitive production signing keys in Sandbox, source code or CI;
 - protect main only through an *actual enforced* platform control, never by a JSON file.
+
+## Recovered earlier Red Hat pipeline (2026-10-30)
+
+The existing, previously authenticated Red Hat Developer Sandbox workflow belongs to the OCAF repo (mojealterego/ocaf-runtime). It targeted namespace mojealterego-dev at the pinned API https://api.rm3.7wse.p1.openshiftapps.com:6443 using OCAF GitHub Actions secrets named OCAF_SANDBOX_API_URL and OCAF_SANDBOX_TOKEN. The workflows are .github/workflows/ocaf-stage038-redhat-sandbox.yml and .github/workflows/ocaf-stage038-redhat-vm-admission.yml. Previously observed success is historical, not a guarantee the credentials are valid now.
+
+A reusable staging BuildConfig for ImandraX is deploy/openshift-sandbox/build.yaml: a Docker strategy with Git source pinned to the exact reviewed ImandraX commit, ImageStream output, no auto triggers. Staging deployment automation runs only in the original OCAF repository where the existing secrets are scoped. It must verify live RBAC and admission, must never copy access tokens to ImandraX, and must use disposable test signing identities and TLS. The deployment never represents independent production HSM/WORM/DR attestation. Status must be based on a real successful GitHub Actions run.

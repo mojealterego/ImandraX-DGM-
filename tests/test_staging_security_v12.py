@@ -37,3 +37,16 @@ def test_ruleset_proposal_respects_owner_main_only_without_pr():
     assert {r["type"] for r in payload["rules"]}=={"deletion","non_fast_forward"}
     assert all(x["type"] not in {"pull_request","required_status_checks"} for x in payload["rules"])
     assert not list(ROOT.glob(".github/workflows/*reviewer*"))
+
+def test_sha_pinned_openshift_build_no_autotrigger():
+    import re
+    docs=list(yaml.safe_load_all((ROOT/"deploy/openshift-sandbox/build.yaml").read_text()))
+    assert {x["kind"] for x in docs}=={"ImageStream","BuildConfig"}
+    build=next(x for x in docs if x["kind"]=="BuildConfig")
+    spec=build["spec"]
+    assert spec["source"]["type"]=="Git"
+    assert spec["source"]["git"]["uri"]=="https://github.com/mojealterego/ImandraX-DGM-.git"
+    assert re.fullmatch(r"[a-f0-9]{40}",spec["source"]["git"]["ref"])
+    assert spec["triggers"]==[]
+    assert spec["strategy"]["dockerStrategy"]["dockerfilePath"]=="deploy/authority/Dockerfile"
+    assert spec["output"]["to"]["kind"]=="ImageStreamTag"
